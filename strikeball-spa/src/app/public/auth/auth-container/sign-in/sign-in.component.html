@@ -1,0 +1,61 @@
+<form
+  [formGroup]="form"
+  id="sign_in_form"
+  class="sign-in-form"
+  (submit)="onSubmit()"
+>
+  <mat-form-field class="mb-3" appearance="fill">
+    <mat-label>Телефон или email</mat-label>
+    <input
+      type="text"
+      matInput
+      formControlName="email"
+      [errorStateMatcher]="matcher"
+      placeholder="Ex.pat@example.com или 88005553535"
+    />
+    <mat-error
+      *ngIf="
+        form.controls['email'].hasError('email') &&
+        !form.controls['email'].hasError('required')
+      "
+    >
+      Введите правильную почту или номер
+    </mat-error>
+    <mat-error *ngIf="form.controls['email'].hasError('required')">
+      Обязательное поле
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="mb-3" appearance="fill">
+    <mat-label>Пароль</mat-label>
+    <input
+      matInput
+      type="password"
+      formControlName="password"
+      autocomplete="new-password"
+    />
+    <button
+      *ngIf="form.controls['password'].value"
+      type="reset"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="form.controls['password'].reset()"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-error *ngIf="form.controls['password'].hasError('required')">
+      Пароль обязателен
+    </mat-error>
+  </mat-form-field>
+  <div class="submit-button-row">
+    <button
+      type="submit"
+      mat-raised-button
+      class="submit-button"
+      [disabled]="!form.valid"
+      (click)="onSubmit()"
+    >
+      Вход
+    </button>
+  </div>
+</form>

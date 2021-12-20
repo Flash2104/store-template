@@ -1,0 +1,27 @@
+
+.auth-container {
+  max-width: 600px;
+  padding-top: 100px;
+  margin: 0 auto;
+  @media (max-width: 640px) {
+    padding-top: 64px;
+  }
+}
+
+@mixin card {
+  max-width: 600px;
+  min-height: 400px;
+  margin: 0 auto;
+}
+
+.auth-card {
+  @include card;
+  padding-top: 32px;
+}
+
+.loading-card {
+  @include card;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}

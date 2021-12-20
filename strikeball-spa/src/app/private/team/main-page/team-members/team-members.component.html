@@ -1,0 +1,50 @@
+<div *ngIf="loading === false; else loadingTemplate">
+  <div *ngIf="teamMembers" class="members-container">
+    <a
+      mat-stroked-button
+      *ngFor="let member of teamMembers"
+      target="_blank"
+      class="m-3"
+      [routerLink]="['/private/profile', member.id]"
+      class="member-card mb-3"
+      [ngClass]="{ 'leader-header': member.isLeader }"
+    >
+      <h6
+        class="
+          member-header
+          d-flex
+          align-items-center
+          justify-content-between
+          mb-3
+        "
+      >
+        <mat-icon class="me-2" *ngIf="member.isLeader">psychology</mat-icon>
+        <span>{{ member.name }} {{ member.surname }}</span>
+      </h6>
+
+      <div class="member-avatar">
+        <img [src]="member.avatar" alt="Аватар" />
+      </div>
+      <div
+        *ngIf="member.roles != null && member.roles.length > 0"
+        class="d-flex text-start"
+      >
+        {{ member.roles[0].title }}
+      </div>
+    </a>
+    <ng-template [ngTemplateOutlet]="inviteMember"></ng-template>
+  </div>
+</div>
+
+<ng-template #inviteMember>
+  <button mat-stroked-button class="m-3" class="member-card mb-3">
+    <h6 class="d-flex align-items-center justify-content-center">
+      <mat-icon class="me-2">add_circle</mat-icon>
+      <span>Пригласить игрока</span>
+    </h6>
+  </button>
+</ng-template>
+
+<ng-template #loadingTemplate>
+  <loader> </loader>
+</ng-template>

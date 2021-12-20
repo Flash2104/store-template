@@ -1,0 +1,29 @@
+<div class="air-app">
+  <div class="header">
+    <mat-toolbar>
+      <!-- <div>
+        <a [routerLink]="['/private/profile']" class=""> AirSoft Events </a>
+      </div> -->
+      <div class="container">
+        <ng-container
+          *ngIf="authService.checkUserLoggedIn() | async; else elseTemplate"
+        >
+          <air-private-toolbar></air-private-toolbar>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <air-public-toolbar></air-public-toolbar>
+        </ng-template>
+      </div>
+    </mat-toolbar>
+  </div>
+
+  <div [@routeAnimations]="prepareRoute(outlet)" class="container main">
+    <router-outlet #outlet="outlet"></router-outlet>
+  </div>
+
+  <!-- <div class="footer">
+    <mat-toolbar class="footer-toolbar">
+      <mat-icon>assignment</mat-icon>
+    </mat-toolbar>
+  </div> -->
+</div>

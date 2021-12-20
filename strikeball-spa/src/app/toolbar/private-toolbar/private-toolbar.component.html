@@ -1,0 +1,37 @@
+<div class="d-flex">
+  <div><h1>AirSoft Events</h1></div>
+  <div class="flex-stretch"></div>
+  <div>
+    <div></div>
+    <button
+      mat-stroked-button
+      class="p-1"
+      [matMenuTriggerFor]="menu"
+      aria-label="Home button"
+    >
+      <img
+        mat-card-avatar
+        class="me-3"
+        [src]="(profile$ | async)?.avatarIcon"
+      />
+      <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>Настройки</span>
+      </button>
+      <form [formGroup]="form">
+        <button mat-menu-item (click)="onToggle()">
+          <mat-slide-toggle [checked]="form.controls['toggleControl'].value">
+            <span>Тема</span>
+          </mat-slide-toggle>
+        </button>
+      </form>
+      <button mat-menu-item (click)="onLogout()">
+        <mat-icon>logout</mat-icon>
+        <span>Выйти</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>

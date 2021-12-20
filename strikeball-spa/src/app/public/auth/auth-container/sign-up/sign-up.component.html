@@ -1,0 +1,74 @@
+<form [formGroup]="form" id="sign_up_form" class="sign-up-form" autocomplete="off" (submit)="onSubmit()">
+  <mat-form-field class="mb-3" appearance="fill">
+    <mat-label>Адрес эл. почты или номер телефона</mat-label>
+    <input
+      type="text"
+      autocomplete="off"
+      id="sign_up_login"
+      matInput
+      formControlName="email"
+      [errorStateMatcher]="matcher"
+      placeholder="Ex.pat@example.com или 88005553535"
+    />
+    <!-- <button
+      *ngIf="form.controls['email'].value"
+      type="reset"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="form.controls['email'].reset()"
+    >
+      <mat-icon>close</mat-icon>
+    </button> -->
+    <mat-error
+      *ngIf="
+      form.controls['email'].hasError('email') &&
+        !form.controls['email'].hasError('required')
+      "
+    >
+      Введите правильную почту или номер
+    </mat-error>
+    <mat-error *ngIf="form.controls['email'].hasError('required')">
+      Обязательное поле
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="mb-3" appearance="fill">
+    <mat-label>Пароль</mat-label>
+    <input autocomplete="new-password" matInput type="password" formControlName="password" />
+    <!-- <button
+      *ngIf="form.controls['password'].value"
+      type="reset"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="form.controls['password'].reset()"
+    >
+      <mat-icon>close</mat-icon>
+    </button> -->
+    <mat-error *ngIf="form.controls['password'].hasError('required')">
+      Пароль обязателен для ввода
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="mb-3" appearance="fill">
+    <mat-label>Подтверждения пароля</mat-label>
+    <input matInput type="password" formControlName="confirmPassword" />
+    <!-- <button
+      *ngIf="form.controls['confirmPassword'].value"
+      type="reset"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="form.controls['confirmPassword'].reset()"
+    >
+      <mat-icon>close</mat-icon>
+    </button> -->
+    <mat-error *ngIf="form.controls['confirmPassword'].hasError('required')">
+      Подтверждение пароля обязательно
+    </mat-error>
+  </mat-form-field>
+  <div class="submit-button-row">
+    <button mat-raised-button type="submit" class="submit-button" [disabled]="!form.valid" (click)="onSubmit()">
+      Зарегестрировать
+    </button>
+  </div>
+</form>

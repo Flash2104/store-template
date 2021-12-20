@@ -1,0 +1,39 @@
+
+.profile-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.submit-button {
+  padding: 0 50px;
+}
+.card-avatar {
+  height: 450px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.card-avatar img {
+  object-fit: contain; /*this makes the image in src fit to the size specified below*/
+  width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+  // height: 80%;
+}
+
+.main-info-card {
+  height: 100%;
+  width: 100%;
+}
+.profile-main-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+td {
+  padding: 5px 0;
+}

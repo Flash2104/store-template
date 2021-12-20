@@ -1,0 +1,63 @@
+<div *ngIf="loading === false; else loadingTemplate">
+  <mat-card-header>
+    <div class="d-flex justify-content-between align-items-center w-100">
+      <span>
+        <h4>{{ team?.title }}</h4>
+      </span>
+      <div class="d-flex align-items-center">
+        <button mat-icon-button matTooltip="Отмена" (click)="onCancel()">
+          <mat-icon class="h3">cancel</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="Подтвердить" (click)="onCancel()">
+          <mat-icon class="h3">check_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-divider class="mb-2"></mat-divider>
+  <mat-card-content class="main-info-content">
+    <table class="mat-table w-100 my-3">
+      <tr class="mat-row py-3">
+        <td class="mat-cell">Название</td>
+        <td class="mat-cell">
+          <mat-form-field class="w-100">
+            <mat-label></mat-label>
+            <input matInput [placeholder]="team?.title || ''" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr class="mat-row py-3">
+        <td class="mat-cell">Командир</td>
+        <td class="mat-cell">
+          <mat-form-field class="w-100">
+            <mat-label></mat-label>
+            <input matInput placeholder="{{team?.teamLeader?.name  || ''}} {{team?.teamLeader?.surname  || ''}}" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr class="mat-row py-3">
+        <td class="mat-cell">Город</td>
+        <td class="mat-cell">
+          <mat-form-field class="w-100">
+            <mat-label></mat-label>
+            <input matInput [placeholder]="team?.city || ''" />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr class="mat-row py-3">
+        <td class="mat-cell">Дата основания</td>
+        <td
+          class="mat-cell"
+        >
+        <mat-form-field class="w-100">
+          <mat-label></mat-label>
+          <input matInput [placeholder]="(team?.foundationDate) || ''" />
+        </mat-form-field>
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+</div>
+<ng-template #loadingTemplate>
+  <loader> </loader>
+</ng-template>

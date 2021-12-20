@@ -1,0 +1,113 @@
+<div *ngIf="(loading$ | async) === false; else loadingTemplate">
+  <div class="row mb-3">
+    <div class="col-4">
+      <div class="team-avatar">
+        <button mat-stroked-button class="m-3" class="member-card mb-3">
+          <h6 class="d-flex align-items-center justify-content-center">
+            <mat-icon class="me-2">add_photo_alternate</mat-icon>
+            <span>Добавить аватар</span>
+          </h6>
+        </button>
+      </div>
+    </div>
+    <div class="col-8">
+      <mat-card class="main-info-card">
+        <mat-card-header>
+          <div class="d-flex justify-content-between align-items-center w-100">
+            <span>
+              <h4>Создание команды</h4>
+            </span>
+            <div class="d-flex align-items-center">
+              <button mat-icon-button matTooltip="Отмена" (click)="onCancel()">
+                <mat-icon class="h3">cancel</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                matTooltip="Подтвердить"
+                (click)="onSave()"
+                [disabled]="form.valid === false"
+              >
+                <mat-icon class="h3">check_circle</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-divider class="mb-2"></mat-divider>
+        <mat-card-content class="main-info-content">
+          <form [formGroup]="form">
+            <table class="mat-table w-100 my-3">
+              <tr class="mat-row py-3">
+                <td class="mat-cell">Название</td>
+                <td class="mat-cell">
+                  <mat-form-field class="w-100">
+                    <mat-label></mat-label>
+                    <input
+                      matInput
+                      formControlName="title"
+                      placeholder="Моя команда"
+                    />
+                    <mat-error *ngIf="form.controls.title.hasError('required')">
+                      Обязательное поле
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr class="mat-row py-3">
+                <td class="mat-cell">Город</td>
+                <td class="mat-cell">
+                  <air-grouped-selector
+                    formControlName="city"
+                    [data]="(cities$ | async) || []"
+                    [loading]="(loadingCities$ | async) === true"
+                    placeholder="Выберите город"
+                  ></air-grouped-selector>
+                </td>
+              </tr>
+              <tr class="mat-row py-3">
+                <td class="mat-cell">Дата основания</td>
+                <td class="mat-cell">
+                  <mat-form-field class="w-100">
+                    <mat-label></mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="datepicker"
+                      placeholder="16-12-2021"
+                      formControlName="foundationDate"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="datepicker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #datepicker>
+                      <mat-datepicker-actions>
+                        <button
+                          mat-icon-button
+                          matDatepickerCancel
+                          matTooltip="Отмена"
+                        >
+                          <mat-icon class="h3">close</mat-icon>
+                        </button>
+                        <button
+                          mat-icon-button
+                          matTooltip="Подтвердить"
+                          color="accent"
+                          matDatepickerApply
+                        >
+                          <mat-icon class="h3">done</mat-icon>
+                        </button>
+                      </mat-datepicker-actions>
+                    </mat-datepicker>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingTemplate>
+  <loader> </loader>
+</ng-template>

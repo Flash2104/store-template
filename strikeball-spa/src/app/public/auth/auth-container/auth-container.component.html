@@ -1,0 +1,38 @@
+<div class="auth-container">
+  <ng-container>
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="me-2">input</mat-icon> Вход
+        </ng-template>
+        <div *ngIf="(authLoading$ | async) === false; else elseTemplate">
+          <mat-card class="auth-card">
+            <mat-card-content>
+              <air-sign-in></air-sign-in>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="me-2">assignment</mat-icon> <span>Регистрация</span>
+        </ng-template>
+        <div *ngIf="(authLoading$ | async) === false; else elseTemplate">
+          <mat-card class="auth-card">
+            <mat-card-content>
+              <air-sign-up></air-sign-up>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </ng-container>
+
+</div>
+<ng-template #elseTemplate>
+  <mat-card class="loading-card">
+    <mat-card-content>
+      <loader> </loader>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

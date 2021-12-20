@@ -1,0 +1,52 @@
+// @use "@angular/material" as mat;
+// $sb-primary: mat.define-palette(mat.$gray-palette, 500, 100, 900);
+// $sb-accent: mat.define-palette(mat.$blue-grey-palette, 500, 100, 900);
+.team-container {
+  display: flex;
+}
+.submit-button {
+  padding: 0 50px;
+}
+.card-avatar {
+  height: 450px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.card-avatar img {
+  object-fit: contain; /*this makes the image in src fit to the size specified below*/
+  width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+  // height: 80%;
+}
+
+.main-info-card {
+  height: 100%;
+  width: 100%;
+}
+
+td {
+  padding: 5px 0;
+}
+
+.link-button {
+  display: block;
+  font-size: 14px;
+  padding: 4px 0;
+  width: 100%;
+  align-items: center;
+}
+
+.member-card {
+  height: 100%;
+  width: 100%;
+}
+
+.team-avatar {
+  height: 450px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+}

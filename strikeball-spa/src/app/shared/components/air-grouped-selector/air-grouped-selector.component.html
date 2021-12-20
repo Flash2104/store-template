@@ -1,0 +1,25 @@
+<mat-form-field class="w-100">
+  <!-- <mat-label></mat-label> -->
+  <mat-select
+    disableOptionCentering
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    (valueChange)="onChange($event)"
+  >
+    <mat-option>
+      <ngx-mat-select-search
+        [formControl]="filterCntr"
+        placeholderLabel="Выберите город"
+      ></ngx-mat-select-search>
+    </mat-option>
+    <mat-option [value]="null">Не указан</mat-option>
+    <mat-optgroup
+      *ngFor="let group of filteredGroups$ | async"
+      [label]="group.key"
+    >
+      <mat-option *ngFor="let element of group.data" [value]="element">
+        {{ element.title }}
+      </mat-option>
+    </mat-optgroup>
+  </mat-select>
+</mat-form-field>

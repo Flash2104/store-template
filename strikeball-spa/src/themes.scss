@@ -1,0 +1,50 @@
+// Plus imports for other components in your app.
+@use "@angular/material" as mat;
+@import '~@angular/material/theming';
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+// @include mat.core();
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$sb-warn: mat-palette(mat.$amber-palette);
+
+$sb-primary: mat-palette(mat.$gray-palette, 500, 100, 900);
+$sb-accent: mat-palette(mat.$blue-palette, 500, 100, 900);
+$lighter-gray: mat-color($sb-primary, lighter);
+
+// @function modify-background($theme, $background-color) {
+//   // Replace the background in the color object's background palette.
+//   $theme-color: map-get($theme, color);
+//   $color-background-palette: map-get($theme-color, background);
+//   $color-background-palette: map-merge($color-background-palette, (background: $background-color));
+//   $color-background-palette: map-merge($color-background-palette, (raised-button: $background-color));
+
+//   // Replace the background in the background palette.
+//   $background-palette: map-get($theme, background);
+//   $background-palette: map-merge($background-palette, (background: $background-color));
+//   $background-palette: map-merge($background-palette, (raised-button: $background-color));
+
+//   // Merge the changes into a new theme.
+//   $modified-theme: map-merge($theme, (color: (background: $color-background-palette)));
+//   $modified-theme: map-merge($theme, (background: $background-palette));
+
+//   @return $modified-theme;
+// }
+$sb-theme: mat-dark-theme($sb-primary, $sb-accent, $sb-warn);
+  // (
+  //   color: (
+  //     primary: $sb-primary,
+  //     accent: $sb-accent,
+  //     warn: $sb-warn,
+  //   )
+  // )
+// );
+// $sb-theme: modify-background($sb-theme, $lighter-gray);
+// @include mat.all-component-themes($sb-theme);
+// @include mat.core-theme($sb-theme);
+// @include mat.button-theme($sb-theme);
+// @include mat.strong-focus-indicators-theme($sb-theme);
