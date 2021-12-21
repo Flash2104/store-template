@@ -1,10 +1,10 @@
-﻿using AirSoft.Data;
-using AirSoft.Data.Entity;
-using AirSoft.Service.Common;
-using AirSoft.Service.Exceptions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Store.Data;
+using Store.Data.Entity;
+using Store.Service.Common;
+using Store.Service.Exceptions;
 
-namespace AirSoft.Service.Repositories;
+namespace Store.Service.Repositories;
 
 public class TeamRepository : GenericRepository<DbTeam>
 {

@@ -1,4 +1,4 @@
-﻿namespace AirSoftApi.Models.References.Cities;
+﻿namespace StoreApi.Models.References.Cities;
 
 public class GetCityReferencesRequestDto
 {

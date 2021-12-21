@@ -1,7 +1,6 @@
-﻿
-using AirSoft.Service.Common;
+﻿using Store.Service.Common;
 
-namespace AirSoft.Service.Contracts
+namespace Store.Service.Contracts
 {
     public interface IConfigService
     {

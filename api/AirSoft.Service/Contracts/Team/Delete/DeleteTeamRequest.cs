@@ -1,5 +1,5 @@
 ﻿
-namespace AirSoft.Service.Contracts.Team.Delete;
+namespace Store.Service.Contracts.Team.Delete;
 
 public class DeleteTeamRequest
 {

@@ -1,5 +1,5 @@
 ﻿
-namespace AirSoft.Service.Exceptions;
+namespace Store.Service.Exceptions;
 
 public class AirSoftBaseException : ApplicationException
 {

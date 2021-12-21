@@ -1,8 +1,8 @@
 using System.Net;
-using AirSoft.Data;
-using AirSoft.Service.Common;
-using AirSoft.Service.Contracts;
-using AirSoft.Service.Contracts.Jwt;
+using Store.Data;
+using Store.Service.Common;
+using Store.Service.Contracts;
+using Store.Service.Contracts.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,21 +10,21 @@ using NLog.Web;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using AirSoft.Service.Contracts.Auth;
-using AirSoft.Service.Contracts.Member;
-using AirSoft.Service.Contracts.Navigation;
-using AirSoft.Service.Contracts.References;
-using AirSoft.Service.Contracts.Team;
-using AirSoft.Service.Contracts.User;
-using AirSoft.Service.Implementations;
-using AirSoft.Service.Implementations.Auth;
-using AirSoft.Service.Implementations.Jwt;
-using AirSoft.Service.Implementations.Member;
-using AirSoft.Service.Implementations.References;
-using AirSoft.Service.Implementations.Team;
-using AirSoft.Service.Implementations.User;
-using AirSoftApi.Filters;
-using AirSoftApi.Models;
+using Store.Service.Contracts.Auth;
+using Store.Service.Contracts.Member;
+using Store.Service.Contracts.Navigation;
+using Store.Service.Contracts.References;
+using Store.Service.Contracts.Team;
+using Store.Service.Contracts.User;
+using Store.Service.Implementations;
+using Store.Service.Implementations.Auth;
+using Store.Service.Implementations.Jwt;
+using Store.Service.Implementations.Member;
+using Store.Service.Implementations.References;
+using Store.Service.Implementations.Team;
+using Store.Service.Implementations.User;
+using StoreApi.Filters;
+using StoreApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -94,9 +94,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
-builder.Services.AddDbContext<AirSoftDbContext>(options =>
+builder.Services.AddDbContext<StoreDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AirSoftDatabase"), opt => opt.MigrationsHistoryTable("__EFMigrationsHistory", "dbo")));
-builder.Services.AddScoped<IDbContext, AirSoftDbContext>();
+builder.Services.AddScoped<IDbContext, StoreDbContext>();
 builder.Services.AddScoped<IConfigService, ConfigService>(p => configService);
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtService, JwtService>();

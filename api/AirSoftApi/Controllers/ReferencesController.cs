@@ -1,13 +1,13 @@
-﻿using AirSoft.Service.Contracts;
-using AirSoft.Service.Contracts.References;
-using AirSoft.Service.Contracts.References.Cities;
-using AirSoftApi.Models;
-using AirSoftApi.Models.References.Cities;
-using AirSoftApi.Models.Team.GetCurrent;
+﻿using Store.Service.Contracts;
+using Store.Service.Contracts.References;
+using Store.Service.Contracts.References.Cities;
+using StoreApi.Models.Team.GetCurrent;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StoreApi.Models;
+using StoreApi.Models.References.Cities;
 
-namespace AirSoftApi.Controllers
+namespace StoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

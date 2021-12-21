@@ -1,6 +1,6 @@
-﻿using AirSoft.Service.Contracts;
+﻿using Store.Service.Contracts;
 
-namespace AirSoft.Service.Implementations;
+namespace Store.Service.Implementations;
 
 public class CorrelationService: ICorrelationService
 {

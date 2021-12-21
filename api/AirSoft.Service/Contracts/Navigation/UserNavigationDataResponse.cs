@@ -1,5 +1,5 @@
 ﻿
-namespace AirSoft.Service.Contracts.Navigation;
+namespace Store.Service.Contracts.Navigation;
 
 public class UserNavigationDataResponse
 {

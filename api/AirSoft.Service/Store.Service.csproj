@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AirSoft.Data\AirSoft.Data.csproj" />
+    <ProjectReference Include="..\AirSoft.Data\Store.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

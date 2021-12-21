@@ -1,4 +1,4 @@
-﻿namespace AirSoft.Service.Contracts.References.Cities;
+﻿namespace Store.Service.Contracts.References.Cities;
 
 public class GetCityReferencesRequest
 {

@@ -1,4 +1,4 @@
-﻿namespace AirSoft.Service.Contracts.Auth.SignUp;
+﻿namespace Store.Service.Contracts.Auth.SignUp;
 
 public class SignUpRequest
 {

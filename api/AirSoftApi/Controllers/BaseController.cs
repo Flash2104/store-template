@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AirSoft.Service.Common;
-using AirSoft.Service.Exceptions;
-using AirSoftApi.Models;
+using Store.Service.Common;
+using Store.Service.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using StoreApi.Models;
 
-namespace AirSoftApi.Controllers
+namespace StoreApi.Controllers
 {
     public class RootController : ControllerBase
     {

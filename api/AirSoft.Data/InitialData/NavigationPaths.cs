@@ -1,4 +1,4 @@
-﻿namespace AirSoft.Data.InitialData;
+﻿namespace Store.Data.InitialData;
 
 public static class NavigationPaths
 {

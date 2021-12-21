@@ -1,22 +1,22 @@
 ﻿
-using AirSoft.Data.Entity;
-using AirSoft.Service.Common;
-using AirSoft.Service.Contracts;
-using AirSoft.Service.Contracts.Auth;
-using AirSoft.Service.Contracts.Auth.SignIn;
-using AirSoft.Service.Contracts.Auth.SignUp;
-using AirSoft.Service.Contracts.Jwt;
-using AirSoft.Service.Contracts.Jwt.Model;
-using AirSoft.Service.Contracts.Member;
-using AirSoft.Service.Contracts.Member.Create;
-using AirSoft.Service.Contracts.Member.Get;
-using AirSoft.Service.Contracts.Models;
-using AirSoft.Service.Contracts.User;
-using AirSoft.Service.Contracts.User.Register;
-using AirSoft.Service.Exceptions;
+using Store.Data.Entity;
+using Store.Service.Contracts.Member.Get;
 using Microsoft.Extensions.Logging;
+using Store.Service.Common;
+using Store.Service.Contracts;
+using Store.Service.Contracts.Auth;
+using Store.Service.Contracts.Auth.SignIn;
+using Store.Service.Contracts.Auth.SignUp;
+using Store.Service.Contracts.Jwt;
+using Store.Service.Contracts.Jwt.Model;
+using Store.Service.Contracts.Member;
+using Store.Service.Contracts.Member.Create;
+using Store.Service.Contracts.Models;
+using Store.Service.Contracts.User;
+using Store.Service.Contracts.User.Register;
+using Store.Service.Exceptions;
 
-namespace AirSoft.Service.Implementations.Auth;
+namespace Store.Service.Implementations.Auth;
 
 public class AuthService : IAuthService
 {

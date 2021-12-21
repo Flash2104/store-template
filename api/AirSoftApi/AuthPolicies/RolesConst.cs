@@ -1,8 +1,7 @@
 ﻿
-namespace AirSoftApi.AuthPolicies;
+namespace StoreApi.AuthPolicies;
 
 public static class RolesConst
 {
-    public const string Creator = "Creator";
-    public const string TeamManager = "TeamManager";
+    public const string Administrator = "Administrator";
 }

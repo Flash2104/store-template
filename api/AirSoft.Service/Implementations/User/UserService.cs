@@ -1,16 +1,16 @@
-﻿using AirSoft.Data.Entity;
-using AirSoft.Data.InitialData;
-using AirSoft.Service.Common;
-using AirSoft.Service.Contracts;
-using AirSoft.Service.Contracts.Member;
-using AirSoft.Service.Contracts.Models;
-using AirSoft.Service.Contracts.User;
-using AirSoft.Service.Contracts.User.Get;
-using AirSoft.Service.Contracts.User.Register;
-using AirSoft.Service.Exceptions;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Store.Data.Entity;
+using Store.Data.InitialData;
+using Store.Service.Common;
+using Store.Service.Contracts;
+using Store.Service.Contracts.Member;
+using Store.Service.Contracts.Models;
+using Store.Service.Contracts.User;
+using Store.Service.Contracts.User.Get;
+using Store.Service.Contracts.User.Register;
+using Store.Service.Exceptions;
 
-namespace AirSoft.Service.Implementations.User;
+namespace Store.Service.Implementations.User;
 
 public class UserService : IUserService
 {

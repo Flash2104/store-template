@@ -1,4 +1,4 @@
-﻿namespace AirSoftApi.Models.Auth;
+﻿namespace StoreApi.Models.Auth;
 
 public class TokenResponseDto
 {

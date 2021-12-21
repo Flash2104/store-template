@@ -1,19 +1,19 @@
 ﻿using System.Reflection;
-using AirSoft.Data.Entity;
-using AirSoft.Service.Common;
-using AirSoft.Service.Contracts;
-using AirSoft.Service.Contracts.Models;
-using AirSoft.Service.Contracts.Team;
-using AirSoft.Service.Contracts.Team.Create;
-using AirSoft.Service.Contracts.Team.Delete;
-using AirSoft.Service.Contracts.Team.Get;
-using AirSoft.Service.Contracts.Team.GetCurrent;
-using AirSoft.Service.Contracts.Team.UpdateMainInfo;
-using AirSoft.Service.Contracts.User;
-using AirSoft.Service.Exceptions;
 using Microsoft.Extensions.Logging;
+using Store.Data.Entity;
+using Store.Service.Common;
+using Store.Service.Contracts;
+using Store.Service.Contracts.Models;
+using Store.Service.Contracts.Team;
+using Store.Service.Contracts.Team.Create;
+using Store.Service.Contracts.Team.Delete;
+using Store.Service.Contracts.Team.Get;
+using Store.Service.Contracts.Team.GetCurrent;
+using Store.Service.Contracts.Team.UpdateMainInfo;
+using Store.Service.Contracts.User;
+using Store.Service.Exceptions;
 
-namespace AirSoft.Service.Implementations.Team;
+namespace Store.Service.Implementations.Team;
 
 public class TeamService : ITeamService
 {

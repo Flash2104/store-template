@@ -1,13 +1,13 @@
-﻿using AirSoft.Service.Contracts;
-using AirSoft.Service.Contracts.Navigation;
-using AirSoft.Service.Contracts.Team;
-using AirSoftApi.Models;
-using AirSoftApi.Models.Navigation;
-using AirSoftApi.Models.Team.GetCurrent;
+﻿using Store.Service.Contracts;
+using Store.Service.Contracts.Navigation;
+using Store.Service.Contracts.Team;
+using StoreApi.Models.Team.GetCurrent;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StoreApi.Models;
+using StoreApi.Models.Navigation;
 
-namespace AirSoftApi.Controllers
+namespace StoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

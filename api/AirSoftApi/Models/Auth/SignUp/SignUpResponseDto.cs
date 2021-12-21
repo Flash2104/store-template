@@ -1,6 +1,6 @@
-﻿using AirSoft.Service.Contracts.Models;
+﻿using Store.Service.Contracts.Models;
 
-namespace AirSoftApi.Models.Auth.SignUp;
+namespace StoreApi.Models.Auth.SignUp;
 
 public class SignUpResponseDto
 {

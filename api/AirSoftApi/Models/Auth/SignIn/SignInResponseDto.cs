@@ -1,4 +1,4 @@
-﻿namespace AirSoftApi.Models.Auth.SignIn;
+﻿namespace StoreApi.Models.Auth.SignIn;
 
 public class SignInResponseDto
 {

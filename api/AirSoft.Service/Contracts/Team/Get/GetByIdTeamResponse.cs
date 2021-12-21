@@ -1,6 +1,6 @@
-﻿using AirSoft.Service.Contracts.Member;
+﻿using Store.Service.Contracts.Member;
 
-namespace AirSoft.Service.Contracts.Team.Get;
+namespace Store.Service.Contracts.Team.Get;
 
 public class GetByIdTeamResponse
 {

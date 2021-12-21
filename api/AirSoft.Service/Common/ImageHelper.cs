@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace AirSoft.Service.Common;
+namespace Store.Service.Common;
 
 public static class ImageHelper
 {

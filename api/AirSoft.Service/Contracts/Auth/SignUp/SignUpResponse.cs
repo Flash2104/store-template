@@ -1,7 +1,7 @@
-﻿using AirSoft.Service.Contracts.Jwt.Model;
-using AirSoft.Service.Contracts.Models;
+﻿using Store.Service.Contracts.Jwt.Model;
+using Store.Service.Contracts.Models;
 
-namespace AirSoft.Service.Contracts.Auth.SignUp;
+namespace Store.Service.Contracts.Auth.SignUp;
 
 public class SignUpResponse
 {

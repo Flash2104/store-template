@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AirSoft.Data.Entity;
+namespace Store.Data.Entity;
 
 public class DbUserRole : DbEntity<int>
 {

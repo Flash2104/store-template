@@ -1,6 +1,6 @@
-﻿using AirSoft.Service.Contracts.Models;
+﻿using Store.Service.Contracts.Models;
 
-namespace AirSoft.Service.Contracts.User.Get;
+namespace Store.Service.Contracts.User.Get;
 
 public class GetUserResponse
 {

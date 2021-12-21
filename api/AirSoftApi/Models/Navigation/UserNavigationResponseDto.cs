@@ -1,6 +1,6 @@
-﻿using AirSoft.Service.Contracts.Navigation;
+﻿using Store.Service.Contracts.Navigation;
 
-namespace AirSoftApi.Models.Navigation;
+namespace StoreApi.Models.Navigation;
 
 public class UserNavigationResponseDto
 {

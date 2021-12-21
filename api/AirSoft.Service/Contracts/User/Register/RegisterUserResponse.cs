@@ -1,7 +1,7 @@
-﻿using AirSoft.Data.Entity;
-using AirSoft.Service.Contracts.Models;
+﻿using Store.Data.Entity;
+using Store.Service.Contracts.Models;
 
-namespace AirSoft.Service.Contracts.User.Register;
+namespace Store.Service.Contracts.User.Register;
 
 public class RegisterUserResponse
 {

@@ -1,4 +1,4 @@
-﻿namespace AirSoft.Service.Contracts.Auth;
+﻿namespace Store.Service.Contracts.Auth;
 
 public class AuthProfileData
 {

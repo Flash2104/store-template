@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AirSoft.Service.Contracts.Models;
+using Store.Service.Contracts.Models;
 
-namespace AirSoftApi.Models.TeamModify.UpdateMainInfo;
+namespace StoreApi.Models.TeamModify.UpdateMainInfo;
 
 public class UpdateTeamMainInfoRequestDto: IValidatableObject
 {

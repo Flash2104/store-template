@@ -1,6 +1,6 @@
-﻿using AirSoft.Service.Contracts.Models;
+﻿using Store.Service.Contracts.Models;
 
-namespace AirSoft.Service.Contracts.Team.UpdateMainInfo;
+namespace Store.Service.Contracts.Team.UpdateMainInfo;
 
 public class UpdateTeamMainInfoRequest
 {

@@ -1,6 +1,6 @@
-﻿using AirSoft.Service.Contracts.Models;
+﻿using Store.Service.Contracts.Models;
 
-namespace AirSoft.Service.Contracts;
+namespace Store.Service.Contracts;
 
 public interface ICorrelationService
 {

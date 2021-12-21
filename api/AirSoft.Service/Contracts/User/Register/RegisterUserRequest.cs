@@ -1,4 +1,4 @@
-﻿namespace AirSoft.Service.Contracts.User.Register;
+﻿namespace Store.Service.Contracts.User.Register;
 
 public class RegisterUserRequest
 {

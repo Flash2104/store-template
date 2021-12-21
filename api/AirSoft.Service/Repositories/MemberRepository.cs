@@ -1,7 +1,7 @@
-﻿using AirSoft.Data;
-using AirSoft.Data.Entity;
+﻿using Store.Data;
+using Store.Data.Entity;
 
-namespace AirSoft.Service.Repositories;
+namespace Store.Service.Repositories;
 
 public class MemberRepository: GenericRepository<DbMember>
 {

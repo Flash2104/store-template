@@ -1,5 +1,5 @@
 ﻿
-namespace AirSoft.Service.Contracts.Team.UpdateMainInfo;
+namespace Store.Service.Contracts.Team.UpdateMainInfo;
 
 public class UpdateTeamMainInfoResponse
 {

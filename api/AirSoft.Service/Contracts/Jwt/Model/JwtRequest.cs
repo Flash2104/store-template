@@ -1,8 +1,8 @@
 ﻿
-using AirSoft.Data.Entity;
-using AirSoft.Service.Contracts.Models;
+using Store.Data.Entity;
+using Store.Service.Contracts.Models;
 
-namespace AirSoft.Service.Contracts.Jwt.Model;
+namespace Store.Service.Contracts.Jwt.Model;
 
 public class JwtRequest
 {

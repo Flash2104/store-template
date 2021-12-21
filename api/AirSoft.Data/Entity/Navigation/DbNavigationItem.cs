@@ -1,8 +1,8 @@
-﻿using AirSoft.Data.InitialData;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Store.Data.InitialData;
 
-namespace AirSoft.Data.Entity;
+namespace Store.Data.Entity;
 
 public class DbNavigationItem : DbEntity<int>
 {

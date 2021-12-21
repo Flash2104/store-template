@@ -1,6 +1,6 @@
-﻿using AirSoft.Service.Contracts.References.Cities;
+﻿using Store.Service.Contracts.References.Cities;
 
-namespace AirSoftApi.Models.References.Cities;
+namespace StoreApi.Models.References.Cities;
 
 public class GetCityReferencesResponseDto
 {

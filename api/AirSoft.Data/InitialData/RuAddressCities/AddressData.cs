@@ -1,6 +1,6 @@
 ﻿using CsvHelper.Configuration.Attributes;
 
-namespace AirSoft.Data.InitialData.RuAddressCities;
+namespace Store.Data.InitialData.RuAddressCities;
 
 public class AddressData
 {

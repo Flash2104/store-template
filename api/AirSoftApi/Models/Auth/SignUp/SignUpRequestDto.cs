@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AirSoftApi.Models.Auth.SignUp;
+namespace StoreApi.Models.Auth.SignUp;
 
 public class SignUpRequestDto: IValidatableObject
 {

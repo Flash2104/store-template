@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
-namespace AirSoftApi.Models.Auth.SignIn;
+namespace StoreApi.Models.Auth.SignIn;
 
 public class SignInRequestDto: IValidatableObject
 {

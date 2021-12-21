@@ -1,6 +1,6 @@
-﻿using AirSoft.Service.Contracts.Models;
+﻿using Store.Service.Contracts.Models;
 
-namespace AirSoft.Service.Contracts.Team.Create;
+namespace Store.Service.Contracts.Team.Create;
 
 public class CreateTeamRequest
 {

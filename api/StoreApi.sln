@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirSoftApi", "AirSoftApi\AirSoftApi.csproj", "{4EA3683A-1A96-42A0-B0C4-74E73E31125D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApi", "AirSoftApi\StoreApi.csproj", "{4EA3683A-1A96-42A0-B0C4-74E73E31125D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AirSoft.Service", "AirSoft.Service\AirSoft.Service.csproj", "{6D523880-846D-4533-91C0-EFA46D5A5432}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Service", "AirSoft.Service\Store.Service.csproj", "{6D523880-846D-4533-91C0-EFA46D5A5432}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirSoft.Data", "AirSoft.Data\AirSoft.Data.csproj", "{89907248-D211-4015-BBB3-685214F30323}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Data", "AirSoft.Data\Store.Data.csproj", "{89907248-D211-4015-BBB3-685214F30323}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

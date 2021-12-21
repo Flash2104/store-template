@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AirSoft.Data.Entity;
+namespace Store.Data.Entity;
 
 public class DbUser: DbEntity<Guid>
 {
@@ -37,8 +37,7 @@ public class DbUser: DbEntity<Guid>
     }
 
     public virtual List<DbUsersToRoles>? UsersToRoles { get; set; }
-
-    public virtual DbMember? Member { get; set; }
+    
     
     public virtual List<DbUserNavigation>? UserNavigations { get; set; }
     

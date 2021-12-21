@@ -1,5 +1,5 @@
 ﻿
-namespace AirSoft.Service.Contracts.Auth.SignIn;
+namespace Store.Service.Contracts.Auth.SignIn;
 
 public class SignInRequest
 {

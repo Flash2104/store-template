@@ -1,14 +1,14 @@
-﻿using AirSoft.Service.Contracts.Auth;
-using AirSoft.Service.Contracts.Auth.SignIn;
-using AirSoft.Service.Contracts.Auth.SignUp;
-using AirSoftApi.Models;
-using AirSoftApi.Models.Auth;
-using AirSoftApi.Models.Auth.SignIn;
-using AirSoftApi.Models.Auth.SignUp;
+﻿using Store.Service.Contracts.Auth;
+using Store.Service.Contracts.Auth.SignIn;
+using Store.Service.Contracts.Auth.SignUp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StoreApi.Models;
+using StoreApi.Models.Auth;
+using StoreApi.Models.Auth.SignIn;
+using StoreApi.Models.Auth.SignUp;
 
-namespace AirSoftApi.Controllers
+namespace StoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Globalization;
 using System.Reflection;
-using AirSoft.Data.InitialData.RuAddressCities;
+using Store.Data.InitialData.RuAddressCities;
 
-namespace AirSoft.Data.Entity;
+namespace Store.Data.Entity;
 
 public class DbRuCity
 {

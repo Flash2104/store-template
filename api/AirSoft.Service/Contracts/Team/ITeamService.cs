@@ -1,10 +1,10 @@
-﻿using AirSoft.Service.Contracts.Team.Create;
-using AirSoft.Service.Contracts.Team.Delete;
-using AirSoft.Service.Contracts.Team.Get;
-using AirSoft.Service.Contracts.Team.GetCurrent;
-using AirSoft.Service.Contracts.Team.UpdateMainInfo;
+﻿using Store.Service.Contracts.Team.Create;
+using Store.Service.Contracts.Team.Delete;
+using Store.Service.Contracts.Team.Get;
+using Store.Service.Contracts.Team.GetCurrent;
+using Store.Service.Contracts.Team.UpdateMainInfo;
 
-namespace AirSoft.Service.Contracts.Team;
+namespace Store.Service.Contracts.Team;
 
 public interface ITeamService
 {

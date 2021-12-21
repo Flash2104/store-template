@@ -1,15 +1,14 @@
-﻿
-using AirSoft.Service.Common;
-using AirSoft.Service.Contracts;
-using AirSoft.Service.Contracts.Jwt.Model;
-using AirSoft.Service.Exceptions;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using AirSoft.Service.Contracts.Jwt;
+using Store.Service.Common;
+using Store.Service.Contracts;
+using Store.Service.Contracts.Jwt;
+using Store.Service.Contracts.Jwt.Model;
+using Store.Service.Exceptions;
 
-namespace AirSoft.Service.Implementations.Jwt;
+namespace Store.Service.Implementations.Jwt;
 
 public class JwtService : IJwtService
 {

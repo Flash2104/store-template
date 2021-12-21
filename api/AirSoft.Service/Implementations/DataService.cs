@@ -1,9 +1,9 @@
-﻿using AirSoft.Data;
-using AirSoft.Data.Entity;
-using AirSoft.Service.Contracts;
-using AirSoft.Service.Repositories;
+﻿using Store.Data;
+using Store.Data.Entity;
+using Store.Service.Contracts;
+using Store.Service.Repositories;
 
-namespace AirSoft.Service.Implementations;
+namespace Store.Service.Implementations;
 
 public class DataService : IDataService
 {

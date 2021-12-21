@@ -1,5 +1,5 @@
 ﻿
-namespace AirSoft.Service.Contracts.Team.GetCurrent;
+namespace Store.Service.Contracts.Team.GetCurrent;
 
 public class GetCurrentTeamResponse
 {

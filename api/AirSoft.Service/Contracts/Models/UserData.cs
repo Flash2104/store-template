@@ -1,6 +1,6 @@
-﻿using AirSoft.Data.Entity;
+﻿using Store.Data.Entity;
 
-namespace AirSoft.Service.Contracts.Models;
+namespace Store.Service.Contracts.Models;
 
 public class UserData
 {

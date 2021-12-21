@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AirSoft.Data\AirSoft.Data.csproj" />
-    <ProjectReference Include="..\AirSoft.Service\AirSoft.Service.csproj" />
+    <ProjectReference Include="..\AirSoft.Data\Store.Data.csproj" />
+    <ProjectReference Include="..\AirSoft.Service\Store.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

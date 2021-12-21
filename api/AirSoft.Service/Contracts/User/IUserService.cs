@@ -1,7 +1,7 @@
-﻿using AirSoft.Service.Contracts.User.Get;
-using AirSoft.Service.Contracts.User.Register;
+﻿using Store.Service.Contracts.User.Get;
+using Store.Service.Contracts.User.Register;
 
-namespace AirSoft.Service.Contracts.User;
+namespace Store.Service.Contracts.User;
 
 public interface IUserService
 {

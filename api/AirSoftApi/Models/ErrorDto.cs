@@ -1,4 +1,4 @@
-﻿namespace AirSoftApi.Models;
+﻿namespace StoreApi.Models;
 
 public class ErrorDto
 {

@@ -1,14 +1,14 @@
-﻿using AirSoft.Data.Entity;
-using AirSoft.Service.Common;
-using AirSoft.Service.Contracts;
-using AirSoft.Service.Contracts.Models;
-using AirSoft.Service.Contracts.Navigation;
-using AirSoft.Service.Contracts.Team;
-using AirSoft.Service.Contracts.Team.GetCurrent;
-using AirSoft.Service.Exceptions;
+﻿using Store.Service.Contracts.Models;
+using Store.Service.Contracts.Team;
+using Store.Service.Contracts.Team.GetCurrent;
 using Microsoft.Extensions.Logging;
+using Store.Data.Entity;
+using Store.Service.Common;
+using Store.Service.Contracts;
+using Store.Service.Contracts.Navigation;
+using Store.Service.Exceptions;
 
-namespace AirSoft.Service.Implementations;
+namespace Store.Service.Implementations;
 
 public class NavigationService : INavigationService
 {

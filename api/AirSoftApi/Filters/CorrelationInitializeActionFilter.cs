@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
-using AirSoft.Service.Contracts;
+using Store.Service.Contracts;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace AirSoftApi.Filters;
+namespace StoreApi.Filters;
 
 public class CorrelationInitializeActionFilter : IActionFilter
 {

@@ -1,7 +1,7 @@
-﻿using AirSoft.Service.Contracts.Auth.SignIn;
-using AirSoft.Service.Contracts.Auth.SignUp;
+﻿using Store.Service.Contracts.Auth.SignIn;
+using Store.Service.Contracts.Auth.SignUp;
 
-namespace AirSoft.Service.Contracts.Auth;
+namespace Store.Service.Contracts.Auth;
 
 public interface IAuthService
 {

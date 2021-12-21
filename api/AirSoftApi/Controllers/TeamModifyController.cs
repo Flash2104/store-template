@@ -1,14 +1,14 @@
-﻿using AirSoft.Service.Contracts;
-using AirSoft.Service.Contracts.Team;
-using AirSoft.Service.Contracts.Team.UpdateMainInfo;
-using AirSoftApi.AuthPolicies;
-using AirSoftApi.Models;
-using AirSoftApi.Models.Team.GetCurrent;
-using AirSoftApi.Models.TeamModify.UpdateMainInfo;
+﻿using Store.Service.Contracts;
+using Store.Service.Contracts.Team;
+using Store.Service.Contracts.Team.UpdateMainInfo;
+using StoreApi.Models.Team.GetCurrent;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StoreApi.AuthPolicies;
+using StoreApi.Models;
+using StoreApi.Models.TeamModify.UpdateMainInfo;
 
-namespace AirSoftApi.Controllers
+namespace StoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

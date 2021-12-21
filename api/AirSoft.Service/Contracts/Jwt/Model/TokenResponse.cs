@@ -1,5 +1,5 @@
 ﻿
-namespace AirSoft.Service.Contracts.Jwt.Model
+namespace Store.Service.Contracts.Jwt.Model
 {
     public class JwtResponse
     {

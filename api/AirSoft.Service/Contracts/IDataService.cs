@@ -1,7 +1,7 @@
-﻿using AirSoft.Data.Entity;
-using AirSoft.Service.Repositories;
+﻿using Store.Data.Entity;
+using Store.Service.Repositories;
 
-namespace AirSoft.Service.Contracts;
+namespace Store.Service.Contracts;
 
 public interface IDataService
 {

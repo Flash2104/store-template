@@ -1,6 +1,6 @@
-﻿using AirSoft.Service.Contracts.Member;
+﻿using Store.Service.Contracts.Member;
 
-namespace AirSoft.Service.Contracts.Team.Create;
+namespace Store.Service.Contracts.Team.Create;
 
 public class CreateTeamResponse
 {

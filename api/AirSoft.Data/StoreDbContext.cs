@@ -1,10 +1,10 @@
 ﻿using System.Security.Claims;
-using AirSoft.Data.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Store.Data.Entity;
 
-namespace AirSoft.Data;
+namespace Store.Data;
 
 public interface IDbContext : IDisposable
 {
@@ -19,16 +19,16 @@ public interface IDbContext : IDisposable
     public void Initialize();
 }
 
-public class AirSoftDbContext : DbContext, IDbContext
+public class StoreDbContext : DbContext, IDbContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor = null!;
 
-    public AirSoftDbContext()
+    public StoreDbContext()
     {
 
     }
 
-    public AirSoftDbContext(DbContextOptions<AirSoftDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+    public StoreDbContext(DbContextOptions<StoreDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
         _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
     }
@@ -79,9 +79,6 @@ public class AirSoftDbContext : DbContext, IDbContext
     {
         modelBuilder.HasDefaultSchema("dbo");
         var userId = Guid.Parse("fadde9ec-7dc4-4033-b1e6-2f83a08c70f3");
-        var memberId = Guid.Parse("703405e5-9cc1-434e-8c18-d19bb7fbd9f2");
-        var teamId = Guid.Parse("be955114-80ca-4b6c-9295-022c2460d48f");
-        var teamRoleIds = new Dictionary<int, Guid>(Enum.GetValues<DefaultMemberRoleType>().Select(x => new KeyValuePair<int, Guid>((int)x, Guid.NewGuid())));
         var roleNavIds = new Dictionary<int, Guid>(Enum.GetValues<UserRoleType>()
             .Where(x => x != UserRoleType.None)
             .Select(x => new KeyValuePair<int, Guid>((int)x, Guid.NewGuid())));
@@ -92,11 +89,6 @@ public class AirSoftDbContext : DbContext, IDbContext
         new DbUserRolesMapping().Map(modelBuilder.Entity<DbUserRole>());
         new DbUsersToRolesMapping().Map(modelBuilder.Entity<DbUsersToRoles>());
         new DbUserMapping().Map(modelBuilder.Entity<DbUser>(), userId);
-
-        new DbMemberMapping().Map(modelBuilder.Entity<DbMember>(), userId, memberId, teamId, teamRoleIds);
-        new DbTeamMapping().Map(modelBuilder.Entity<DbTeam>(), userId, teamId, memberId);
-        new DbTeamRolesMapping().Map(modelBuilder.Entity<DbTeamRole>(), teamId, teamRoleIds);
-        new DbTeamRolesToMembersMapping().Map(modelBuilder.Entity<DbTeamRolesToMembers>());
 
         new DbUserNavigationMapping().Map(modelBuilder.Entity<DbUserNavigation>(), userId, roleNavIds);
         new DbNavigationItemsMapping().Map(modelBuilder.Entity<DbNavigationItem>(), roleNavIds);

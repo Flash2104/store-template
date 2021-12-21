@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using AirSoft.Service.Contracts.Team;
+using Store.Service.Contracts.Team;
 
-namespace AirSoftApi.Models.TeamModify.UpdateMainInfo;
+namespace StoreApi.Models.TeamModify.UpdateMainInfo;
 
 public class UpdateTeamMainInfoResponseDto
 {

@@ -1,4 +1,4 @@
-﻿namespace AirSoft.Service.Contracts.Models;
+﻿namespace Store.Service.Contracts.Models;
 
 public class ReferenceData<T>
 {

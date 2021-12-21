@@ -1,10 +1,10 @@
-﻿using AirSoft.Service.Contracts;
-using AirSoft.Service.Contracts.References;
-using AirSoft.Service.Contracts.References.Cities;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Store.Service.Contracts;
+using Store.Service.Contracts.References;
+using Store.Service.Contracts.References.Cities;
 using static System.Char;
 
-namespace AirSoft.Service.Implementations.References;
+namespace Store.Service.Implementations.References;
 
 public class ReferenceService : IReferenceService
 {

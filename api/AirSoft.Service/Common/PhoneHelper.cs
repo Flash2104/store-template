@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace AirSoft.Service.Common;
+namespace Store.Service.Common;
 
 public class PhoneHelper
 {
