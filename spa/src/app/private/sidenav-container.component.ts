@@ -12,7 +12,7 @@ import { INavigationItem } from '../shared/services/dto-models/navigations/navig
 import { NavigationService } from '../shared/services/navigation.service';
 
 @Component({
-  selector: 'air-sidenav-container',
+  selector: 'str-sidenav-container',
   templateUrl: './sidenav-container.component.html',
   styleUrls: ['./sidenav-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

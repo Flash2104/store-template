@@ -13,7 +13,7 @@ import { TeamService } from '../repository/team.service';
 import { IMemberViewData } from './../../../shared/services/dto-models/team/team-data';
 
 @Component({
-  selector: 'air-team-main-page',
+  selector: 'str-team-main-page',
   templateUrl: './team-main-page.component.html',
   styleUrls: ['./team-main-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

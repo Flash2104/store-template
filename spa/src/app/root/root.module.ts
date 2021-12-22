@@ -1,28 +1,28 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PrivateGuard } from '../shared/guards/private.guard';
+import { AdminPagesGuard } from '../shared/guards/private.guard';
 
 const routes: Routes = [
   {
     path: '',
     children: [
-      { path: '', redirectTo: 'private', pathMatch: 'full' },
-      { path: '*', redirectTo: 'private', pathMatch: 'full' },
+      { path: '', redirectTo: 'shop', pathMatch: 'full' },
+      { path: '*', redirectTo: 'shop', pathMatch: 'full' },
       {
-        path: 'public',
+        path: 'shop',
         loadChildren: () =>
-          import('../public/public.module').then((m) => m.PublicModule),
+          import('../shop/shop.module').then((m) => m.StoreModule),
         data: {
-          animation: 'PublicPages',
+          animation: 'ShopPages',
         },
       },
       {
-        path: 'private',
+        path: 'admin',
         loadChildren: () =>
-          import('../private/private.module').then((m) => m.PrivateModule),
-        canActivate: [PrivateGuard],
+          import('../admin/admin.module').then((m) => m.PrivateModule),
+        canActivate: [AdminPagesGuard],
         data: {
-          animation: 'PrivatePages',
+          animation: 'AdminPages',
         },
       },
     ],

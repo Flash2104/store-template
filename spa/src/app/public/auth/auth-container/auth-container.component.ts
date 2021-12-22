@@ -3,7 +3,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { AuthRepository } from '../../../shared/repository/auth.repository';
 
 @Component({
-  selector: 'air-auth-container',
+  selector: 'str-auth-container',
   templateUrl: './auth-container.component.html',
   styleUrls: ['./auth-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

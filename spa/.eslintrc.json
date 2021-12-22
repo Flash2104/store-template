@@ -37,7 +37,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "air",
+            "prefix": "str",
             "style": "camelCase"
           }
         ],
@@ -45,7 +45,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "air",
+            "prefix": "str",
             "style": "kebab-case"
           }
         ],

@@ -10,7 +10,7 @@ export interface ISignInData {
 }
 
 @Component({
-  selector: 'air-sign-in',
+  selector: 'str-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,5 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
-import { OverlayContainer, OverlayModule } from '@angular/cdk/overlay';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -15,12 +15,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RootModule } from './root/root.module';
 import { SharedModule } from './shared/shared.module';
-import { PrivateToolbarComponent } from './toolbar/private-toolbar/private-toolbar.component';
-import { PublicToolbarComponent } from './toolbar/public-toolbar/public-toolbar.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
-  declarations: [AppComponent, PublicToolbarComponent, PrivateToolbarComponent],
+  declarations: [AppComponent, ToolbarComponent],
   imports: [
     RouterModule,
     CommonModule,

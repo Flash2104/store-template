@@ -1,7 +1,7 @@
 import {
   IReferenceData,
   IGroupedReferenceData,
-} from './../../services/dto-models/reference-data';
+} from '../../services/dto-models/reference-data';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,18 +26,18 @@ import {
 } from 'rxjs';
 
 @Component({
-  selector: 'air-grouped-selector',
-  templateUrl: './air-grouped-selector.component.html',
+  selector: 'str-grouped-selector',
+  templateUrl: './grouped-selector.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => AirGroupedSelectorComponent),
+      useExisting: forwardRef(() => GroupedSelectorComponent),
       multi: true,
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AirGroupedSelectorComponent
+export class GroupedSelectorComponent
   implements ControlValueAccessor, OnInit, OnDestroy, OnChanges
 {
   private _destroy$: Subject<void> = new Subject<void>();

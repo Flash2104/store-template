@@ -18,7 +18,7 @@ import { TeamCreateService } from '../repository/team-create.service';
 import { MatSelect } from '@angular/material/select';
 
 @Component({
-  selector: 'air-team-create',
+  selector: 'str-team-create',
   templateUrl: './team-create.component.html',
   styleUrls: ['./team-create.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

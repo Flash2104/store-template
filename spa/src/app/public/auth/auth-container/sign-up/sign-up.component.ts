@@ -11,7 +11,7 @@ export interface ISignUpData {
 }
 
 @Component({
-  selector: 'air-sign-up',
+  selector: 'str-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

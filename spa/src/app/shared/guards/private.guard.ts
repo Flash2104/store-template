@@ -16,7 +16,7 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class PrivateGuard implements CanActivate {
+export class AdminPagesGuard implements CanActivate {
   constructor(
     private _authRepository: AuthRepository,
     private _authService: AuthService,
@@ -34,7 +34,7 @@ export class PrivateGuard implements CanActivate {
       take(1),
       map(([token]) => {
         const navigateAuth = (): void => {
-          this._router.navigate(['public', 'auth']).then();
+          this._router.navigate(['public', 'home']).then();
         };
         if (token == null || token.token == null) {
           navigateAuth();

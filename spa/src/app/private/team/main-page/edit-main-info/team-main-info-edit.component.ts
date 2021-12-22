@@ -12,7 +12,7 @@ import {
 } from '../../repository/team.repository';
 
 @Component({
-  selector: 'air-team-main-info-edit',
+  selector: 'str-team-main-info-edit',
   templateUrl: './team-main-info-edit.component.html',
   styleUrls: ['./team-main-info-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

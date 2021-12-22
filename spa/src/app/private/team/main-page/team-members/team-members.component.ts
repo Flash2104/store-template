@@ -10,7 +10,7 @@ import { IMemberViewData } from '../../../../shared/services/dto-models/team/tea
 import { TeamRepository } from '../../repository/team.repository';
 
 @Component({
-  selector: 'air-team-members',
+  selector: 'str-team-members',
   templateUrl: './team-members.component.html',
   styleUrls: ['./team-members.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

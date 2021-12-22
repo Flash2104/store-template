@@ -11,7 +11,7 @@ import { ProfileRepository } from '../../../shared/repository/profile.repository
 import { IProfileData } from '../../../shared/services/dto-models/profile/profile-data';
 
 @Component({
-  selector: 'air-profile-main-info-edit',
+  selector: 'str-profile-main-info-edit',
   templateUrl: './profile-main-info-edit.component.html',
   styleUrls: ['./profile-main-info-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

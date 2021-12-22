@@ -10,22 +10,22 @@
         <mat-card class="main-info-card">
           <span [ngSwitch]="isEditing$ | async">
             <p *ngSwitchCase="true">
-              <air-team-main-info-edit
+              <str-team-main-info-edit
                 [loading]="loading$ | async"
                 [team]="mapMainInfoTeamData(team)"
-              ></air-team-main-info-edit>
+              ></str-team-main-info-edit>
             </p>
             <p *ngSwitchCase="false">
-              <air-team-main-info
+              <str-team-main-info
                 [loading]="loading$ | async"
                 [team]="mapMainInfoTeamData(team)"
-              ></air-team-main-info>
+              ></str-team-main-info>
             </p>
             <p *ngSwitchDefault>
-              <air-team-main-info
+              <str-team-main-info
                 [loading]="loading$ | async"
                 [team]="mapMainInfoTeamData(team)"
-              ></air-team-main-info>
+              ></str-team-main-info>
             </p>
           </span>
         </mat-card>
@@ -38,10 +38,10 @@
             <mat-card-title>Члены команды</mat-card-title>
           </mat-card-header>
           <div class="">
-            <air-team-members
+            <str-team-members
               [teamMembers]="team.members"
               [loading]="loading$ | async"
-            ></air-team-members>
+            ></str-team-members>
           </div>
         </mat-card>
       </div>

@@ -24,7 +24,7 @@ import { AuthService } from './shared/services/auth.service';
 import { ProfileService } from './shared/services/profile.service';
 
 export const slideInAnimation = trigger('routeAnimations', [
-  transition('PrivatePages <=> PublicPages', [
+  transition('StorePages <=> AdminPages', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -45,7 +45,7 @@ export const slideInAnimation = trigger('routeAnimations', [
 ]);
 
 @Component({
-  selector: 'air-root',
+  selector: 'str-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

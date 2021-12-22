@@ -20,7 +20,7 @@ import { ProfileRepository } from '../../shared/repository/profile.repository';
 import { IProfileData } from '../../shared/services/dto-models/profile/profile-data';
 
 @Component({
-  selector: 'air-profile-main-page',
+  selector: 'str-profile-main-page',
   templateUrl: './profile-main-page.component.html',
   styleUrls: ['./profile-main-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

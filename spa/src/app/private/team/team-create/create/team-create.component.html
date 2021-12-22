@@ -55,12 +55,12 @@
               <tr class="mat-row py-3">
                 <td class="mat-cell">Город</td>
                 <td class="mat-cell">
-                  <air-grouped-selector
+                  <str-grouped-selector
                     formControlName="city"
                     [data]="(cities$ | async) || []"
                     [loading]="(loadingCities$ | async) === true"
                     placeholder="Выберите город"
-                  ></air-grouped-selector>
+                  ></str-grouped-selector>
                 </td>
               </tr>
               <tr class="mat-row py-3">

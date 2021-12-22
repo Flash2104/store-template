@@ -11,7 +11,7 @@ import {
 } from '../../repository/team.repository';
 
 @Component({
-  selector: 'air-team-main-info',
+  selector: 'str-team-main-info',
   templateUrl: './team-main-info.component.html',
   styleUrls: ['./team-main-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

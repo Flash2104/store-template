@@ -92,7 +92,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 builder.Services.AddDbContext<StoreDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AirSoftDatabase"), opt => opt.MigrationsHistoryTable("__EFMigrationsHistory", "dbo")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StoreDatabase"), opt => opt.MigrationsHistoryTable("__EFMigrationsHistory", "dbo")));
 builder.Services.AddScoped<IDbContext, StoreDbContext>();
 builder.Services.AddScoped<IConfigService, ConfigService>(p => configService);
 builder.Services.AddScoped<IUserService, UserService>();
