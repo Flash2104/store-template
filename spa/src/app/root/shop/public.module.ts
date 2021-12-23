@@ -6,10 +6,10 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      { path: '', redirectTo: 'auth', pathMatch: 'full' },
-      { path: '*', redirectTo: 'auth', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: '*', redirectTo: 'home', pathMatch: 'full' },
       {
-        path: 'auth',
+        path: 'home',
         loadChildren: () =>
           import('../../public/auth/auth.module').then((m) => m.AuthModule),
         canActivate: [AuthGuard],

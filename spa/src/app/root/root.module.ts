@@ -11,7 +11,7 @@ const routes: Routes = [
       {
         path: 'shop',
         loadChildren: () =>
-          import('../shop/shop.module').then((m) => m.StoreModule),
+          import('../shop/shop.module').then((m) => m.ShopModule),
         data: {
           animation: 'ShopPages',
         },
@@ -19,7 +19,7 @@ const routes: Routes = [
       {
         path: 'admin',
         loadChildren: () =>
-          import('../admin/admin.module').then((m) => m.PrivateModule),
+          import('../admin/admin.module').then((m) => m.AdminModule),
         canActivate: [AdminPagesGuard],
         data: {
           animation: 'AdminPages',
