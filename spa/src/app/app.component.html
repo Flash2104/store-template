@@ -1,6 +1,8 @@
 <div class="str-app">
   <div class="header">
-    <str-toolbar></str-toolbar>
+    <mat-toolbar>
+      <str-toolbar class="w-100"></str-toolbar>
+    </mat-toolbar>
   </div>
 
   <div [@routeAnimations]="prepareRoute(outlet)" class="main">

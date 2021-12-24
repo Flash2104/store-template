@@ -23,7 +23,7 @@ public class JwtService : IJwtService
     public Task<JwtResponse> BuildToken(JwtRequest request)
     {
         var jwtSettings = _configService.GetSettings().Jwt;
-        if (jwtSettings?.Key == null || jwtSettings.Issuer == null || jwtSettings.ExpiresSeconds == null)
+        if (jwtSettings?.Key == null || jwtSettings.ExpiresSeconds == null)
         {
             throw new AirSoftBaseException(ErrorCodes.JwtSettingsIsNull, "Jwt Settings is null.");
         }

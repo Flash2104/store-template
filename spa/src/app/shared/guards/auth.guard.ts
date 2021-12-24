@@ -7,10 +7,7 @@ import {
 } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import {
-  authPersist,
-  AuthRepository,
-} from '../repository/auth.repository';
+import { authPersist, AuthRepository } from '../repository/auth.repository';
 
 @Injectable({
   providedIn: 'root',
@@ -32,11 +29,7 @@ export class AuthGuard implements CanActivate {
       take(1),
       map(([token]) => {
         if (token?.token != null) {
-          this._router
-            .navigate(
-              ['private', 'profile']
-            )
-            .then();
+          this._router.navigate(['admin', 'categories']).then();
           return false;
         }
         return true;

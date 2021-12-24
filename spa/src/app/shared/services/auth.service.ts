@@ -12,11 +12,11 @@ import {
   take,
   tap,
 } from 'rxjs';
+import { ISignInData } from '../../root/shop/auth/auth-container/sign-in/sign-in.component';
+import { ISignUpData } from '../../root/shop/auth/auth-container/sign-up/sign-up.component';
+import { AuthRepository } from '../repository/auth.repository';
 import { HttpService } from './http.service';
 import { SnackbarService } from './snackbar.service';
-import { AuthRepository } from '../repository/auth.repository';
-import { ISignInData } from '../../public/auth/auth-container/sign-in/sign-in.component';
-import { ISignUpData } from '../../public/auth/auth-container/sign-up/sign-up.component';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -39,7 +39,7 @@ export class AuthService {
             resp.data?.user ?? null,
             resp.data?.tokenData ?? null
           );
-          this._router.navigate(['private', 'profile']).then((res) => {
+          this._router.navigate(['admin', 'categories']).then((res) => {
             this._authRepo.setLoading(false);
           });
         } else {
@@ -72,7 +72,7 @@ export class AuthService {
             resp.data?.user ?? null,
             resp.data?.tokenData ?? null
           );
-          this._router.navigate(['private', 'profile']).then((res) => {
+          this._router.navigate(['admin', 'categories']).then((res) => {
             this._authRepo.setLoading(false);
           });
         } else {
@@ -94,9 +94,7 @@ export class AuthService {
   }
 
   checkUserLoggedIn(): Observable<boolean> {
-    return combineLatest([
-      this._authRepo.token$
-    ]).pipe(
+    return combineLatest([this._authRepo.token$]).pipe(
       take(1),
       map(([token]) => {
         if (token == null || token.token == null) {
@@ -120,7 +118,7 @@ export class AuthService {
       tap(() => {
         this._authRepo.updateUserToken(null, null);
         this._authRepo.setLoading(false);
-        this._router.navigate(['public', 'auth']).then();
+        this._router.navigate(['shop', 'auth']).then();
       }),
       catchError((err) => {
         this._authRepo.setLoading(false);

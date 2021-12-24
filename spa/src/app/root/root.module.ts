@@ -6,12 +6,12 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      { path: '', redirectTo: 'shop', pathMatch: 'full' },
-      { path: '*', redirectTo: 'shop', pathMatch: 'full' },
+      { path: '', redirectTo: 'admin', pathMatch: 'full' },
+      { path: '*', redirectTo: 'admin', pathMatch: 'full' },
       {
         path: 'shop',
         loadChildren: () =>
-          import('../shop/shop.module').then((m) => m.ShopModule),
+          import('./shop/shop.module').then((m) => m.ShopModule),
         data: {
           animation: 'ShopPages',
         },
@@ -19,7 +19,7 @@ const routes: Routes = [
       {
         path: 'admin',
         loadChildren: () =>
-          import('../admin/admin.module').then((m) => m.AdminModule),
+          import('./admin/admin.module').then((m) => m.AdminModule),
         canActivate: [AdminPagesGuard],
         data: {
           animation: 'AdminPages',

@@ -7,21 +7,18 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
-  Renderer2,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
-import { Subject, takeUntil, filter, switchMap } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { AuthRepository } from './shared/repository/auth.repository';
 import { ProfileRepository } from './shared/repository/profile.repository';
 import { AuthService } from './shared/services/auth.service';
-import { ProfileService } from './shared/services/profile.service';
 
 export const slideInAnimation = trigger('routeAnimations', [
   transition('StorePages <=> AdminPages', [
@@ -60,7 +57,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     public authService: AuthService,
     private _authRepo: AuthRepository,
-    private _profileService: ProfileService,
     private _profileRepo: ProfileRepository
   ) {}
 
@@ -68,7 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this._authRepo.token$
       .pipe(
         filter((t) => t != null),
-        switchMap(() => this._profileService.loadCurrentProfile()),
         takeUntil(this._destroy$)
       )
       .subscribe();

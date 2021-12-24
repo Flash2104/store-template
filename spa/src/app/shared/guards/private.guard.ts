@@ -7,10 +7,7 @@ import {
 } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import {
-  authPersist,
-  AuthRepository,
-} from '../repository/auth.repository';
+import { authPersist, AuthRepository } from '../repository/auth.repository';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -34,7 +31,7 @@ export class AdminPagesGuard implements CanActivate {
       take(1),
       map(([token]) => {
         const navigateAuth = (): void => {
-          this._router.navigate(['public', 'home']).then();
+          this._router.navigate(['shop', 'auth']).then();
         };
         if (token == null || token.token == null) {
           navigateAuth();

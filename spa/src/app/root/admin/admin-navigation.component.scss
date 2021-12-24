@@ -1,0 +1,50 @@
+
+$topPadding: 68px;
+@mixin fill {
+  min-height: 100%;
+}
+.sidenav-container {
+  @include fill;
+  height: 100%;
+  // margin-top: $topPadding;
+}
+
+.sidenav-nav {
+  width: 250px;
+  padding: 10px 16px;
+  user-select: none;
+  margin-top: $topPadding;
+}
+
+.sidenav-body {
+  @include fill;
+  height: 100%;
+  padding-top: $topPadding;
+}
+
+
+.sidenav-card {
+  @include fill;
+}
+
+.sidenav-card-content {
+  @include fill;
+}
+
+.link-button {
+  display: block;
+  font-size: 16px;
+  padding: 4px 10px;
+  margin: 4px 0;
+  width: 100%;
+}
+
+.link-button-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.link-button > span + .mat-button-wrapper {
+  width: 100%;
+}

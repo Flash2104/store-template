@@ -1,8 +1,6 @@
-<mat-toolbar>
-
-<div class="d-flex">
+<div class="d-flex justify-content-between align-items-center w-100">
   <div><h1>Shop&</h1></div>
-  <div class="flex-stretch"></div>
+  <div class="flex-grow-1"></div>
   <div>
     <div></div>
     <button
@@ -23,18 +21,21 @@
         <mat-icon>settings</mat-icon>
         <span>Настройки</span>
       </button>
-      <form [formGroup]="form">
-        <button mat-menu-item (click)="onToggle()">
-          <mat-slide-toggle [checked]="form.controls['toggleControl'].value">
-            <span>Тема</span>
-          </mat-slide-toggle>
-        </button>
-      </form>
+
       <button mat-menu-item (click)="onLogout()">
         <mat-icon>logout</mat-icon>
         <span>Выйти</span>
       </button>
     </mat-menu>
   </div>
+  <div class="text-end">
+    <div class="header-theme-toggler">
+      <mat-icon class="me-3">bedtime</mat-icon>
+      <form [formGroup]="form">
+        <mat-slide-toggle formControlName="toggleControl" class="me-3">
+        </mat-slide-toggle>
+      </form>
+      <mat-icon>brightness_5</mat-icon>
+    </div>
+  </div>
 </div>
-</mat-toolbar>
