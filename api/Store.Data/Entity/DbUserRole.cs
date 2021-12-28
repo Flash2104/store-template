@@ -11,22 +11,14 @@ public class DbUserRole : DbEntity<int>
 
     public virtual List<DbUsersToRoles>? UsersToRoles { get; set; }
 
-    public virtual List<DbNavigationItem>? NavigationItems { get; set; }
-
-    public virtual List<DbUserRolesToNavigationItems>? UserRolesToNavigationItems { get; set; }
-
 }
 
 public enum UserRoleType
 {
     None = 0,
-    Creator = 1,
-    Administrator = 2,
-    Player = 3,
-    Organizer = 4,
-    TeamManager = 5,
-    Sponsor = 6,
-    Merchant = 7
+    Administrator = 1,
+    Manager = 2,
+    Customer = 4
 }
 
 internal sealed class DbUserRolesMapping

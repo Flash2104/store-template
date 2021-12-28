@@ -53,7 +53,7 @@ public class UserService : IUserService
             ));
     }
 
-    public async Task<bool> ValidateUserPass(Guid userId, string password)
+    public async Task<bool> ValidateUserPass(int userId, string password)
     {
         var logPath = $"{userId} {nameof(UserService)} {nameof(ValidateUserPass)}. | ";
         _logger.Log(LogLevel.Trace, $"{logPath} started.");
@@ -99,22 +99,18 @@ public class UserService : IUserService
             throw new AirSoftBaseException(ErrorCodes.UserService.AlreadyExist, "Пользователь с таким телефоном или почтой уже существует");
         }
 
-        var dbUserRole = await _dataService.UserRoles!.GetAsync(x => x.Id == (int)UserRoleType.Player);
+        var dbUserRole = await _dataService.UserRoles!.GetAsync(x => x.Id == (int)UserRoleType.Customer);
         if (dbUserRole == null)
         {
             throw new AirSoftBaseException(ErrorCodes.UserService.UserRoleNotFound, "Не найдена пользовательская роль");
         }
-
-        var id = Guid.NewGuid();
+        
         dbUser = new DbUser()
         {
-            Id = id,
             Email = isEmail ? emailOrPhone : null,
             Phone = !isEmail ? PhoneHelper.CleanPhone(emailOrPhone) : null,
             CreatedDate = DateTime.UtcNow,
             ModifiedDate = DateTime.UtcNow,
-            CreatedBy = id,
-            ModifiedBy = id,
             Status = UserStatus.New
         };
         dbUser.PasswordHash = dbUser.HashPassword(request.Password);
@@ -127,7 +123,6 @@ public class UserService : IUserService
             }
         };
         var created = this._dataService.Users.CreateNewUser(dbUser);
-        await this.CreateUserNavigation(created.Id);
         _logger.Log(LogLevel.Information, $"{logPath} User created: {created!.Id}.");
         await _dataService.SaveAsync();
         return new RegisterUserResponse(new UserData(
@@ -137,75 +132,5 @@ public class UserService : IUserService
             created.Status,
             created.UserRoles?.Select(x => new ReferenceData<int>(x.Id, x.Role)).ToList()
             ));
-    }
-
-    public async Task SetUserTeamManager(Guid userId)
-    {
-        var logPath = $"{userId} {nameof(UserService)} {nameof(SetUserTeamManager)}. | ";
-        _logger.Log(LogLevel.Trace, $"{logPath} started.");
-        DbUser? dbUser = await _dataService.Users.GetAsync(x => x.Id == userId);
-        if (dbUser == null)
-        {
-            throw new AirSoftBaseException(ErrorCodes.UserService.UserNotFound, "Пользователь не найден", logPath);
-        }
-
-        var dbManager = new DbUserRole()
-        {
-            Id = (int)UserRoleType.TeamManager,
-            Role = UserRoleType.TeamManager.ToString()
-        };
-        await AddTeamManagerNavigation(userId);
-        await _dataService.Users.AddUserRole(userId, dbManager);
-    }
-
-    private Task<DbUserNavigation> CreateUserNavigation(Guid userId)
-    {
-        DbUserNavigation dbNavigation = new DbUserNavigation()
-        {
-            UserId = userId,
-            CreatedBy = userId,
-            ModifiedBy = userId,
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow,
-            Title = "Навигация пользователя",
-            Id = Guid.NewGuid(),
-            IsDefault = true
-        };
-        dbNavigation.NavigationsToNavigationItems = RoleNavigationItemsConst.PlayerNavItemIds.Select(y => new DbNavigationsToNavigationItems()
-        {
-            NavigationId = dbNavigation.Id,
-            NavigationItemId = y
-        }).ToList();
-        _dataService.UserNavigations.Insert(dbNavigation);
-        return Task.FromResult(dbNavigation);
-    }
-
-    private async Task<DbUserNavigation> AddTeamManagerNavigation(Guid userId)
-    {
-        var userNavigations = await _dataService.UserNavigations.ListAsync(x => x.UserId == userId);
-        foreach (var navigation in userNavigations)
-        {
-            navigation.IsDefault = false;
-            _dataService.UserNavigations.Update(navigation);
-        }
-        DbUserNavigation dbNewNavigation = new DbUserNavigation()
-        {
-            UserId = userId,
-            CreatedBy = userId,
-            ModifiedBy = userId,
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow,
-            Id = Guid.NewGuid(),
-            Title = "Навигация Менеджера команды",
-            IsDefault = true
-        };
-        var created = _dataService.UserNavigations.Insert(dbNewNavigation);
-
-        dbNewNavigation.NavigationsToNavigationItems = RoleNavigationItemsConst.TeamManagerNavItemIds.Select(y => new DbNavigationsToNavigationItems()
-        {
-            NavigationId = dbNewNavigation.Id,
-            NavigationItemId = y
-        }).ToList();
-        return dbNewNavigation;
     }
 }

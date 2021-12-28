@@ -4,7 +4,7 @@ namespace Store.Service.Contracts.Models;
 
 public class UserData
 {
-    public UserData(Guid id, string? email, string? phone, UserStatus? status, List<ReferenceData<int>>? userRoles)
+    public UserData(int id, string? email, string? phone, UserStatus? status, List<ReferenceData<int>>? userRoles)
     {
         Id = id;
         Email = email;
@@ -13,7 +13,7 @@ public class UserData
         UserRoles = userRoles;
     }
 
-    public Guid Id { get; }
+    public int Id { get; }
     
     public string? Email { get; }
 

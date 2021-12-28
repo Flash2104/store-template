@@ -11,8 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\Navigation\" />
+    <Folder Include="Contracts\Category\Create\" />
+    <Folder Include="Contracts\Category\Update\" />
     <Folder Include="Implementations\References\" />
+    <Folder Include="Implementations\Store\" />
+    <Folder Include="Implementations\Category\" />
+    <Folder Include="Implementations\Product\" />
   </ItemGroup>
 
   <ItemGroup>

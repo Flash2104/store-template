@@ -32,16 +32,7 @@ public class ErrorCodes
         public const int UserRoleNotFound = 82007;
         public const int CreatedUserIsNull = 83008;
     }
-
-    public sealed class MemberService
-    {
-        public const int EmptyUserId = 82101;
-        public const int NotFound = 82102;
-        public const int AlreadyExist = 82103;
-        public const int NavigationAlreadyExist = 82104;
-        public const int WrongUpdateMemberId = 82105;
-    }
-
+    
     public sealed class UserRepository
     {
         public const int MoreThanOneUserByPhone = 82201;
@@ -50,20 +41,18 @@ public class ErrorCodes
         public const int UserAlreadyHaveRole = 82204;
     }
 
-    public sealed class TeamRepository
+    public sealed class StoreRepository
     {
         public const int MemberNotFound = 82300;
         public const int CreatedTeamIsNull = 82301;
     }
 
-    public sealed class TeamService
+    public sealed class StoreService
     {
         public const int EmptyUserId = 82310;
-        public const int NotFound = 82311;
-        public const int EmptyRoleTitle = 82312;
-        public const int AlreadyExist = 82313;
-
-        public const int LeaderNotInTeam = 82314;
+        public const int UserNotFound = 82311;
+        public const int StoreNotFound = 82312;
+        public const int TitleInUse = 82313;
     }
 
     public sealed class NavigationService

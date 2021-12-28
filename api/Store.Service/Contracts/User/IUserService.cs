@@ -7,9 +7,8 @@ public interface IUserService
 {
     Task<GetUserResponse> GetUserByEmailOrPhone(string emailOrPhone);
 
-    Task<bool> ValidateUserPass(Guid userId, string password);
+    Task<bool> ValidateUserPass(int userId, string password);
 
     Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request);
-
-    Task SetUserTeamManager(Guid userId);
+    
 }

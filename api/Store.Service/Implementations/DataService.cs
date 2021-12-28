@@ -10,9 +10,10 @@ public class DataService : IDataService
     private readonly IDbContext _dbContext;
 
     private UserRepository? _users;
+    private StoreRepository? _store;
+    private CategoryRepository? _categories;
+    private ProductRepository? _products;
     private GenericRepository<DbUserRole>? _userRoles;
-    private GenericRepository<DbUserNavigation>? _userNavigations;
-    private GenericRepository<DbNavigationItem>? _navigationItems;
     private CitiesRepository? _citiesRepository;
 
     public DataService(IDbContext dbContext)
@@ -21,13 +22,15 @@ public class DataService : IDataService
     }
 
     public UserRepository Users => _users ??= new UserRepository(_dbContext);
+
+    public StoreRepository Store => _store ??= new StoreRepository(_dbContext);
+
+    public CategoryRepository Categories => _categories ??= new CategoryRepository(_dbContext);
+
+    public ProductRepository Products => _products ??= new ProductRepository(_dbContext);
     
     public GenericRepository<DbUserRole> UserRoles => _userRoles ??= new GenericRepository<DbUserRole>(_dbContext);
-
-    public GenericRepository<DbUserNavigation> UserNavigations => _userNavigations ??= new GenericRepository<DbUserNavigation>(_dbContext);
     
-    public GenericRepository<DbNavigationItem> NavigationItems => _navigationItems ??= new GenericRepository<DbNavigationItem>(_dbContext);
-
     public CitiesRepository Cities => _citiesRepository ??= new CitiesRepository(_dbContext);
 
     public async Task<bool> SaveAsync()

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Store.Data;
+﻿using Store.Data;
 using Store.Data.Entity;
 using Store.Service.Common;
 using Store.Service.Exceptions;
@@ -41,29 +40,5 @@ public class UserRepository : GenericRepository<DbUser>
     public DbUser CreateNewUser(DbUser user)
     {
         return Insert(user);
-    }
-    
-    public async Task AddUserRole(Guid userId, DbUserRole userRole)
-    {
-        DbUser? dbUser = await GetAsync(x => x.Id == userId);
-
-        if (dbUser == null)
-        {
-            throw new AirSoftBaseException(ErrorCodes.UserRepository.UserNotFound, "Пользователь не найден");
-        }
-
-        if (dbUser.UserRoles != null && dbUser.UserRoles.Any(x => x.Id == userRole.Id))
-        {
-            throw new AirSoftBaseException(ErrorCodes.UserRepository.UserAlreadyHaveRole, $"У пользователя уже есть роль: {userRole.Role}");
-        }
-        
-        dbUser.UsersToRoles = new List<DbUsersToRoles>()
-        {
-            new()
-            {
-                UserId = dbUser.Id,
-                RoleId = userRole.Id
-            }
-        };
     }
 }

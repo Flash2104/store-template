@@ -11,9 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Store.Service.Contracts.Auth;
-using Store.Service.Contracts.Navigation;
 using Store.Service.Contracts.References;
-using Store.Service.Contracts.Team;
 using Store.Service.Contracts.User;
 using Store.Service.Implementations;
 using Store.Service.Implementations.Auth;
@@ -70,7 +68,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             },
             OnAuthenticationFailed = async context =>
             {
-                context.Response.StatusCode = (int)HttpStatusCode.OK;
+                context.Response.StatusCode = 401;
                 var response = new ServerResponseDto(new ErrorDto(401, "Неавторизованный запрос"));
                 await HttpResponseWritingExtensions.WriteAsync(context.Response, JsonConvert.SerializeObject(response, new JsonSerializerSettings()
                 {
@@ -100,7 +98,6 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IDataService, DataService>();
 builder.Services.AddScoped<ICorrelationService, CorrelationService>();
-builder.Services.AddScoped<INavigationService, NavigationService>();
 builder.Services.AddScoped<IReferenceService, ReferenceService>();
 
 builder.Services.AddControllers();

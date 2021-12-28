@@ -1,14 +1,11 @@
 ﻿
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace Store.Data.Entity;
 
 public interface IDbEntity
 {
-    public Guid CreatedBy { get; set; }
+    public int CreatedBy { get; set; }
 
-    public Guid ModifiedBy { get; set; }
+    public int ModifiedBy { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 
@@ -24,9 +21,9 @@ public interface IDbEntity<T>: IDbEntity
 
 public abstract class DbEntity : IDbEntity
 {
-    public Guid CreatedBy { get; set; }
+    public int CreatedBy { get; set; }
 
-    public Guid ModifiedBy { get; set; }
+    public int ModifiedBy { get; set; }
 
     public DateTime? CreatedDate { get; set; }
 

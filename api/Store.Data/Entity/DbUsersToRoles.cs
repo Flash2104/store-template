@@ -6,7 +6,7 @@ namespace Store.Data.Entity;
 
 public class DbUsersToRoles
 {
-    public Guid UserId { get; set; }
+    public int UserId { get; set; }
     public virtual DbUser? User { get; set; }
 
     public int RoleId { get; set; }

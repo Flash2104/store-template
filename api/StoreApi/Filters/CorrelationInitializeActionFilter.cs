@@ -15,7 +15,7 @@ public class CorrelationInitializeActionFilter : IActionFilter
 
     public void OnActionExecuting(ActionExecutingContext context)
     {
-        Guid? userId = Guid.TryParse(context?.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out Guid userGuid) ? userGuid : null;
+        int? userId = int.TryParse(context?.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int userInt) ? userInt : null;
         _correlationService.SetUserId(userId);
     }
 

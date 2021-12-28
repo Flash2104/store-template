@@ -7,11 +7,13 @@ public interface IDataService
 {
     UserRepository Users { get; }
 
+    StoreRepository Store { get; }
+
+    CategoryRepository Categories { get; }
+
+    ProductRepository Products { get; }
+
     GenericRepository<DbUserRole> UserRoles { get; }
-
-    GenericRepository<DbUserNavigation> UserNavigations { get; }
-
-    GenericRepository<DbNavigationItem> NavigationItems { get; }
 
     public CitiesRepository Cities { get; }
 

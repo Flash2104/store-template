@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Store.Data.Entity;
+using Store.Data.Entity.Category;
+using Store.Data.Entity.Product;
 
 namespace Store.Data;
 
 public interface IDbContext : IDisposable
 {
-    DbSet<DbUser>? Users { get; set; }
-
     DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
     EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
@@ -32,9 +32,7 @@ public class StoreDbContext : DbContext, IDbContext
     {
         _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
     }
-
-    public DbSet<DbUser>? Users { get; set; }
-
+    
     public async Task SaveAsync()
     {
         await base.SaveChangesAsync();
@@ -47,8 +45,8 @@ public class StoreDbContext : DbContext, IDbContext
         var userId = _httpContextAccessor?.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         var currentUsername = !string.IsNullOrEmpty(userId)
-            ? Guid.Parse(userId)
-            : Guid.Empty;
+            ? int.Parse(userId)
+            : 0;
 
         foreach (var entity in entities)
         {
@@ -78,21 +76,17 @@ public class StoreDbContext : DbContext, IDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("dbo");
-        var userId = Guid.Parse("fadde9ec-7dc4-4033-b1e6-2f83a08c70f3");
-        var roleNavIds = new Dictionary<int, Guid>(Enum.GetValues<UserRoleType>()
-            .Where(x => x != UserRoleType.None)
-            .Select(x => new KeyValuePair<int, Guid>((int)x, Guid.NewGuid())));
 
-        
         new DbRuCityMapping().Map(modelBuilder.Entity<DbRuCity>()); // Список ру городов по регионам
 
         new DbUserRolesMapping().Map(modelBuilder.Entity<DbUserRole>());
         new DbUsersToRolesMapping().Map(modelBuilder.Entity<DbUsersToRoles>());
-        new DbUserMapping().Map(modelBuilder.Entity<DbUser>(), userId);
+        new DbUserMapping().Map(modelBuilder.Entity<DbUser>());
 
-        new DbUserNavigationMapping().Map(modelBuilder.Entity<DbUserNavigation>(), userId, roleNavIds);
-        new DbNavigationItemsMapping().Map(modelBuilder.Entity<DbNavigationItem>(), roleNavIds);
-        new DbUserRolesToNavigationItemsMapping().Map(modelBuilder.Entity<DbUserRolesToNavigationItems>());
-        new DbNavigationsToNavigationItemsMapping().Map(modelBuilder.Entity<DbNavigationsToNavigationItems>());
+        new DbStoreMapping().Map(modelBuilder.Entity<DbStore>());
+        new DbCategoryMapping().Map(modelBuilder.Entity<DbCategory>());
+        new DbProductMapping().Map(modelBuilder.Entity<DbProduct>());
+        new DbProductImageMapping().Map(modelBuilder.Entity<DbProductImage>());
+        new DbProductsToCategoriesMapping().Map(modelBuilder.Entity<DbProductsToCategories>());
     }
 }

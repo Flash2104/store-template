@@ -1,4 +1,4 @@
-﻿
+﻿using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Store.Data.Entity;
 
-public class DbUser: DbEntity<Guid>
+public class DbUser: DbEntity<int>
 {
     public DbUser()
     {
@@ -26,6 +26,10 @@ public class DbUser: DbEntity<Guid>
 
     public string? Phone { get; set; }
 
+    public byte[]? AvatarIcon { get; set; }
+
+    public byte[]? Avatar { get; set; }
+
     public UserStatus Status { get; set; }
 
     public string? PasswordHash { get; set; }
@@ -37,10 +41,7 @@ public class DbUser: DbEntity<Guid>
     }
 
     public virtual List<DbUsersToRoles>? UsersToRoles { get; set; }
-    
-    
-    public virtual List<DbUserNavigation>? UserNavigations { get; set; }
-    
+
     public string HashPassword(string password)
     {
         var ph = new PasswordHasher<DbUser>();
@@ -64,7 +65,7 @@ public enum UserStatus
 
 internal sealed class DbUserMapping
 {
-    public void Map(EntityTypeBuilder<DbUser> builder, Guid userId)
+    public void Map(EntityTypeBuilder<DbUser> builder)
     {
         builder.ToTable("Users");
 
@@ -81,18 +82,20 @@ internal sealed class DbUserMapping
             .Property(e => e.Status)
             .IsRequired()
             .HasConversion(converter);
-
+        string? root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         var admin = new DbUser
         {
-            Id = userId,
+            Id = 1,
             CreatedDate = new DateTime(2021, 12, 02, 1, 50, 00),
             ModifiedDate = new DateTime(2021, 12, 02, 1, 50, 00),
-            CreatedBy = userId,
-            ModifiedBy = userId,
+            CreatedBy = 1,
+            ModifiedBy = 1,
             Email = "khoruzhenko.work@gmail.com",
             PasswordHash = "AQAAAAEAACcQAAAAEMQnvSxDqgyc+KNNzIFjcuST/qZGfHVSLT9P+Z3revJP2Q9Tctz8PIeDxj2k7aJkLg==",
             Phone = "89266762453",
-            Status = UserStatus.Confirmed
+            Status = UserStatus.Confirmed,
+            Avatar = File.ReadAllBytes(root + "\\InitialData\\admin.png"),
+            AvatarIcon = File.ReadAllBytes(root + "\\InitialData\\admin-icon.png")
         };
         builder.HasData(admin);
         builder.HasMany(x => x.UserRoles).WithMany(x => x.Users).UsingEntity<DbUsersToRoles>(
@@ -100,23 +103,8 @@ internal sealed class DbUserMapping
             {
                 new DbUsersToRoles()
                 {
-                    UserId = userId,
-                    RoleId = (int) UserRoleType.Creator
-                },
-                new DbUsersToRoles()
-                {
-                    UserId = userId,
+                    UserId = 1,
                     RoleId = (int) UserRoleType.Administrator
-                },
-                new DbUsersToRoles()
-                {
-                    UserId = userId,
-                    RoleId = (int) UserRoleType.Player
-                },
-                new DbUsersToRoles()
-                {
-                    UserId = userId,
-                    RoleId = (int) UserRoleType.TeamManager
                 }
             })
             );

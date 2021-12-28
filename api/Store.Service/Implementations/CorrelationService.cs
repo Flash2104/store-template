@@ -4,14 +4,14 @@ namespace Store.Service.Implementations;
 
 public class CorrelationService: ICorrelationService
 {
-    private Guid? _userId = null;
+    private int? _userId = null;
 
-    public Guid? GetUserId()
+    public int? GetUserId()
     {
         return _userId;
     }
 
-    public void SetUserId(Guid? userId)
+    public void SetUserId(int? userId)
     {
         _userId = userId;
     }

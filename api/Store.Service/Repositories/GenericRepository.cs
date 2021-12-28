@@ -95,16 +95,10 @@ public class GenericRepository<TEntity> where TEntity : class, IDbEntity
         }
         entityToDelete.Deleted = DateTime.UtcNow.ToLongDateString();
         _context.Entry(entityToDelete).State = EntityState.Modified;
-
-        //Delete(entityToDelete);
     }
 
     public virtual void Delete(TEntity entityToDelete)
     {
-        //if (_context?.Entry(entityToDelete).State == EntityState.Detached)
-        //{
-        //    _dbSet?.Attach(entityToDelete);
-        //}
         _dbSet?.Attach(entityToDelete);
         if (_context == null)
         {
@@ -112,7 +106,6 @@ public class GenericRepository<TEntity> where TEntity : class, IDbEntity
         }
         entityToDelete.Deleted = DateTime.UtcNow.ToLongDateString();
         _context.Entry(entityToDelete).State = EntityState.Modified;
-        //_dbSet?.Remove(entityToDelete);
     }
 
     public virtual void Update(TEntity entityToUpdate)
