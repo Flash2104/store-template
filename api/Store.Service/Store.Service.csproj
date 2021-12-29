@@ -11,11 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\Category\Create\" />
-    <Folder Include="Contracts\Category\Update\" />
+    <Folder Include="Contracts\Category\CreateTree\" />
+    <Folder Include="Contracts\Category\UpdateTree\" />
+    <Folder Include="Contracts\Category\ListTrees\" />
     <Folder Include="Implementations\References\" />
     <Folder Include="Implementations\Store\" />
-    <Folder Include="Implementations\Category\" />
     <Folder Include="Implementations\Product\" />
   </ItemGroup>
 

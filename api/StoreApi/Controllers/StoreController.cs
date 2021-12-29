@@ -12,7 +12,7 @@ namespace StoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = RolesConst.Administrator)]
     public class StoreController : RootController
     {
         private readonly ILogger<StoreController> _logger;
@@ -26,7 +26,7 @@ namespace StoreApi.Controllers
             _correlationService = correlationService;
         }
 
-        [HttpGet("get-default")]
+        [HttpGet("get-info")]
         [AllowAnonymous]
         public async Task<ServerResponseDto<GetStoreResponseDto>> GetDefault()
         {

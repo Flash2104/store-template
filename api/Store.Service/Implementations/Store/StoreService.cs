@@ -2,12 +2,9 @@
 using Store.Data.Entity;
 using Store.Service.Common;
 using Store.Service.Contracts;
-using Store.Service.Contracts.Models;
 using Store.Service.Contracts.Store;
 using Store.Service.Contracts.Store.Get;
 using Store.Service.Contracts.Store.Update;
-using Store.Service.Contracts.User.Get;
-using Store.Service.Contracts.User.Register;
 using Store.Service.Exceptions;
 
 namespace Store.Service.Implementations.Store;
@@ -30,16 +27,6 @@ public class StoreService : IStoreService
         var userId = _correlationService.GetUserId();
         var logPath = $"{userId} {nameof(StoreService)} {nameof(Get)}. | ";
         _logger.Log(LogLevel.Trace, $"{logPath} started.");
-        if (userId == null)
-        {
-            throw new AirSoftBaseException(ErrorCodes.StoreService.EmptyUserId, "Пустой id пользователя");
-        }
-        DbUser? dbUser = await _dataService.Users.GetAsync(x => x.Id == userId);
-
-        if (dbUser == null)
-        {
-            throw new AirSoftBaseException(ErrorCodes.StoreService.UserNotFound, "Пользователь не найден");
-        }
 
         var res = await _dataService.Store.GetAsync();
         if (res == null)
@@ -50,8 +37,35 @@ public class StoreService : IStoreService
         return new GetStoreResponse(res.Title, res.Logo);
     }
 
-    public Task<UpdateStoreResponse> Update(UpdateStoreRequest request)
+    public async Task<UpdateStoreResponse> Update(UpdateStoreRequest request)
     {
-        throw new NotImplementedException();
+        var userId = _correlationService.GetUserId();
+        var logPath = $"{userId} {nameof(StoreService)} {nameof(Update)}. | ";
+        _logger.Log(LogLevel.Trace, $"{logPath} started.");
+        if (userId == null)
+        {
+            throw new AirSoftBaseException(ErrorCodes.StoreService.EmptyUserId, "Пустой id пользователя");
+        }
+        DbUser? dbUser = await _dataService.Users.GetAsync(x => x.Id == userId);
+
+        if (dbUser == null)
+        {
+            throw new AirSoftBaseException(ErrorCodes.StoreService.UserNotFound, "Пользователь не найден");
+        }
+        if (string.IsNullOrWhiteSpace(request.Title))
+        {
+            throw new AirSoftBaseException(ErrorCodes.StoreService.EmptyTitle, "Пустое название магазина");
+        }
+        var res = await _dataService.Store.GetAsync();
+        if (res == null)
+        {
+            throw new AirSoftBaseException(ErrorCodes.StoreService.StoreNotFound, "Магазин не найден");
+        }
+
+        res.Title = request.Title;
+        res.Logo = request.Logo;
+        _dataService.Store.Update(res);
+        await _dataService.SaveAsync();
+        return new UpdateStoreResponse(res.Title, res.Logo);
     }
 }

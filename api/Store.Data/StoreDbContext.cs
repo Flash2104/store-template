@@ -84,7 +84,8 @@ public class StoreDbContext : DbContext, IDbContext
         new DbUserMapping().Map(modelBuilder.Entity<DbUser>());
 
         new DbStoreMapping().Map(modelBuilder.Entity<DbStore>());
-        new DbCategoryMapping().Map(modelBuilder.Entity<DbCategory>());
+        new DbCategoryTreeMapping().Map(modelBuilder.Entity<DbCategoryTree>());
+        new DbCategoryItemMapping().Map(modelBuilder.Entity<DbCategoryItem>());
         new DbProductMapping().Map(modelBuilder.Entity<DbProduct>());
         new DbProductImageMapping().Map(modelBuilder.Entity<DbProductImage>());
         new DbProductsToCategoriesMapping().Map(modelBuilder.Entity<DbProductsToCategories>());

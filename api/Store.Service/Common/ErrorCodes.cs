@@ -52,21 +52,13 @@ public class ErrorCodes
         public const int EmptyUserId = 82310;
         public const int UserNotFound = 82311;
         public const int StoreNotFound = 82312;
-        public const int TitleInUse = 82313;
+        public const int EmptyTitle = 82313;
     }
 
-    public sealed class NavigationService
+    public sealed class CategoryService
     {
         public const int EmptyUserId = 82320;
         public const int UserNotFound = 82321;
-        public const int NavigationNotFound = 82322;
-        public const int UserRolesNotFound = 82323;
-    }
-
-    public sealed class TeamRolesRepository
-    {
-        public const int AlreadyHasRoles = 82330;
-        public const int MemberTeamNotEqualRoleTeam = 82331;
-        public const int TeamRoleNotFound = 82332;
+        public const int CategoryNotFound = 82322;
     }
 }

@@ -25,7 +25,7 @@ public class DbStore: DbEntity<int>
 
     public virtual List<DbUser>? Users { get; set; }
 
-    public virtual List<DbCategory>? Categories { get; set; }
+    public virtual List<DbCategoryTree>? CategoryTrees { get; set; }
 }
 
 internal sealed class DbStoreMapping

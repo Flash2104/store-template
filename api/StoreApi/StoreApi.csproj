@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Filters\" />
+    <Folder Include="Models\Category\ListTrees\" />
   </ItemGroup>
 
 </Project>

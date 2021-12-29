@@ -6,13 +6,9 @@ namespace Store.Data.Entity.Product;
 
 public class DbProductsToCategories
 {
-    public DbProductsToCategories()
-    {
-    }
-
     public int? CategoryId { get; set; }
 
-    public virtual DbCategory? Category { get; set; }
+    public virtual DbCategoryItem? Category { get; set; }
 
     public int? ProductId { get; set; }
 

@@ -19,9 +19,9 @@ public class DbProduct : DbEntity<int>
     
     public string Title { get; set; } = null!;
 
-    public decimal PriceAmount { get; set; }
+    public string? Description { get; set; }
 
-    // public string PriceCurrencyIso { get; set; }
+    public decimal PriceAmount { get; set; }
 
     public int QuantityInStock { get; set; }
 
@@ -41,6 +41,7 @@ internal sealed class DbProductMapping
         builder.ToTable("Products");
 
         builder.HasKey(x => new { x.Id });
+        builder.Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Property(x => x.Title).IsRequired().HasMaxLength(255);
         builder.Property(x => x.PriceAmount).IsRequired().HasPrecision(19, 4);
         // builder.Property(x => x.PriceCurrencyIso).IsRequired().HasMaxLength(255);

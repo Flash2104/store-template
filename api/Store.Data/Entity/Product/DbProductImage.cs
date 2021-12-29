@@ -2,12 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Store.Data.Entity.Product;
+
 public class DbProductImage : DbEntity<int>
 {
-    public DbProductImage()
-    {
-    }
-    
     public string Title { get; set; } = null!;
 
     public byte[] Buffer { get; set; } = null!;
@@ -24,6 +21,7 @@ internal sealed class DbProductImageMapping
         builder.ToTable("ProductImages");
 
         builder.HasKey(x => new { x.Id });
+        builder.Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Property(x => x.Title).IsRequired().HasMaxLength(255);
         builder.Property(x => x.Buffer).IsRequired().HasMaxLength(5097152);
         builder.Property(x => x.CreatedDate).IsRequired().HasMaxLength(50);

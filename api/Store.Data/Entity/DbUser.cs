@@ -70,6 +70,7 @@ internal sealed class DbUserMapping
         builder.ToTable("Users");
 
         builder.HasKey(x => new { x.Id });
+        builder.Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Property(x => x.PasswordHash).IsRequired().HasMaxLength(255);
         builder.Property(x => x.CreatedDate).IsRequired().HasMaxLength(50);
         builder.Property(x => x.ModifiedDate).IsRequired().HasMaxLength(50);

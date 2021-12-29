@@ -7,19 +7,12 @@ import { ISignInRequest } from './dto-models/auth/sign-in/sign-in-request';
 import { ISignInResponse } from './dto-models/auth/sign-in/sign-in-response';
 import { ISignUpRequest } from './dto-models/auth/sign-up/sign-up-request';
 import { ISignUpResponse } from './dto-models/auth/sign-up/sign-up-response';
-import { INavigationDataResponse } from './dto-models/navigations/navigation-data';
+import { IGetCategoryTreeResponse } from './dto-models/category/get-category-tree';
+import { IListCategoryTreesResponse } from './dto-models/category/list-category-trees';
 import { IGetCurrentProfileResponse } from './dto-models/profile/get-current-profile';
-import {
-  IUpdateProfileRequest,
-  IUpdateProfileResponse,
-} from './dto-models/profile/update-profile';
 import { IGetCityReferencesResponse } from './dto-models/references/cities/cities-dto';
 import { IServerResponse } from './dto-models/server-response';
-import {
-  ICreateTeamRequest,
-  ICreateTeamResponse,
-} from './dto-models/team/create/create-team-dto';
-import { IGetCurrentTeamResponse } from './dto-models/team/get-current/get-current-team-response';
+import { IGetStoreInfoResponse } from './dto-models/store/get-store-info';
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
@@ -53,14 +46,6 @@ export class HttpService {
     );
   }
 
-  profileUpdate(
-    data: IUpdateProfileRequest
-  ): Observable<IServerResponse<IUpdateProfileResponse>> {
-    return of('api/member/update').pipe(
-      mergeMap((url) => this.httpPut<IUpdateProfileResponse>(url, data))
-    );
-  }
-
   /* #endregion */
 
   /* #region References*/
@@ -73,29 +58,29 @@ export class HttpService {
 
   /* #endregion */
 
-  /* #region Team*/
+  /* #region Store*/
 
-  teamGetCurrent(): Observable<IServerResponse<IGetCurrentTeamResponse>> {
-    return of('api/team/get-current').pipe(
-      mergeMap((url) => this.httpGet<IGetCurrentTeamResponse>(url))
-    );
-  }
-
-  teamCreate(
-    data: ICreateTeamRequest
-  ): Observable<IServerResponse<ICreateTeamResponse>> {
-    return of('api/team/create').pipe(
-      mergeMap((url) => this.httpPost<IGetCurrentTeamResponse>(url, data))
+  getStoreInfo(): Observable<IServerResponse<IGetStoreInfoResponse>> {
+    return of('api/store/get-info').pipe(
+      mergeMap((url) => this.httpGet<IGetStoreInfoResponse>(url))
     );
   }
 
   /* #endregion */
 
-  /* #region Navigation*/
+  /* #region Category*/
 
-  getUserNavigation(): Observable<IServerResponse<INavigationDataResponse>> {
-    return of('api/navigation/get').pipe(
-      mergeMap((url) => this.httpGet<INavigationDataResponse>(url))
+  listCategoryTrees(): Observable<IServerResponse<IListCategoryTreesResponse>> {
+    return of('api/category/list').pipe(
+      mergeMap((url) => this.httpGet<IListCategoryTreesResponse>(url))
+    );
+  }
+
+  getCategoryTree(
+    id: number
+  ): Observable<IServerResponse<IGetCategoryTreeResponse>> {
+    return of(`api/category/get/${id}`).pipe(
+      mergeMap((url) => this.httpGet<IGetCategoryTreeResponse>(url))
     );
   }
 

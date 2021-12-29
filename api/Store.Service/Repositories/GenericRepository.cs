@@ -49,8 +49,7 @@ public class GenericRepository<TEntity> where TEntity : class, IDbEntity
     }
 
     public virtual async Task<TEntity?> GetAsync(
-        Expression<Func<TEntity, bool>>? filter = null,
-        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+        Expression<Func<TEntity, bool>>? filter,
         string includeProperties = "")
     {
         IQueryable<TEntity>? query = _dbSet;
@@ -69,11 +68,7 @@ public class GenericRepository<TEntity> where TEntity : class, IDbEntity
         {
             query = query.Include(includeProperty);
         }
-
-        if (orderBy != null)
-        {
-            return await orderBy(query).SingleOrDefaultAsync();
-        }
+        
         return await query.SingleOrDefaultAsync();
     }
 

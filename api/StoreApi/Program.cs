@@ -22,6 +22,8 @@ using StoreApi.Filters;
 using StoreApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Store.Service.Contracts.Store;
+using Store.Service.Implementations.Store;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -99,6 +101,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IDataService, DataService>();
 builder.Services.AddScoped<ICorrelationService, CorrelationService>();
 builder.Services.AddScoped<IReferenceService, ReferenceService>();
+builder.Services.AddScoped<IStoreService, StoreService>();
 
 builder.Services.AddControllers();
 builder.Services.AddMvc(opt =>
