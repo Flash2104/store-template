@@ -1,3 +1,4 @@
+import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -5,12 +6,9 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { filter, map, Observable, Subject, takeUntil } from 'rxjs';
-import { ProfileRepository } from 'src/app/shared/repository/profile.repository';
-import { IProfileData } from 'src/app/shared/services/dto-models/profile/profile-data';
-import { FormGroup, FormControl } from '@angular/forms';
-import { OverlayContainer } from '@angular/cdk/overlay';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../shared/services/auth.service';
 
 @Component({
@@ -21,17 +19,6 @@ import { AuthService } from '../shared/services/auth.service';
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
-  public profile$: Observable<IProfileData | null> =
-    this._profileRepo.profile$.pipe(
-      filter((p) => p != null),
-      map((p) => {
-        const sanitized = this._sanitizer.bypassSecurityTrustResourceUrl(
-          'data:image/png;base64, ' + p?.avatarIcon
-        );
-        return { ...p, avatarIcon: sanitized } as IProfileData;
-      }),
-      takeUntil(this._destroy$)
-    );
 
   form: FormGroup = new FormGroup({
     toggleControl: new FormControl(false),
@@ -39,10 +26,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private _sanitizer: DomSanitizer,
-    private _profileRepo: ProfileRepository,
     private _authService: AuthService,
     private _overlay: OverlayContainer,
-    private _renderer: Renderer2,
+    private _renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
