@@ -1,5 +1,4 @@
 .toolbar {
-  @extend .container !optional;
   display: flex;
   margin: 0 48px;
 }
@@ -16,4 +15,41 @@
   display: flex;
   margin: 0 auto;
   align-items: center;
+}
+
+.menu-toggle {
+  height: 50px;
+  width: 50px;
+}
+
+.shop-info {
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  max-height: 50px;
+}
+
+.shop-info > * + * {
+  margin-left: 10px;
+}
+
+.shop-title {
+  display: flex;
+  height: 50px;
+  width: 200px;
+  align-items: center;
+}
+
+.shop-logo {
+  display: flex;
+  height: 50px;
+  width: 200px;
+  padding: 2px;
+  align-items: center;
+}
+
+.shop-logo img {
+  object-fit: contain; /*this makes the image in src fit to the size specified below*/
+  width: 100%; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+  height: 100%;
 }

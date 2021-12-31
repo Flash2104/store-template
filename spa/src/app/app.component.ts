@@ -1,3 +1,4 @@
+import { ShopService } from './shared/services/shop.service';
 import {
   animate,
   animateChild,
@@ -17,7 +18,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { AuthRepository } from './shared/repository/auth.repository';
-import { ProfileRepository } from './shared/repository/profile.repository';
+import { ShopRepository } from './shared/repository/shop.repository';
 import { AuthService } from './shared/services/auth.service';
 
 export const slideInAnimation = trigger('routeAnimations', [
@@ -57,10 +58,12 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     public authService: AuthService,
     private _authRepo: AuthRepository,
-    private _profileRepo: ProfileRepository
+    private _shopRepo: ShopRepository,
+    private _shopService: ShopService
   ) {}
 
   ngOnInit(): void {
+    this._shopService.loadShopInfo().subscribe();
     this._authRepo.token$
       .pipe(
         filter((t) => t != null),
@@ -73,7 +76,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this._destroy$.next();
     this._destroy$.complete();
 
-    this._profileRepo.destroy();
+    this._shopRepo.destroy();
   }
 
   prepareRoute(outlet: RouterOutlet): string {

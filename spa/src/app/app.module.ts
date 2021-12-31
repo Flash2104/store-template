@@ -19,6 +19,7 @@ import { AuthInterceptor } from './shared/interceptors/unauthorized.interceptor'
 import { AuthService } from './shared/services/auth.service';
 import { SharedModule } from './shared/shared.module';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [AppComponent, ToolbarComponent],
@@ -26,7 +27,6 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     RouterModule,
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     HttpClientModule,
     RootModule,
     AppRoutingModule,
@@ -39,6 +39,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     MatIconModule,
     MatMenuModule,
     MatCardModule,
+    NgxSkeletonLoaderModule.forRoot({ animation: 'pulse', loadingText: 'This item is actually loading...' }),
     MatSlideToggleModule,
     BrowserAnimationsModule,
   ],

@@ -15,7 +15,7 @@ export interface IShopState {
 const { state, config } = createState(
   withProps<IShopState>({
     shop: null,
-    loading: false,
+    loading: true,
   })
 );
 
@@ -24,7 +24,7 @@ const name = 'shop';
 const shopStore = new Store({ state, name, config });
 
 @Injectable({ providedIn: 'root' })
-export class ProfileRepository {
+export class ShopRepository {
   shop$: Observable<IShopData | null> = shopStore.pipe(select((st) => st.shop));
 
   loading$: Observable<boolean> = shopStore.pipe(select((st) => st.loading));
@@ -36,10 +36,10 @@ export class ProfileRepository {
     }));
   }
 
-  setShopData(profile: IShopState['shop']): void {
+  setShopData(shop: IShopState['shop']): void {
     shopStore.update((st) => ({
       ...st,
-      profile,
+      shop
     }));
   }
 

@@ -1,5 +1,62 @@
 <div class="d-flex justify-content-between align-items-center w-100">
-  <div><h1>Shop&</h1></div>
+  <div class="menu-toggle">
+
+  </div>
+  <ng-container
+    *ngIf="(shopInfoLoading$ | async) === false; else shopInfoEmpty"
+  >
+    <ng-container *ngIf="shopInfo$ | async as shopInfo; else shopInfoEmpty">
+      <div class="shop-info">
+        <div class="shop-logo">
+          <img
+            *ngIf="shopInfo.logo"
+            class="me-3"
+            [src]="shopInfo.logo"
+          />
+        </div>
+        <div class="shop-title">
+          <h1>{{ shopInfo.title }}</h1>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-template #shopInfoEmpty>
+    <div class="shop-info">
+      <ng-container
+        *ngIf="
+          (shopInfoLoading$ | async) === false && (shopInfo$ | async) == null;
+          else elseTemplate
+        "
+      >
+        <h1>Информация о магазине не найдена</h1>
+        <button mat-icon-button (click)="reloadInfo()">
+          <mat-icon>replay</mat-icon>
+        </button>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <div class="shop-logo">
+          <ng-template [ngTemplateOutlet]="skeleton"></ng-template>
+        </div>
+        <div class="shop-title">
+          <ng-template [ngTemplateOutlet]="skeleton"></ng-template>
+        </div>
+
+      </ng-template>
+    </div>
+    <ng-template #skeleton>
+      <ngx-skeleton-loader
+      count="1"
+      animation="progress"
+      [theme]="{
+        display: 'flex',
+        alignItems: 'center',
+        width: '190px',
+        height: '50px'
+      }"
+    ></ngx-skeleton-loader>
+    </ng-template>
+  </ng-template>
+
   <div class="flex-grow-1"></div>
   <div>
     <div></div>
