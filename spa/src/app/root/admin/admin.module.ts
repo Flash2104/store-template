@@ -10,14 +10,19 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminNavigationComponent } from './admin-navigation.component';
 import { AdminCategoriesComponent } from './categories/admin-categories.component';
 import { AdminProductsComponent } from './products/admin-products.component';
+import { AdminShopComponent } from './shop/admin-shop.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AdminNavigationComponent,
     children: [
-      { path: '', redirectTo: 'categories', pathMatch: 'full' },
-      { path: '*', redirectTo: 'categories', pathMatch: 'full' },
+      { path: '', redirectTo: 'shop', pathMatch: 'full' },
+      { path: '*', redirectTo: 'shop', pathMatch: 'full' },
+      {
+        path: 'shop',
+        component: AdminShopComponent,
+      },
       {
         path: 'categories',
         component: AdminCategoriesComponent,
@@ -33,6 +38,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AdminNavigationComponent,
+    AdminShopComponent,
     AdminCategoriesComponent,
     AdminProductsComponent,
   ],
