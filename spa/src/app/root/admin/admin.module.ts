@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -11,6 +12,10 @@ import { AdminNavigationComponent } from './admin-navigation.component';
 import { AdminCategoriesComponent } from './categories/admin-categories.component';
 import { AdminProductsComponent } from './products/admin-products.component';
 import { AdminShopComponent } from './shop/admin-shop.component';
+import { MatTableModule } from '@angular/material/table';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatInputModule } from '@angular/material/input';
 
 const routes: Routes = [
   {
@@ -49,6 +54,11 @@ const routes: Routes = [
     MatCardModule,
     MatIconModule,
     MatTreeModule,
+    MatTableModule,
+    MatDividerModule,
+    MatInputModule,
+    CommonModule,
+    ReactiveFormsModule,
     SharedModule,
     RouterModule.forChild(routes),
   ],

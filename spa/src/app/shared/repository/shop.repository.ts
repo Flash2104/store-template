@@ -3,18 +3,20 @@ import { createState, select, Store, withProps } from '@ngneat/elf';
 import { Observable } from 'rxjs';
 
 export interface IShopData {
-  title: string;
-  logo: string | null | undefined;
+  title?: string | null;
+  logo?: string | null | undefined;
 }
 
 export interface IShopState {
-  shop: IShopData | null;
+  origin: IShopData | null;
+  changed: IShopData | null;
   loading: boolean;
 }
 
 const { state, config } = createState(
   withProps<IShopState>({
-    shop: null,
+    origin: null,
+    changed: null,
     loading: true,
   })
 );
@@ -25,8 +27,7 @@ const shopStore = new Store({ state, name, config });
 
 @Injectable({ providedIn: 'root' })
 export class ShopRepository {
-  shop$: Observable<IShopData | null> = shopStore.pipe(select((st) => st.shop));
-
+  origin$: Observable<IShopData | null> = shopStore.pipe(select((st) => st.origin));
   loading$: Observable<boolean> = shopStore.pipe(select((st) => st.loading));
 
   setLoading(loading: IShopState['loading']): void {
@@ -36,10 +37,37 @@ export class ShopRepository {
     }));
   }
 
-  setShopData(shop: IShopState['shop']): void {
+  setShopData(shop: IShopState['origin']): void {
     shopStore.update((st) => ({
       ...st,
-      shop
+      origin: shop
+    }));
+  }
+
+  changeTitle(title: string): void {
+    shopStore.update((st) => ({
+      ...st,
+      changed: {
+        ...st.changed,
+        title
+      }
+    }));
+  }
+
+  changeLogo(logo: string | null | undefined): void {
+    shopStore.update((st) => ({
+      ...st,
+      changed: {
+        ...st.changed,
+        logo
+      }
+    }));
+  }
+
+  resetChanged(): void {
+    shopStore.update((st) => ({
+      ...st,
+      changed: null
     }));
   }
 

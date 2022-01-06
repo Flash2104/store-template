@@ -25,7 +25,7 @@ import { AuthService } from '../shared/services/auth.service';
 export class ToolbarComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
 
-  shopInfo$: Observable<IShopData | null> = this._shopRepo.shop$.pipe(
+  shopInfo$: Observable<IShopData | null> = this._shopRepo.origin$.pipe(
     filter((si) => si != null),
     map((shopInfo) => {
       let sanitized: SafeResourceUrl | null = null;

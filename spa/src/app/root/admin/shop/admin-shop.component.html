@@ -1,1 +1,50 @@
-Shop
+<div *ngIf="(loading$ | async) === false; else loadingTemplate">
+  <div *ngIf="shopOrigin$ | async as shopOrigin">
+    <div class="row mb-3">
+      <div class="col d-flex justify-content-between align-items-center w-100 mb-2">
+        <span>
+          <h4>{{ shopOrigin?.title }}</h4>
+        </span>
+        <div class="d-flex align-items-center">
+          <button mat-stroked-button matTooltip="Отмена" (click)="onCancel()">
+            <mat-icon class="h3">cancel</mat-icon>
+          </button>
+          <button
+            mat-stroked-button
+            matTooltip="Подтвердить"
+            (click)="onCancel()"
+          >
+            <mat-icon class="h3">check_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-4">
+        <mat-card class="card-avatar">
+          <img mat-card-image [src]="shopOrigin.logo" alt="Аватар" />
+        </mat-card>
+      </div>
+      <div class="col-8">
+        <mat-divider class="mb-2"></mat-divider>
+        <div class="main-info-content">
+          <table class="mat-table w-100 my-3">
+            <tr class="mat-row py-3">
+              <td class="mat-cell">Название</td>
+              <td class="mat-cell">
+                <mat-form-field class="w-100">
+                  <mat-label></mat-label>
+                  <input matInput [placeholder]="shopOrigin?.title || ''" />
+                </mat-form-field>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loadingTemplate>
+  <loader> </loader>
+</ng-template>
