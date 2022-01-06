@@ -1,28 +1,29 @@
 <div *ngIf="(loading$ | async) === false; else loadingTemplate">
-  <div *ngIf="shopOrigin$ | async as shopOrigin">
+  <div *ngIf="shopChanged$ | async as shop">
     <div class="row mb-3">
-      <div class="col d-flex justify-content-between align-items-center w-100 mb-2">
+      <div
+        class="col d-flex justify-content-between align-items-center w-100 mb-2"
+      >
         <span>
-          <h4>{{ shopOrigin?.title }}</h4>
+          <h4>{{ shop?.title }}</h4>
         </span>
-        <div class="d-flex align-items-center">
-          <button mat-stroked-button matTooltip="Отмена" (click)="onCancel()">
-            <mat-icon class="h3">cancel</mat-icon>
+        <div
+          *ngIf="(isChanged$ | async) === true"
+          class="d-flex align-items-center"
+        >
+          <button mat-icon-button matTooltip="Отмена" (click)="onCancel()">
+            <mat-icon>cancel</mat-icon>
           </button>
-          <button
-            mat-stroked-button
-            matTooltip="Подтвердить"
-            (click)="onCancel()"
-          >
-            <mat-icon class="h3">check_circle</mat-icon>
+          <button mat-icon-button matTooltip="Подтвердить" [disabled]="form.valid === false" (click)="onSave()">
+            <mat-icon>check_circle</mat-icon>
           </button>
         </div>
       </div>
     </div>
-    <div class="row mb-3">
+    <form [formGroup]="form" class="row mb-3">
       <div class="col-4">
         <mat-card class="card-avatar">
-          <img mat-card-image [src]="shopOrigin.logo" alt="Аватар" />
+          <img mat-card-image [src]="shop.logo" alt="Аватар" />
         </mat-card>
       </div>
       <div class="col-8">
@@ -34,14 +35,18 @@
               <td class="mat-cell">
                 <mat-form-field class="w-100">
                   <mat-label></mat-label>
-                  <input matInput [placeholder]="shopOrigin?.title || ''" />
+                  <input
+                    matInput
+                    formControlName="title"
+                    [placeholder]="shop?.title || ''"
+                  />
                 </mat-form-field>
               </td>
             </tr>
           </table>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 

@@ -38,7 +38,7 @@ namespace StoreApi.Controllers
             );
         }
 
-        [HttpPost("update")]
+        [HttpPut("update")]
         [Authorize(Roles = RolesConst.Administrator)]
         public async Task<ServerResponseDto<UpdateStoreResponseDto>> Update([FromBody] UpdateStoreRequestDto request)
         {

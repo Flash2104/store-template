@@ -33,7 +33,7 @@ public class JwtService : IJwtService
         var expiresStamp = expires.ToString("O");
         var issuedAt = DateTime.UtcNow;
         var tokenHandler = new JwtSecurityTokenHandler();
-        var userId = request?.User?.Id.ToString("N");
+        var userId = request?.User?.Id.ToString();
         var roleClaims = request?.User?.UserRoles?.Select(r => new Claim(ClaimTypes.Role, r.Title)) ?? new List<Claim>();
         var claims = roleClaims.Concat(new List<Claim>()
         {

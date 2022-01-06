@@ -3,20 +3,26 @@ import { createState, select, Store, withProps } from '@ngneat/elf';
 import { Observable } from 'rxjs';
 
 export interface IShopData {
-  title?: string | null;
+  title: string;
   logo?: string | null | undefined;
 }
 
 export interface IShopState {
-  origin: IShopData | null;
-  changed: IShopData | null;
+  origin: IShopData;
+  changed: IShopData;
+  isChanged: boolean;
   loading: boolean;
 }
 
 const { state, config } = createState(
   withProps<IShopState>({
-    origin: null,
-    changed: null,
+    origin: {
+      title: ''
+    },
+    changed: {
+      title: ''
+    },
+    isChanged: false,
     loading: true,
   })
 );
@@ -27,7 +33,9 @@ const shopStore = new Store({ state, name, config });
 
 @Injectable({ providedIn: 'root' })
 export class ShopRepository {
-  origin$: Observable<IShopData | null> = shopStore.pipe(select((st) => st.origin));
+  origin$: Observable<IShopData> = shopStore.pipe(select((st) => st.origin));
+  changed$: Observable<IShopData> = shopStore.pipe(select((st) => st.changed));
+  isChanged$: Observable<boolean> = shopStore.pipe(select((st) => st.isChanged));
   loading$: Observable<boolean> = shopStore.pipe(select((st) => st.loading));
 
   setLoading(loading: IShopState['loading']): void {
@@ -37,10 +45,12 @@ export class ShopRepository {
     }));
   }
 
-  setShopData(shop: IShopState['origin']): void {
+  onLoadShopData(shop: IShopState['origin']): void {
     shopStore.update((st) => ({
       ...st,
-      origin: shop
+      origin: shop,
+      changed: shop,
+      isChanged: false
     }));
   }
 
@@ -50,7 +60,8 @@ export class ShopRepository {
       changed: {
         ...st.changed,
         title
-      }
+      },
+      isChanged: true
     }));
   }
 
@@ -58,7 +69,7 @@ export class ShopRepository {
     shopStore.update((st) => ({
       ...st,
       changed: {
-        ...st.changed,
+        title: st.changed.title,
         logo
       }
     }));
@@ -67,7 +78,8 @@ export class ShopRepository {
   resetChanged(): void {
     shopStore.update((st) => ({
       ...st,
-      changed: null
+      changed: st.origin,
+      isChanged: false
     }));
   }
 

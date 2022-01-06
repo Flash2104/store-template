@@ -72,7 +72,7 @@ export class AuthService {
             resp.data?.user ?? null,
             resp.data?.tokenData ?? null
           );
-          this._router.navigate(['admin', 'categories']).then((res) => {
+          this._router.navigate(['admin', 'shop']).then((res) => {
             this._authRepo.setLoading(false);
           });
         } else {

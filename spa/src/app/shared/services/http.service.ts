@@ -13,6 +13,7 @@ import { IGetCurrentProfileResponse } from './dto-models/profile/get-current-pro
 import { IGetCityReferencesResponse } from './dto-models/references/cities/cities-dto';
 import { IServerResponse } from './dto-models/server-response';
 import { IGetStoreInfoResponse } from './dto-models/store/get-store-info';
+import { IUpdateStoreInfoRequest, IUpdateStoreInfoResponse } from './dto-models/store/update-store-info';
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
@@ -63,6 +64,12 @@ export class HttpService {
   getStoreInfo(): Observable<IServerResponse<IGetStoreInfoResponse>> {
     return of('api/store/get-info').pipe(
       mergeMap((url) => this.httpGet<IGetStoreInfoResponse>(url))
+    );
+  }
+
+  updateStoreInfo(data: IUpdateStoreInfoRequest): Observable<IServerResponse<IUpdateStoreInfoResponse>> {
+    return of('api/store/update').pipe(
+      mergeMap((url) => this.httpPut<IUpdateStoreInfoResponse>(url, data))
     );
   }
 
