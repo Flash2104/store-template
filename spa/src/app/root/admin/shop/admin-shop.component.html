@@ -5,7 +5,7 @@
         class="col d-flex justify-content-between align-items-center w-100 mb-2"
       >
         <span>
-          <h4>{{ shop?.title }}</h4>
+          <h4>Основная информация</h4>
         </span>
         <div
           *ngIf="(isChanged$ | async) === true"
@@ -14,21 +14,31 @@
           <button mat-icon-button matTooltip="Отмена" (click)="onCancel()">
             <mat-icon>cancel</mat-icon>
           </button>
-          <button mat-icon-button matTooltip="Подтвердить" [disabled]="form.valid === false" (click)="onSave()">
+          <button
+            mat-icon-button
+            matTooltip="Подтвердить"
+            [disabled]="form.valid === false"
+            (click)="onSave()"
+          >
             <mat-icon>check_circle</mat-icon>
           </button>
         </div>
       </div>
     </div>
+    <mat-divider class="mb-2"></mat-divider>
     <form [formGroup]="form" class="row mb-3">
-      <div class="col-4">
-        <mat-card class="card-avatar">
-          <img mat-card-image [src]="shop.logo" alt="Аватар" />
+      <div class="col-md-4 col-12 mb-md-0 mb-3">
+        <mat-card class="card-logo">
+          <mat-card-header class="d-flex justify-content-end">
+            <button mat-icon-button matTooltip="Заменить лого" (click)="onLogoChange()">
+              <mat-icon>crop_original</mat-icon>
+            </button>
+          </mat-card-header>
+          <img mat-card-image [src]="shop.logo" alt="Лого" />
         </mat-card>
       </div>
-      <div class="col-8">
-        <mat-divider class="mb-2"></mat-divider>
-        <div class="main-info-content">
+      <div class="col-md-8 col-12">
+        <mat-card class="main-info-content">
           <table class="mat-table w-100 my-3">
             <tr class="mat-row py-3">
               <td class="mat-cell">Название</td>
@@ -44,7 +54,7 @@
               </td>
             </tr>
           </table>
-        </div>
+        </mat-card>
       </div>
     </form>
   </div>

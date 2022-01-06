@@ -79,6 +79,10 @@ export class AdminShopComponent implements OnInit, OnDestroy {
     this._shopRepo.resetChanged();
   }
 
+  onLogoChange(): void {
+    console.log('Logo changed');
+  }
+
   onSave(): void {
     this._shopService.updateShopInfo().subscribe();
   }
