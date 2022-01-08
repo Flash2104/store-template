@@ -7,8 +7,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { Subject } from 'rxjs';
+import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { CategoryService } from './category.service';
+import { ICategoryItemData } from 'src/app/shared/services/dto-models/category/category-tree-data';
 
 @Component({
   selector: 'str-admin-categories',
@@ -20,53 +21,65 @@ import { CategoryService } from './category.service';
 export class AdminCategoriesComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
 
-  treeControl: NestedTreeControl<any> = new NestedTreeControl<any>(
+  isChanged$: Observable<boolean> = this._categoryRepo.isChanged$.pipe(
+    takeUntil(this._destroy$)
+  );
+
+  treeControl: NestedTreeControl<ICategoryItemData> = new NestedTreeControl<ICategoryItemData>(
     (node) => node.children
   );
 
-  dataSource: MatTreeNestedDataSource<any> = new MatTreeNestedDataSource<any>();
+  dataSource: MatTreeNestedDataSource<ICategoryItemData> = new MatTreeNestedDataSource<ICategoryItemData>();
 
-  // constructor(
-  //   private _navService: NavigationService,
-  //   private _navRepo: NavigationRepository
-  // ) {}
+  constructor(
+    private _categoryService: CategoryService,
+    private _categoryRepo: CategoryRepository
+  ) {}
 
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit(): void {
-    //   this._navService.loadUserNavigation().subscribe();
-    //   this._navRepo.navData$
-    //     .pipe(
-    //       tap((navData) => {
-    //         if (navData != null) {
-    //           const defaultData = navData.find((x) => x.isDefault)?.navItems;
-    //           const data = defaultData != null ? this.sortItems(defaultData) : [];
-    //           this.dataSource.data = [...data];
-    //         }
-    //       }),
-    //       takeUntil(this._destroy$)
-    //     )
-    //     .subscribe();
+      this._categoryService.loadCategories().subscribe();
+      this._categoryRepo.trees$
+        .pipe(
+          tap((tree) => {
+            if (tree != null) {
+              const defaultData = tree.find((x) => x.isDefault)?.items;
+              const data = defaultData != null ? this.sortItems(defaultData) : [];
+              this.dataSource.data = [...data];
+            }
+          }),
+          takeUntil(this._destroy$)
+        )
+        .subscribe();
   }
 
   ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
+    this._categoryRepo.ngOnDestroy();
   }
 
-  // hasChild(a: number, node: INavigationItem): boolean {
-  //   return !!node.children && node.children.length > 0;
-  // }
+  onCancel(): void {
+    // this._categoryRepo.resetChanged();
+  }
 
-  // onRouterLinkActive(active: boolean, node: INavigationItem): void {
-  //   active ? this.treeControl.expandDescendants(node) : void 0;
-  // }
+  onLogoChange(): void {
+    console.log('Logo changed');
+  }
 
-  // sortItems(items: INavigationItem[]): INavigationItem[] {
-  //   items.forEach((element) => {
-  //     if (element.children != null) {
-  //       element.children = this.sortItems(element.children);
-  //     }
-  //   });
-  //   return items.sort((a, b) => a.order - b.order);
-  // }
+  onSave(): void {
+    // this._shopService.updateShopInfo().subscribe();
+  }
+
+  hasChild(a: number, node: ICategoryItemData): boolean {
+    return !!node.children && node.children.length > 0;
+  }
+
+  sortItems(items: ICategoryItemData[]): ICategoryItemData[] {
+    items.forEach((element) => {
+      if (element.children != null) {
+        element.children = this.sortItems(element.children);
+      }
+    });
+    return items.sort((a, b) => a.order - b.order);
+  }
 }

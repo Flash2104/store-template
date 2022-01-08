@@ -12,7 +12,13 @@ export class CategoryRepository implements OnDestroy {
     config: { idKey: 'id' };
   } = createState(
     withEntities<ICategoryTreeData>({ initialValue: [], idKey: 'id' }),
-    withProps<{ loading: boolean }>({ loading: false })
+    withProps<{
+      loading: boolean;
+      isChanged: boolean;
+    }>({
+      loading: false,
+      isChanged: false
+    })
   );
 
   _name: string = `categories-${uuidv1().substring(0, 8)}`;
@@ -22,6 +28,7 @@ export class CategoryRepository implements OnDestroy {
       entities: Record<number, ICategoryTreeData>;
       ids: number[];
       loading: boolean;
+      isChanged: boolean;
     };
     name: string;
     config: { idKey: 'id' };
@@ -31,12 +38,16 @@ export class CategoryRepository implements OnDestroy {
     config: this._state.config,
   });
 
-  categories$: Observable<ICategoryTreeData[] | null> = this._store.pipe(
+  trees$: Observable<ICategoryTreeData[] | null> = this._store.pipe(
     selectAll()
   );
 
   loading$: Observable<boolean> = this._store.pipe(
     select((st) => st.loading)
+  );
+
+  isChanged$: Observable<boolean> = this._store.pipe(
+    select((st) => st.isChanged)
   );
 
   setLoading(loading: boolean): void {
