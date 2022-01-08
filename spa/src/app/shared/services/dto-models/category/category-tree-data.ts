@@ -8,7 +8,7 @@ export interface ICategoryItemData {
 }
 
 export interface ICategoryTreeData {
-  id: string;
+  id: number;
   title: string;
   isDefault: boolean;
   items: ICategoryItemData[] | null | undefined;

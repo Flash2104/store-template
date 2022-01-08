@@ -1,3 +1,4 @@
+import { CategoryRepository } from './category.repository';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import {
   ChangeDetectionStrategy,
@@ -7,12 +8,14 @@ import {
 } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Subject } from 'rxjs';
+import { CategoryService } from './category.service';
 
 @Component({
   selector: 'str-admin-categories',
   templateUrl: './admin-categories.component.html',
   styleUrls: ['./admin-categories.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CategoryService, CategoryRepository]
 })
 export class AdminCategoriesComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
