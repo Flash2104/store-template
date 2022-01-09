@@ -1,6 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, mergeMap, Observable, of, take } from 'rxjs';
+import { catchError, map, mergeMap, Observable, of, take, tap, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthRepository } from '../repository/auth.repository';
 import { ISignInRequest } from './dto-models/auth/sign-in/sign-in-request';
@@ -13,11 +17,19 @@ import { IGetCurrentProfileResponse } from './dto-models/profile/get-current-pro
 import { IGetCityReferencesResponse } from './dto-models/references/cities/cities-dto';
 import { IServerResponse } from './dto-models/server-response';
 import { IGetStoreInfoResponse } from './dto-models/store/get-store-info';
-import { IUpdateStoreInfoRequest, IUpdateStoreInfoResponse } from './dto-models/store/update-store-info';
+import {
+  IUpdateStoreInfoRequest,
+  IUpdateStoreInfoResponse,
+} from './dto-models/store/update-store-info';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
-  constructor(private _http: HttpClient, private _authRepo: AuthRepository) {}
+  constructor(
+    private _http: HttpClient,
+    private _authRepo: AuthRepository,
+    private _snackBarService: SnackbarService
+  ) {}
 
   /* #region Auth*/
 
@@ -67,7 +79,9 @@ export class HttpService {
     );
   }
 
-  updateStoreInfo(data: IUpdateStoreInfoRequest): Observable<IServerResponse<IUpdateStoreInfoResponse>> {
+  updateStoreInfo(
+    data: IUpdateStoreInfoRequest
+  ): Observable<IServerResponse<IUpdateStoreInfoResponse>> {
     return of('api/store/update').pipe(
       mergeMap((url) => this.httpPut<IUpdateStoreInfoResponse>(url, data))
     );
@@ -115,7 +129,21 @@ export class HttpService {
         this._http.get<IServerResponse<T>>(environment.proxyUrl + path, {
           headers,
         })
-      )
+      ),
+      tap((resp) => {
+        if (!resp.isSuccess) {
+          let message = 'Произошла ошибка';
+          if (resp.errors != null && resp.errors[0] != null) {
+            message = resp.errors[0].message;
+          }
+          this._snackBarService.showError(message, 'Ошибка');
+        }
+      }),
+      catchError((err) => {
+        const message = this.tryHandleHttpError(err);
+        this._snackBarService.showError(message, 'Произошла ошибка.');
+        return throwError(() => err);
+      })
     );
   }
 
@@ -128,7 +156,21 @@ export class HttpService {
         this._http.post<IServerResponse<T>>(environment.proxyUrl + path, body, {
           headers,
         })
-      )
+      ),
+      tap((resp) => {
+        if (!resp.isSuccess) {
+          let message = 'Произошла ошибка';
+          if (resp.errors != null && resp.errors[0] != null) {
+            message = resp.errors[0].message;
+          }
+          this._snackBarService.showError(message, 'Ошибка');
+        }
+      }),
+      catchError((err) => {
+        const message = this.tryHandleHttpError(err);
+        this._snackBarService.showError(message, 'Произошла ошибка.');
+        return throwError(() => err);
+      })
     );
   }
 
@@ -141,7 +183,21 @@ export class HttpService {
         this._http.put<IServerResponse<T>>(environment.proxyUrl + path, body, {
           headers,
         })
-      )
+      ),
+      tap((resp) => {
+        if (!resp.isSuccess) {
+          let message = 'Произошла ошибка';
+          if (resp.errors != null && resp.errors[0] != null) {
+            message = resp.errors[0].message;
+          }
+          this._snackBarService.showError(message, 'Ошибка');
+        }
+      }),
+      catchError((err) => {
+        const message = this.tryHandleHttpError(err);
+        this._snackBarService.showError(message, 'Произошла ошибка.');
+        return throwError(() => err);
+      })
     );
   }
 
@@ -152,9 +208,21 @@ export class HttpService {
           responseType: 'blob' as 'json',
           headers,
         })
-      )
-      // eslint-disable-next-line no-use-before-define
-      // catchError((err) => throwError(() => tryHandleHttpError(err)))
+      ),
+      tap((resp) => {
+        if (!resp.isSuccess) {
+          let message = 'Произошла ошибка';
+          if (resp.errors != null && resp.errors[0] != null) {
+            message = resp.errors[0].message;
+          }
+          this._snackBarService.showError(message, 'Ошибка');
+        }
+      }),
+      catchError((err) => {
+        const message = this.tryHandleHttpError(err);
+        this._snackBarService.showError(message, 'Произошла ошибка.');
+        return throwError(() => err);
+      })
     );
   }
 
@@ -218,24 +286,24 @@ export class HttpService {
 
     return url;
   }
-}
 
-// export const tryHandleHttpError = <T>(err: T): string | T => {
-//   if (typeof err === 'string') {
-//     return err;
-//   } else if (err instanceof HttpErrorResponse) {
-//     // try to parse a good response with a human friendly error message
-//     let errMsg: string | null =
-//       (err != null &&
-//         err.error != null &&
-//         err.error.error != null &&
-//         err.error.error.message) ||
-//       null;
-//     if (errMsg == null) {
-//       // no error message received, take message from http response
-//       errMsg = `${err.status}. ${err.statusText}`;
-//     }
-//     return errMsg;
-//   }
-//   return err;
-// };
+  private tryHandleHttpError<T>(err: T): string {
+    if (typeof err === 'string') {
+      return err;
+    } else if (err instanceof HttpErrorResponse) {
+      // try to parse a good response with a human friendly error message
+      let errMsg: string | null =
+        (err != null &&
+          err.error != null &&
+          err.error.error != null &&
+          err.error.error.message) ||
+        null;
+      if (errMsg == null) {
+        // no error message received, take message from http response
+        errMsg = `${err.status}. ${err.statusText}`;
+      }
+      return errMsg;
+    }
+    return 'Сервис недоступен. Попробуйте позднее';
+  }
+}

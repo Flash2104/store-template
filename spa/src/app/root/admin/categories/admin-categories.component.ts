@@ -8,7 +8,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { Observable, Subject, takeUntil, tap } from 'rxjs';
+import { Observable, Subject, takeUntil, tap, switchMap } from 'rxjs';
 import { CategoryService } from './category.service';
 import {
   ICategoryItemData,
@@ -29,6 +29,14 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   );
 
   loading$: Observable<boolean> = this._categoryRepo.loading$.pipe(
+    takeUntil(this._destroy$)
+  );
+
+  loadingTree$: Observable<boolean> = this._categoryRepo.loadingTree$.pipe(
+    takeUntil(this._destroy$)
+  );
+
+  editTree$: Observable<ICategoryTreeData | null> = this._categoryRepo.editTree$.pipe(
     takeUntil(this._destroy$)
   );
 
@@ -65,9 +73,9 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this._categoryService.loadCategories().subscribe();
+    this._categoryService.loadCategoryTrees().subscribe();
     this.form.controls.treeSelect.valueChanges.pipe(
-      tap(v => console.log(v)),
+      switchMap(v => this._categoryService.loadCategoryTrees()),
       takeUntil(this._destroy$)
     ).subscribe();
   }
@@ -79,11 +87,11 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   }
 
   onCancel(): void {
-    // this._categoryRepo.resetChanged();
+    this._categoryRepo.resetChanged();
   }
 
   createTree(): void {
-    console.log('Новое дерево');
+    this._categoryRepo.createNewTree();
   }
 
   onSave(): void {

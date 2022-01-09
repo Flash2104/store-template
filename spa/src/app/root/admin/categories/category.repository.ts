@@ -14,10 +14,14 @@ export class CategoryRepository implements OnDestroy {
     withEntities<ICategoryTreeData>({ initialValue: [], idKey: 'id' }),
     withProps<{
       loading: boolean;
+      loadingTree: boolean;
       isChanged: boolean;
+      editTree: ICategoryTreeData | null;
     }>({
       loading: false,
-      isChanged: false
+      loadingTree: false,
+      isChanged: false,
+      editTree: null,
     })
   );
 
@@ -27,8 +31,10 @@ export class CategoryRepository implements OnDestroy {
     state: {
       entities: Record<number, ICategoryTreeData>;
       ids: number[];
+      loadingTree: boolean;
       loading: boolean;
       isChanged: boolean;
+      editTree: ICategoryTreeData | null;
     };
     name: string;
     config: { idKey: 'id' };
@@ -42,12 +48,15 @@ export class CategoryRepository implements OnDestroy {
     selectAll()
   );
 
-  loading$: Observable<boolean> = this._store.pipe(
-    select((st) => st.loading)
-  );
+  loading$: Observable<boolean> = this._store.pipe(select((st) => st.loading));
+  loadingTree$: Observable<boolean> = this._store.pipe(select((st) => st.loadingTree));
 
   isChanged$: Observable<boolean> = this._store.pipe(
     select((st) => st.isChanged)
+  );
+
+  editTree$: Observable<ICategoryTreeData | null> = this._store.pipe(
+    select((st) => st.editTree)
   );
 
   setLoading(loading: boolean): void {
@@ -57,10 +66,45 @@ export class CategoryRepository implements OnDestroy {
     }));
   }
 
+  setGetTreeLoading(loading: boolean): void {
+    this._store.update((state) => ({
+      ...state,
+      loadingTree: loading,
+    }));
+  }
+
   upsertCategories(data: ICategoryTreeData[] | null): void {
     if (data != null) {
       this._store.update(upsertEntities(data));
     }
+  }
+
+  setSelectedTree(data: ICategoryTreeData | null): void {
+    this._store.update((st) => ({
+      ...st,
+      editTree: data,
+    }));
+  }
+
+  createNewTree(): void {
+    this._store.update((st) => ({
+      ...st,
+      editTree: {
+        id: 0,
+        isDefault: false,
+        title: 'Новое дерево категорий',
+        items: [],
+      },
+      isChanged: true,
+    }));
+  }
+
+  resetChanged(): void {
+    this._store.update((st) => ({
+      ...st,
+      editTree: null,
+      isChanged: false,
+    }));
   }
 
   ngOnDestroy(): void {

@@ -48,6 +48,7 @@ namespace StoreApi.Controllers
         [Authorize(Roles = RolesConst.Manager)]
         public async Task<ServerResponseDto<GetCategoryTreeResponseDto>> Get(int id)
         {
+            await Task.Delay(1000);
             var logPath = $"{nameof(CategoryController)} {nameof(Get)} | ";
             return await HandleGetRequest(
                 _categoryService.GetTree,
