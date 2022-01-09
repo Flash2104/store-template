@@ -1,3 +1,4 @@
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CategoryRepository } from './category.repository';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import {
@@ -9,27 +10,54 @@ import {
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Observable, Subject, takeUntil, tap } from 'rxjs';
 import { CategoryService } from './category.service';
-import { ICategoryItemData } from 'src/app/shared/services/dto-models/category/category-tree-data';
+import {
+  ICategoryItemData,
+  ICategoryTreeData,
+} from 'src/app/shared/services/dto-models/category/category-tree-data';
 
 @Component({
   selector: 'str-admin-categories',
   templateUrl: './admin-categories.component.html',
   styleUrls: ['./admin-categories.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CategoryService, CategoryRepository]
+  providers: [CategoryService, CategoryRepository],
 })
 export class AdminCategoriesComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
-
   isChanged$: Observable<boolean> = this._categoryRepo.isChanged$.pipe(
     takeUntil(this._destroy$)
   );
 
-  treeControl: NestedTreeControl<ICategoryItemData> = new NestedTreeControl<ICategoryItemData>(
-    (node) => node.children
+  loading$: Observable<boolean> = this._categoryRepo.loading$.pipe(
+    takeUntil(this._destroy$)
   );
 
-  dataSource: MatTreeNestedDataSource<ICategoryItemData> = new MatTreeNestedDataSource<ICategoryItemData>();
+  dataSource: MatTreeNestedDataSource<ICategoryItemData> =
+    new MatTreeNestedDataSource<ICategoryItemData>();
+
+  treeControl: NestedTreeControl<ICategoryItemData> =
+    new NestedTreeControl<ICategoryItemData>((node) => node.children);
+
+  form: FormGroup = new FormGroup({
+    title: new FormControl(null, [Validators.required]),
+    isDefault: new FormControl(false),
+    treeSelect: new FormControl(null),
+  });
+
+  trees$: Observable<ICategoryTreeData[] | null> =
+    this._categoryRepo.trees$.pipe(
+      tap((trees) => {
+        if (trees != null && trees.length !== 0) {
+          const defaultData = trees.find((x) => x.isDefault);
+          if(defaultData != null) {
+            const data = defaultData.items != null ? this.sortItems(defaultData.items) : [];
+            this.dataSource.data = [...data];
+            this.form.controls.treeSelect.setValue(defaultData.id);
+          }
+        }
+      }),
+      takeUntil(this._destroy$)
+    );
 
   constructor(
     private _categoryService: CategoryService,
@@ -37,19 +65,11 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-      this._categoryService.loadCategories().subscribe();
-      this._categoryRepo.trees$
-        .pipe(
-          tap((tree) => {
-            if (tree != null) {
-              const defaultData = tree.find((x) => x.isDefault)?.items;
-              const data = defaultData != null ? this.sortItems(defaultData) : [];
-              this.dataSource.data = [...data];
-            }
-          }),
-          takeUntil(this._destroy$)
-        )
-        .subscribe();
+    this._categoryService.loadCategories().subscribe();
+    this.form.controls.treeSelect.valueChanges.pipe(
+      tap(v => console.log(v)),
+      takeUntil(this._destroy$)
+    ).subscribe();
   }
 
   ngOnDestroy(): void {
@@ -62,8 +82,8 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
     // this._categoryRepo.resetChanged();
   }
 
-  onLogoChange(): void {
-    console.log('Logo changed');
+  createTree(): void {
+    console.log('Новое дерево');
   }
 
   onSave(): void {

@@ -1,77 +1,12 @@
-
-$topPadding: 68px;
-@mixin fill {
-  min-height: 100%;
-}
-.sidenav-container {
-  @include fill;
-  height: 100%;
-  // margin-top: $topPadding;
+.tree-select {
+  width: 450px;
+  height: 40px;
 }
 
-.sidenav-nav {
-  width: 250px;
-  user-select: none;
-  margin-top: $topPadding;
-}
-
-.sidenav-body {
-  @include fill;
-  height: 100%;
-  padding-top: $topPadding;
-
-}
-
-
-.sidenav-card {
-  @include fill;
-}
-
-.sidenav-card-content {
-  @include fill;
-}
-
-.link-button {
+.create-button {
   display: block;
   font-size: 14px;
   padding: 4px 0;
-  width: 100%;
+  width: 200px;
   align-items: center;
-}
-
-.link-button-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.link-button > span + .mat-button-wrapper {
-  width: 100%;
-}
-
-.tree-invisible {
-  display: none;
-}
-
-.tree ul,
-.tree li {
-  margin-top: 0;
-  margin-bottom: 0;
-  list-style-type: none;
-}
-
-li:hover {
-  cursor: pointer;
-}
-
-.list-group-item {
-  background-color: inherit;
-}
-
-.list-group-item:hover {
-  background-color: gainsboro;
-}
-
-.nav-pills {
-  padding-left: 1rem;
 }
