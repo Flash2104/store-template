@@ -75,7 +75,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._categoryService.loadCategoryTrees().subscribe();
     this.form.controls.treeSelect.valueChanges.pipe(
-      switchMap(v => this._categoryService.loadCategoryTrees()),
+      switchMap(v => this._categoryService.loadCategoryTree(v.id)),
       takeUntil(this._destroy$)
     ).subscribe();
   }
