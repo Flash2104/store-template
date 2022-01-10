@@ -10,6 +10,6 @@ export interface ICategoryItemData {
 export interface ICategoryTreeData {
   id: number;
   title: string;
-  isDefault: boolean;
-  items: ICategoryItemData[] | null | undefined;
+  isDefault?: boolean | null | undefined;
+  items?: ICategoryItemData[] | null | undefined;
 }

@@ -1,5 +1,3 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CategoryRepository } from './category.repository';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import {
   ChangeDetectionStrategy,
@@ -7,13 +5,18 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { Observable, Subject, takeUntil, tap, switchMap } from 'rxjs';
-import { CategoryService } from './category.service';
+import { filter, Observable, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import {
   ICategoryItemData,
   ICategoryTreeData,
 } from 'src/app/shared/services/dto-models/category/category-tree-data';
+import {
+  CategoryRepository,
+  ICategoryTreeEditData,
+} from './category.repository';
+import { CategoryService } from './category.service';
 
 @Component({
   selector: 'str-admin-categories',
@@ -36,9 +39,20 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
     takeUntil(this._destroy$)
   );
 
-  editTree$: Observable<ICategoryTreeData | null> = this._categoryRepo.editTree$.pipe(
-    takeUntil(this._destroy$)
-  );
+  editTree$: Observable<ICategoryTreeEditData | null> =
+    this._categoryRepo.editTree$.pipe(
+      tap((v) => {
+        if (v != null) {
+          this.form.controls.title.setValue(v.title, { emitEvent: false });
+          this.form.controls.isDefault.setValue(v.isDefault, {
+            emitEvent: false,
+          });
+          const data = v.items != null ? this.sortItems(v.items) : [];
+          this.dataSource.data = [...data];
+        }
+      }),
+      takeUntil(this._destroy$)
+    );
 
   dataSource: MatTreeNestedDataSource<ICategoryItemData> =
     new MatTreeNestedDataSource<ICategoryItemData>();
@@ -53,19 +67,7 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
   });
 
   trees$: Observable<ICategoryTreeData[] | null> =
-    this._categoryRepo.trees$.pipe(
-      tap((trees) => {
-        if (trees != null && trees.length !== 0) {
-          const defaultData = trees.find((x) => x.isDefault);
-          if(defaultData != null) {
-            const data = defaultData.items != null ? this.sortItems(defaultData.items) : [];
-            this.dataSource.data = [...data];
-            this.form.controls.treeSelect.setValue(defaultData.id);
-          }
-        }
-      }),
-      takeUntil(this._destroy$)
-    );
+    this._categoryRepo.trees$.pipe(takeUntil(this._destroy$));
 
   constructor(
     private _categoryService: CategoryService,
@@ -74,10 +76,37 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._categoryService.loadCategoryTrees().subscribe();
-    this.form.controls.treeSelect.valueChanges.pipe(
-      switchMap(v => this._categoryService.loadCategoryTree(v.id)),
-      takeUntil(this._destroy$)
-    ).subscribe();
+    this._categoryRepo.originalTree$
+      .pipe(
+        tap((v) => {
+          this.form.controls.treeSelect.setValue(v?.id, {
+            emitEvent: false,
+          });
+        }),
+        takeUntil(this._destroy$)
+      )
+      .subscribe();
+    this.form.controls.treeSelect.valueChanges
+      .pipe(
+        filter((v) => v != null),
+        switchMap((v) => this._categoryService.loadCategoryTree(v)),
+        takeUntil(this._destroy$)
+      )
+      .subscribe();
+
+    this.form.controls.isDefault.valueChanges
+      .pipe(
+        tap((v) => this._categoryRepo.setIsDefault(v)),
+        takeUntil(this._destroy$)
+      )
+      .subscribe();
+
+    this.form.controls.title.valueChanges
+      .pipe(
+        tap((v) => this._categoryRepo.setTitle(v)),
+        takeUntil(this._destroy$)
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {
@@ -109,5 +138,11 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
       }
     });
     return items.sort((a, b) => a.order - b.order);
+  }
+
+  findTreeById(
+    trees: ICategoryTreeData[] | null
+  ): ICategoryTreeData | null | undefined {
+    return trees?.find((x) => x.id === this.form.controls.treeSelect.value);
   }
 }
