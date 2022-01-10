@@ -1,6 +1,6 @@
 export interface ICategoryItemData {
-  id: number;
-  title: string;
+  id?: number | null | undefined;
+  title?: string | null | undefined;
   order: number;
   icon: string | null | undefined;
   isDisabled: string | null | undefined;

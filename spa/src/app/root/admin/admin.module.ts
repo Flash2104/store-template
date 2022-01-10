@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +17,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminNavigationComponent } from './admin-navigation.component';
-import { AdminCategoriesComponent } from './categories/admin-categories.component';
+import { AdminCategoryTreeComponent } from './categories/admin-category-tree.component';
 import { AdminProductsComponent } from './products/admin-products.component';
 import { AdminShopComponent } from './shop/admin-shop.component';
 
@@ -33,7 +34,7 @@ const routes: Routes = [
       },
       {
         path: 'categories',
-        component: AdminCategoriesComponent,
+        component: AdminCategoryTreeComponent,
       },
       {
         path: 'products',
@@ -47,7 +48,7 @@ const routes: Routes = [
   declarations: [
     AdminNavigationComponent,
     AdminShopComponent,
-    AdminCategoriesComponent,
+    AdminCategoryTreeComponent,
     AdminProductsComponent,
   ],
   imports: [
@@ -56,6 +57,7 @@ const routes: Routes = [
     MatGridListModule,
     MatCardModule,
     MatIconModule,
+    DragDropModule,
     MatTreeModule,
     MatSelectModule,
     MatTooltipModule,

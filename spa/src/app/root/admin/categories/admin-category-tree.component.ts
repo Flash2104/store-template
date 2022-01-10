@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import {
   ChangeDetectionStrategy,
@@ -19,13 +20,13 @@ import {
 import { CategoryService } from './category.service';
 
 @Component({
-  selector: 'str-admin-categories',
-  templateUrl: './admin-categories.component.html',
-  styleUrls: ['./admin-categories.component.scss'],
+  selector: 'str-admin-category-tree',
+  templateUrl: './admin-category-tree.component.html',
+  styleUrls: ['./admin-category-tree.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CategoryService, CategoryRepository],
 })
-export class AdminCategoriesComponent implements OnInit, OnDestroy {
+export class AdminCategoryTreeComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
   isChanged$: Observable<boolean> = this._categoryRepo.isChanged$.pipe(
     takeUntil(this._destroy$)
@@ -54,6 +55,24 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
       takeUntil(this._destroy$)
     );
 
+  editCategory$: Observable<ICategoryItemData | null> =
+    this._categoryRepo.editCategory$.pipe(
+      tap((v) => {
+        if (v != null) {
+          this.categoryForm.controls.title.setValue(v.title, {
+            emitEvent: false,
+          });
+          this.categoryForm.controls.isDisabled.setValue(v.isDisabled, {
+            emitEvent: false,
+          });
+          this.categoryForm.controls.icon.setValue(v.icon, {
+            emitEvent: false,
+          });
+        }
+      }),
+      takeUntil(this._destroy$)
+    );
+
   dataSource: MatTreeNestedDataSource<ICategoryItemData> =
     new MatTreeNestedDataSource<ICategoryItemData>();
 
@@ -64,6 +83,12 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
     title: new FormControl(null, [Validators.required]),
     isDefault: new FormControl(false),
     treeSelect: new FormControl(null),
+  });
+
+  categoryForm: FormGroup = new FormGroup({
+    title: new FormControl(null, [Validators.required]),
+    icon: new FormControl(false),
+    isDisabled: new FormControl(null),
   });
 
   trees$: Observable<ICategoryTreeData[] | null> =
@@ -144,5 +169,43 @@ export class AdminCategoriesComponent implements OnInit, OnDestroy {
     trees: ICategoryTreeData[] | null
   ): ICategoryTreeData | null | undefined {
     return trees?.find((x) => x.id === this.form.controls.treeSelect.value);
+  }
+
+  selectCategory(node: ICategoryItemData): void {
+    this._categoryRepo.setSelectedCategory(node);
+  }
+
+  closeCategory(): void {
+    this._categoryRepo.resetSelectedCategory();
+  }
+
+  confirmCategory(): void {
+    this._categoryRepo.resetSelectedCategory();
+  }
+
+  drop(event: CdkDragDrop<ICategoryItemData[]>, items: unknown): void {
+    moveItemInArray(items as [], event.previousIndex, event.currentIndex);
+  }
+
+  getParent(
+    node: ICategoryItemData,
+    getLevel: (x: ICategoryItemData) => number,
+    dataNodes: ICategoryItemData[]
+  ): ICategoryItemData | null {
+    const currentLevel = getLevel(node);
+    if (currentLevel < 1) {
+      return null;
+    }
+
+    const startIndex = dataNodes.indexOf(node) - 1;
+
+    for (let i = startIndex; i >= 0; i--) {
+      const currentNode = dataNodes[i];
+
+      if (getLevel(currentNode) < currentLevel) {
+        return currentNode;
+      }
+    }
+    return null;
   }
 }
