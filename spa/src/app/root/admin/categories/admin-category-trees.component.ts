@@ -1,5 +1,3 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { NestedTreeControl } from '@angular/cdk/tree';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,12 +5,20 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { filter, Observable, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  Observable,
+  Subject,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import {
   ICategoryItemData,
   ICategoryTreeData,
 } from 'src/app/shared/services/dto-models/category/category-tree-data';
+import { IItemNode } from '../../../shared/components/editable-tree/editable-tree.component';
 import {
   CategoryRepository,
   ICategoryTreeEditData,
@@ -20,13 +26,13 @@ import {
 import { CategoryService } from './category.service';
 
 @Component({
-  selector: 'str-admin-category-tree',
-  templateUrl: './admin-category-tree.component.html',
-  styleUrls: ['./admin-category-tree.component.scss'],
+  selector: 'str-admin-category-trees',
+  templateUrl: './admin-category-trees.component.html',
+  styleUrls: ['./admin-category-trees.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CategoryService, CategoryRepository],
 })
-export class AdminCategoryTreeComponent implements OnInit, OnDestroy {
+export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
   isChanged$: Observable<boolean> = this._categoryRepo.isChanged$.pipe(
     takeUntil(this._destroy$)
@@ -48,47 +54,22 @@ export class AdminCategoryTreeComponent implements OnInit, OnDestroy {
           this.form.controls.isDefault.setValue(v.isDefault, {
             emitEvent: false,
           });
-          const data = v.items != null ? this.sortItems(v.items) : [];
-          this.dataSource.data = [...data];
+          this.treeItems$.next(
+            v.items != null ? this.mapToTreeItems(v.items, null) : []
+          );
         }
       }),
       takeUntil(this._destroy$)
     );
 
-  editCategory$: Observable<ICategoryItemData | null> =
-    this._categoryRepo.editCategory$.pipe(
-      tap((v) => {
-        if (v != null) {
-          this.categoryForm.controls.title.setValue(v.title, {
-            emitEvent: false,
-          });
-          this.categoryForm.controls.isDisabled.setValue(v.isDisabled, {
-            emitEvent: false,
-          });
-          this.categoryForm.controls.icon.setValue(v.icon, {
-            emitEvent: false,
-          });
-        }
-      }),
-      takeUntil(this._destroy$)
-    );
-
-  dataSource: MatTreeNestedDataSource<ICategoryItemData> =
-    new MatTreeNestedDataSource<ICategoryItemData>();
-
-  treeControl: NestedTreeControl<ICategoryItemData> =
-    new NestedTreeControl<ICategoryItemData>((node) => node.children);
+  treeItems$: BehaviorSubject<IItemNode[]> = new BehaviorSubject<IItemNode[]>(
+    []
+  );
 
   form: FormGroup = new FormGroup({
     title: new FormControl(null, [Validators.required]),
     isDefault: new FormControl(false),
     treeSelect: new FormControl(null),
-  });
-
-  categoryForm: FormGroup = new FormGroup({
-    title: new FormControl(null, [Validators.required]),
-    icon: new FormControl(false),
-    isDisabled: new FormControl(null),
   });
 
   trees$: Observable<ICategoryTreeData[] | null> =
@@ -138,6 +119,7 @@ export class AdminCategoryTreeComponent implements OnInit, OnDestroy {
     this._destroy$.next();
     this._destroy$.complete();
     this._categoryRepo.ngOnDestroy();
+    this.treeItems$.complete();
   }
 
   onCancel(): void {
@@ -152,60 +134,47 @@ export class AdminCategoryTreeComponent implements OnInit, OnDestroy {
     // this._shopService.updateShopInfo().subscribe();
   }
 
-  hasChild(a: number, node: ICategoryItemData): boolean {
-    return !!node.children && node.children.length > 0;
-  }
+  // hasChild(a: number, node: ICategoryItemData): boolean {
+  //   return !!node.children && node.children.length > 0;
+  // }
 
-  sortItems(items: ICategoryItemData[]): ICategoryItemData[] {
-    items.forEach((element) => {
-      if (element.children != null) {
-        element.children = this.sortItems(element.children);
-      }
-    });
-    return items.sort((a, b) => a.order - b.order);
+  mapToTreeItems(
+    items: ICategoryItemData[],
+    parent: IItemNode | null
+  ): IItemNode[] {
+    let isRoot = false;
+    if (parent == null) {
+      parent = {
+        title: 'root',
+        children: [],
+        order: 0,
+        parent: null,
+      };
+      isRoot = true;
+    }
+    const result = items
+      .sort((a, b) => a.order - b.order)
+      .map((element) => {
+        const node = {
+          id: element.id,
+          title: element.title,
+          order: element.order,
+        } as IItemNode;
+        node.children =
+          (element.children && this.mapToTreeItems(element.children, node)) ||
+          [];
+        node.parent = parent;
+        return node;
+      });
+    if (isRoot) {
+      parent.children = result;
+    }
+    return result;
   }
 
   findTreeById(
     trees: ICategoryTreeData[] | null
   ): ICategoryTreeData | null | undefined {
     return trees?.find((x) => x.id === this.form.controls.treeSelect.value);
-  }
-
-  selectCategory(node: ICategoryItemData): void {
-    this._categoryRepo.setSelectedCategory(node);
-  }
-
-  closeCategory(): void {
-    this._categoryRepo.resetSelectedCategory();
-  }
-
-  confirmCategory(): void {
-    this._categoryRepo.resetSelectedCategory();
-  }
-
-  drop(event: CdkDragDrop<ICategoryItemData[]>, items: unknown): void {
-    moveItemInArray(items as [], event.previousIndex, event.currentIndex);
-  }
-
-  getParent(
-    node: ICategoryItemData,
-    getLevel: (x: ICategoryItemData) => number,
-    dataNodes: ICategoryItemData[]
-  ): ICategoryItemData | null {
-    const currentLevel = getLevel(node);
-    if (currentLevel < 1) {
-      return null;
-    }
-
-    const startIndex = dataNodes.indexOf(node) - 1;
-
-    for (let i = startIndex; i >= 0; i--) {
-      const currentNode = dataNodes[i];
-
-      if (getLevel(currentNode) < currentLevel) {
-        return currentNode;
-      }
-    }
-    return null;
   }
 }

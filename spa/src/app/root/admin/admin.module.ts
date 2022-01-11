@@ -13,11 +13,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatTreeModule } from '@angular/material/tree';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminNavigationComponent } from './admin-navigation.component';
-import { AdminCategoryTreeComponent } from './categories/admin-category-tree.component';
+import { AdminCategoryTreesComponent } from './categories/admin-category-trees.component';
 import { AdminProductsComponent } from './products/admin-products.component';
 import { AdminShopComponent } from './shop/admin-shop.component';
 
@@ -34,7 +33,7 @@ const routes: Routes = [
       },
       {
         path: 'categories',
-        component: AdminCategoryTreeComponent,
+        component: AdminCategoryTreesComponent,
       },
       {
         path: 'products',
@@ -48,7 +47,7 @@ const routes: Routes = [
   declarations: [
     AdminNavigationComponent,
     AdminShopComponent,
-    AdminCategoryTreeComponent,
+    AdminCategoryTreesComponent,
     AdminProductsComponent,
   ],
   imports: [
@@ -58,7 +57,6 @@ const routes: Routes = [
     MatCardModule,
     MatIconModule,
     DragDropModule,
-    MatTreeModule,
     MatSelectModule,
     MatTooltipModule,
     MatTableModule,

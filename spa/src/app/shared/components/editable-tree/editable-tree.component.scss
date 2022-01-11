@@ -1,0 +1,44 @@
+
+.node-list {
+  width: 500px;
+  max-width: 100%;
+  border: solid 1px;
+  min-height: 60px;
+  display: block;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.node-box {
+  display: block;
+  cursor: move;
+  font-size: 14px;
+  padding: 4px 0;
+  width: 100%;
+  align-items: center;
+}
+
+.node-box-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.node-box > span + .mat-button-wrapper {
+  width: 100%;
+}
+
+.tree-invisible {
+  display: none;
+}
+
+.tree ul,
+.tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+.nav-pills {
+  padding-left: 1rem;
+}
