@@ -1,46 +1,38 @@
 <!-- Дерево категорий -->
-<div class="row">
+<div *ngIf="items" class="row">
   <div class="col-xl-6 col-sm-12">
     <mat-tree
       [dataSource]="dataSource"
       [treeControl]="treeControl"
-      class="tree"
+      [trackBy]="trackByFn"
+      class="node-list"
     >
       <!-- This is the tree node template for leaf nodes -->
       <mat-tree-node
-        class="node-list"
+        class="node-box"
         *matTreeNodeDef="let node"
         matTreeNodeToggle
-        cdkDropList
-        (cdkDropListDropped)="drop($event, node.parent.children)"
       >
-        <div cdkDrag class="node-box">
-          <div class="d-flex align-items-center">
-            <mat-icon class="ms-3" mat-list-icon>{{ node.icon }}</mat-icon>
-            <div class="mx-3">{{ node.title }}</div>
-            <button mat-icon-button (click)="onEditItem(node)">
-              <mat-icon mat-list-icon> edit </mat-icon>
-            </button>
+        <button mat-button class="node-box" (click)="onEditItem(node)">
+          <div class="node-box-content">
+            <div class="d-flex align-items-center">
+              <mat-icon class="ms-3" mat-list-icon>{{ node.icon }}</mat-icon>
+              <div class="mx-3">{{ node.title }}</div>
+            </div>
           </div>
-        </div>
+        </button>
       </mat-tree-node>
       <!-- This is the tree node template for expandable nodes -->
       <mat-nested-tree-node
-        class="node-list"
+        class="node-box"
         *matTreeNodeDef="let node; when: hasChild"
-        cdkDropList
-        (cdkDropListDropped)="drop($event, node.parent.children)"
       >
-        <div cdkDrag class="node-box">
+        <button mat-button class="node-box" (click)="onEditItem(node)">
           <div class="node-box-content">
             <div class="d-flex align-items-center">
               <mat-icon class="ms-3" mat-list-icon>{{ node.icon }}</mat-icon>
               <div class="ms-3">{{ node.title }}</div>
-              <button mat-icon-button (click)="onEditItem(node)">
-                <mat-icon mat-list-icon> edit </mat-icon>
-              </button>
             </div>
-            <!-- <div class="flex-grow-1"></div> -->
             <button mat-icon-button matTreeNodeToggle>
               <mat-icon class="mat-icon-rtl-mirror">
                 {{
@@ -49,9 +41,9 @@
               </mat-icon>
             </button>
           </div>
-        </div>
+        </button>
         <div
-          class="nav-pills"
+          class="nav-pills node-list"
           [class.tree-invisible]="!treeControl.isExpanded(node)"
         >
           <ng-container matTreeNodeOutlet></ng-container>
@@ -60,10 +52,17 @@
     </mat-tree>
   </div>
   <div class="col-xl-6 col-sm-12">
+    <str-tree-item-order
+      [items]="editItemOrder"
+      (cancel)="editItemOrder = null"
+      (selected)="onEditItem($event)"
+      (changed)="onOrderChanged()"
+    >
+    </str-tree-item-order>
     <str-tree-item-edit
-      *ngIf="editItem$ | async as editItem"
+      *ngIf="editItem"
       [item]="editItem"
-      (cancel)="editItem$.next(null)"
+      (cancel)="editItem = null"
     ></str-tree-item-edit>
   </div>
 </div>

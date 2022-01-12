@@ -1,0 +1,31 @@
+<div *ngIf="items != null">
+  <div class="d-flex align-items-center justify-content-between">
+    <mat-label>Порядок</mat-label>
+    <div>
+      <button mat-icon-button matTooltip="Отмена" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+      <!-- <button mat-icon-button matTooltip="Подтвердить" [disabled]="(isChanged$ | async) === true" (click)="onConfirm(data)">
+          <mat-icon>check_circle</mat-icon>
+        </button> -->
+    </div>
+  </div>
+  <mat-divider class="mb-3" [inset]="true"></mat-divider>
+  <div class="order-container" cdkDropList (cdkDropListDropped)="drop($event)">
+    <button
+      cdkDrag
+      *ngFor="let element of items; let i = index"
+      mat-button
+      class="item-box"
+      (click)="onSelect(element)"
+    >
+      <div class="item-box-content">
+        <div class="d-flex align-items-center">
+          <span>{{ element.order }}.</span>
+          <mat-icon class="ms-3" mat-list-icon>{{ element.icon }}</mat-icon>
+          <div class="mx-3">{{ element.title }}</div>
+        </div>
+      </div>
+    </button>
+  </div>
+</div>

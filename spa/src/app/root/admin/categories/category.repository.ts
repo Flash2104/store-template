@@ -27,14 +27,12 @@ export class CategoryRepository implements OnDestroy {
       loadingTree: boolean;
       isChanged: boolean;
       editTree: ICategoryTreeEditData | null;
-      editCategory: ICategoryItemData | null;
       originalTree: ICategoryTreeEditData | null;
     }>({
       loading: false,
       loadingTree: false,
       isChanged: false,
       editTree: null,
-      editCategory: null,
       originalTree: null,
     })
   );
@@ -49,7 +47,6 @@ export class CategoryRepository implements OnDestroy {
       loading: boolean;
       isChanged: boolean;
       editTree: ICategoryTreeEditData | null;
-      editCategory: ICategoryItemData | null;
       originalTree: ICategoryTreeEditData | null;
     };
     name: string;
@@ -79,10 +76,6 @@ export class CategoryRepository implements OnDestroy {
 
   originalTree$: Observable<ICategoryTreeEditData | null> = this._store.pipe(
     select((st) => st.originalTree)
-  );
-
-  editCategory$: Observable<ICategoryItemData | null> = this._store.pipe(
-    select((st) => st.editCategory)
   );
 
   setLoading(loading: boolean): void {

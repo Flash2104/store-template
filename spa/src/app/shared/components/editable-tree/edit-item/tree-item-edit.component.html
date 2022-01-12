@@ -1,47 +1,49 @@
-<form *ngIf="item" [formGroup]="form">
-  <table class="mat-table w-100 my-3">
-    <tr class="mat-row py-3">
-      <td class="mat-cell">
-        <mat-form-field class="w-100">
-          <mat-label>Название</mat-label>
-          <input
-            matInput
-            formControlName="title"
-            placeholder="Название дерева"
-          />
-        </mat-form-field>
-      </td>
-    </tr>
-    <tr class="mat-row py-3">
-      <td class="mat-cell">
-        <mat-form-field class="w-100">
-          <mat-label>Material иконка</mat-label>
-          <input
-            matInput
-            formControlName="icon"
-            placeholder="Текстовый ключ иконки"
-          />
-        </mat-form-field>
-      </td>
-    </tr>
-    <tr class="mat-row py-3">
-      <td class="mat-cell">
-        <mat-checkbox formControlName="isDisabled">Отключить</mat-checkbox>
-      </td>
-    </tr>
-  </table>
-  <mat-divider class="mb-3" inset="true"></mat-divider>
-  <div class="text-end">
-    <button mat-icon-button matTooltip="Отмена" (click)="onCancel()">
-      <mat-icon>cancel</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      matTooltip="Подтвердить"
-      [disabled]="form.valid === false"
-      (click)="onConfirm()"
-    >
-      <mat-icon>check_circle</mat-icon>
-    </button>
-  </div>
-</form>
+<div *ngIf="item">
+  <form [formGroup]="form">
+    <table class="mat-table w-100 my-3">
+      <tr class="mat-row py-3">
+        <td class="mat-cell">
+          <mat-form-field class="w-100">
+            <mat-label>Название</mat-label>
+            <input
+              matInput
+              formControlName="title"
+              placeholder="Название дерева"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr class="mat-row py-3">
+        <td class="mat-cell">
+          <mat-form-field class="w-100">
+            <mat-label>Material иконка</mat-label>
+            <input
+              matInput
+              formControlName="icon"
+              placeholder="Текстовый ключ иконки"
+            />
+          </mat-form-field>
+        </td>
+      </tr>
+      <tr class="mat-row py-3">
+        <td class="mat-cell">
+          <mat-checkbox formControlName="isDisabled">Отключить</mat-checkbox>
+        </td>
+      </tr>
+    </table>
+    <mat-divider class="mb-3" inset="true"></mat-divider>
+    <div class="text-end">
+      <button mat-icon-button matTooltip="Отмена" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        matTooltip="Подтвердить"
+        [disabled]="form.valid === false"
+        (click)="onConfirm()"
+      >
+        <mat-icon>check_circle</mat-icon>
+      </button>
+    </div>
+  </form>
+</div>

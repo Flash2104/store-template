@@ -55,16 +55,18 @@ export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
             emitEvent: false,
           });
           this.treeItems$.next(
-            v.items != null ? this.mapToTreeItems(v.items, null) : []
+            v.items != null ? this.mapToTreeItems(v.items, null) : null
           );
+        } else {
+          this.treeItems$.next(null);
         }
       }),
       takeUntil(this._destroy$)
     );
 
-  treeItems$: BehaviorSubject<IItemNode[]> = new BehaviorSubject<IItemNode[]>(
-    []
-  );
+  treeItems$: BehaviorSubject<IItemNode[] | null> = new BehaviorSubject<
+    IItemNode[] | null
+  >(null);
 
   form: FormGroup = new FormGroup({
     title: new FormControl(null, [Validators.required]),

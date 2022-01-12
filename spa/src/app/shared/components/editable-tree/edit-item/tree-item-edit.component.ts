@@ -3,9 +3,11 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -17,7 +19,7 @@ import { IItemNode } from '../editable-tree.component';
   styleUrls: ['./tree-item-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TreeItemEditComponent implements OnInit, OnDestroy {
+export class TreeItemEditComponent implements OnInit, OnChanges, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
 
   @Input() item!: IItemNode;
@@ -26,13 +28,30 @@ export class TreeItemEditComponent implements OnInit, OnDestroy {
 
   form: FormGroup = new FormGroup({
     title: new FormControl(null, [Validators.required]),
-    icon: new FormControl(false),
-    isDisabled: new FormControl(null),
+    icon: new FormControl(null),
+    isDisabled: new FormControl(false),
   });
 
   constructor() {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes.item?.currentValue != null &&
+      changes.item.currentValue !== changes.item.previousValue
+    ) {
+      const currVal = changes.item.currentValue;
+      this.form.controls.title.patchValue(currVal.title);
+      this.form.controls.icon.patchValue(currVal.icon);
+      this.form.controls.isDisabled.patchValue(currVal.isDisabled);
+    }
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.item != null) {
+      this.form.controls.title.patchValue(this.item.title);
+      this.form.controls.icon.patchValue(this.item.icon);
+      this.form.controls.isDisabled.patchValue(this.item.isDisabled);
+    }
+  }
 
   ngOnDestroy(): void {
     this._destroy$.next();
