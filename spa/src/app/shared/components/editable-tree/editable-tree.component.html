@@ -1,10 +1,18 @@
 <!-- Дерево категорий -->
-<div *ngIf="items" class="row">
+<div *ngIf="root" class="row">
   <div class="col-xl-6 col-sm-12">
+    <button mat-stroked-button class="node-box" (click)="onAddChild(root)">
+      <div class="node-box-content">
+        <div class="d-flex align-items-center">
+          <mat-icon class="ms-3">add</mat-icon>
+          <div class="ms-3">Добавить категорию</div>
+        </div>
+      </div>
+    </button>
     <mat-tree
+      #treeSelector
       [dataSource]="dataSource"
       [treeControl]="treeControl"
-      [trackBy]="trackByFn"
       class="node-list"
     >
       <!-- This is the tree node template for leaf nodes -->
@@ -13,11 +21,38 @@
         *matTreeNodeDef="let node"
         matTreeNodeToggle
       >
-        <button mat-button class="node-box" (click)="onEditItem(node)">
+        <button
+          mat-button
+          class="node-box"
+          [color]="getButtonColor(node)"
+          (click)="onEditItem(node)"
+        >
           <div class="node-box-content">
             <div class="d-flex align-items-center">
-              <mat-icon class="ms-3" mat-list-icon>{{ node.icon }}</mat-icon>
-              <div class="mx-3">{{ node.title }}</div>
+              <mat-icon *ngIf="node.isDisabled" class="mx-3"
+                >do_not_disturb_on</mat-icon
+              >
+              <div class="me-3">{{ node.title }}</div>
+              <mat-icon class="me-3">{{ node.icon }}</mat-icon>
+            </div>
+            <div>
+              <button
+                class="me-2"
+                mat-icon-button
+                matTooltip="Удалить категорию"
+                (click)="onRemove(node)"
+              >
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+              <button
+                class="me-2"
+                mat-icon-button
+                [disabled]="node.isDisabled"
+                matTooltip="Добавить подкатегорию"
+                (click)="onAddChild(node)"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
             </div>
           </div>
         </button>
@@ -27,19 +62,48 @@
         class="node-box"
         *matTreeNodeDef="let node; when: hasChild"
       >
-        <button mat-button class="node-box" (click)="onEditItem(node)">
+        <button
+          mat-button
+          class="node-box"
+          [color]="getButtonColor(node)"
+          (click)="onEditItem(node)"
+        >
           <div class="node-box-content">
             <div class="d-flex align-items-center">
-              <mat-icon class="ms-3" mat-list-icon>{{ node.icon }}</mat-icon>
-              <div class="ms-3">{{ node.title }}</div>
+              <button mat-icon-button matTreeNodeToggle>
+                <mat-icon class="mat-icon-rtl-mirror">
+                  {{
+                    treeControl.isExpanded(node)
+                      ? "expand_more"
+                      : "chevron_right"
+                  }}
+                </mat-icon>
+              </button>
+              <mat-icon *ngIf="node.isDisabled" class="mx-3"
+                >do_not_disturb_on</mat-icon
+              >
+              <div class="me-3">{{ node.title }}</div>
+              <mat-icon class="me-3">{{ node.icon }}</mat-icon>
             </div>
-            <button mat-icon-button matTreeNodeToggle>
-              <mat-icon class="mat-icon-rtl-mirror">
-                {{
-                  treeControl.isExpanded(node) ? "expand_more" : "chevron_right"
-                }}
-              </mat-icon>
-            </button>
+            <div>
+              <button
+                class="me-2"
+                mat-icon-button
+                matTooltip="Удалить категорию"
+                (click)="onRemove(node)"
+              >
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+              <button
+                class="me-2"
+                mat-icon-button
+                [disabled]="node.isDisabled"
+                matTooltip="Добавить подкатегорию"
+                (click)="onAddChild(node)"
+              >
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
           </div>
         </button>
         <div
@@ -54,15 +118,20 @@
   <div class="col-xl-6 col-sm-12">
     <str-tree-item-order
       [items]="editItemOrder"
+      [selected]="editItem"
       (cancel)="editItemOrder = null"
-      (selected)="onEditItem($event)"
-      (changed)="onOrderChanged()"
+      (selectedEvent)="onEditItem($event)"
+      (changed)="reRenderTree()"
+      (upEvent)="onUp()"
+      (downEvent)="onDown()"
     >
     </str-tree-item-order>
     <str-tree-item-edit
       *ngIf="editItem"
       [item]="editItem"
       (cancel)="editItem = null"
+      (disabled)="disableAllDescendants($event)"
+      (changed)="reRenderTree()"
     ></str-tree-item-edit>
   </div>
 </div>

@@ -1,6 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
-  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -10,14 +9,14 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { BehaviorSubject, Subject, takeUntil, tap } from 'rxjs';
+import { Subject } from 'rxjs';
 import { IItemNode } from '../editable-tree.component';
 
 @Component({
   selector: 'str-tree-item-order',
   templateUrl: './tree-item-order.component.html',
   styleUrls: ['./tree-item-order.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeItemEditOrderComponent
   implements OnInit, OnChanges, OnDestroy
@@ -25,48 +24,55 @@ export class TreeItemEditOrderComponent
   private _destroy$: Subject<void> = new Subject<void>();
 
   @Input() items: IItemNode[] | null | undefined = null;
-  @Output() selected: EventEmitter<IItemNode> = new EventEmitter<IItemNode>();
+  @Input() selected: IItemNode | null | undefined = null;
+  @Output() selectedEvent: EventEmitter<IItemNode> =
+    new EventEmitter<IItemNode>();
+
   @Output() cancel: EventEmitter<void> = new EventEmitter<void>();
+  @Output() upEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() downEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() changed: EventEmitter<void> = new EventEmitter<void>();
 
-  data$: Subject<IItemNode[] | null> = new Subject<IItemNode[] | null>();
-  isChanged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
   constructor() {}
+  ngOnChanges(changes: SimpleChanges): void {}
 
-  ngOnInit(): void {
-    this.data$
-      .pipe(
-        tap((x) => console.log(x)),
-        takeUntil(this._destroy$)
-      )
-      .subscribe();
-    if (this.items != null && this.items.length > 0) {
-      this.data$.next(this.items);
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes.items != null &&
-      changes.items.currentValue !== changes.items.previousValue
-    ) {
-      this.data$.next(changes.items.currentValue);
-    }
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
-    this.data$.complete();
+  }
+
+  canUp(): boolean {
+    return (
+      this.items != null &&
+      this.items.length > 0 &&
+      this.items[0].parent?.parent != null
+    );
+  }
+
+  canDown(): boolean {
+    return (
+      this.selected != null &&
+      this.selected.children != null &&
+      this.selected.children.length > 0
+    );
   }
 
   onCancel(): void {
     this.cancel.emit();
   }
 
+  onUp(): void {
+    this.upEvent.emit();
+  }
+
+  onDown(): void {
+    this.downEvent.emit();
+  }
+
   onSelect(item: IItemNode): void {
-    this.selected.emit(item);
+    this.selectedEvent.emit(item);
   }
 
   drop(event: CdkDragDrop<IItemNode[]>): void {

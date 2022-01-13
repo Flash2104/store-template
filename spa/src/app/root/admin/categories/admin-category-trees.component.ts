@@ -54,19 +54,24 @@ export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
           this.form.controls.isDefault.setValue(v.isDefault, {
             emitEvent: false,
           });
-          this.treeItems$.next(
-            v.items != null ? this.mapToTreeItems(v.items, null) : null
-          );
+          const root: IItemNode = {
+            title: 'root',
+            children: [],
+            order: 0,
+            parent: null,
+          };
+          root.children =
+            v.items != null ? this.mapToTreeItems(v.items, root) : [];
+          this.root$.next(root);
         } else {
-          this.treeItems$.next(null);
+          this.root$.next(null);
         }
       }),
       takeUntil(this._destroy$)
     );
 
-  treeItems$: BehaviorSubject<IItemNode[] | null> = new BehaviorSubject<
-    IItemNode[] | null
-  >(null);
+  root$: BehaviorSubject<IItemNode | null> =
+    new BehaviorSubject<IItemNode | null>(null);
 
   form: FormGroup = new FormGroup({
     title: new FormControl(null, [Validators.required]),
@@ -121,7 +126,7 @@ export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
     this._destroy$.next();
     this._destroy$.complete();
     this._categoryRepo.ngOnDestroy();
-    this.treeItems$.complete();
+    this.root$.complete();
   }
 
   onCancel(): void {
@@ -136,27 +141,13 @@ export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
     // this._shopService.updateShopInfo().subscribe();
   }
 
-  // hasChild(a: number, node: ICategoryItemData): boolean {
-  //   return !!node.children && node.children.length > 0;
-  // }
-
   mapToTreeItems(
-    items: ICategoryItemData[],
+    items: ICategoryItemData[] | null,
     parent: IItemNode | null
   ): IItemNode[] {
-    let isRoot = false;
-    if (parent == null) {
-      parent = {
-        title: 'root',
-        children: [],
-        order: 0,
-        parent: null,
-      };
-      isRoot = true;
-    }
     const result = items
-      .sort((a, b) => a.order - b.order)
-      .map((element) => {
+      ?.sort((a, b) => a.order - b.order)
+      ?.map((element) => {
         const node = {
           id: element.id,
           title: element.title,
@@ -168,10 +159,7 @@ export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
         node.parent = parent;
         return node;
       });
-    if (isRoot) {
-      parent.children = result;
-    }
-    return result;
+    return result || [];
   }
 
   findTreeById(

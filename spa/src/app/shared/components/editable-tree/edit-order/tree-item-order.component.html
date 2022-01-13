@@ -2,12 +2,15 @@
   <div class="d-flex align-items-center justify-content-between">
     <mat-label>Порядок</mat-label>
     <div>
+      <button *ngIf="canUp()" mat-icon-button matTooltip="Наверх" (click)="onUp()">
+        <mat-icon>north</mat-icon>
+      </button>
+      <button *ngIf="canDown()"  mat-icon-button matTooltip="Вниз" (click)="onDown()">
+        <mat-icon>south</mat-icon>
+      </button>
       <button mat-icon-button matTooltip="Отмена" (click)="onCancel()">
         <mat-icon>cancel</mat-icon>
       </button>
-      <!-- <button mat-icon-button matTooltip="Подтвердить" [disabled]="(isChanged$ | async) === true" (click)="onConfirm(data)">
-          <mat-icon>check_circle</mat-icon>
-        </button> -->
     </div>
   </div>
   <mat-divider class="mb-3" [inset]="true"></mat-divider>
@@ -16,6 +19,7 @@
       cdkDrag
       *ngFor="let element of items; let i = index"
       mat-button
+      [color]="selected !== element ? 'primary' : 'accent'"
       class="item-box"
       (click)="onSelect(element)"
     >

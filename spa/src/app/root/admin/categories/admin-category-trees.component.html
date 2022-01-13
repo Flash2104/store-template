@@ -99,7 +99,7 @@
           </div>
           <mat-divider class="mb-3" inset="true"></mat-divider>
           <!-- Дерево категорий -->
-          <str-editable-tree [items]="treeItems$ | async"></str-editable-tree>
+          <str-editable-tree [root]="root$ | async"></str-editable-tree>
         </mat-card>
       </div>
     </div>

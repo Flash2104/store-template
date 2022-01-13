@@ -34,7 +34,7 @@ export interface IItemNode {
 export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
 
-  @Input() items: IItemNode[] | null = null;
+  @Input() root: IItemNode | null = null;
   @Output() changed: EventEmitter<IItemNode[]> = new EventEmitter<
     IItemNode[]
   >();
@@ -56,18 +56,20 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      changes.items?.currentValue != null &&
-      changes.items.currentValue != changes.items.previousValue
+      changes.root?.currentValue != null &&
+      changes.root.currentValue != changes.root.previousValue
     ) {
-      this.dataSource.data = changes.items.currentValue;
+      const root = changes.root.currentValue;
+      this.dataSource.data = root.children;
       this.editItem = null;
       this.editItemOrder = null;
     }
   }
 
   ngOnInit(): void {
-    if (this.items != null) {
-      this.dataSource.data = this.items;
+    if (this.root?.children != null) {
+      this.dataSource.data =
+        this.root?.children != null ? this.root.children : [];
     }
   }
 
@@ -81,18 +83,93 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onEditItem(node: IItemNode): void {
+    this.treeControl.expandDescendants(node);
     this.editItem = node;
     this.editItemOrder = node.parent?.children;
   }
 
-  onOrderChanged(): void {
-    // this.tree?.renderNodeChanges(this.dataSource.data);
+  onUp(): void {
+    const parent =
+      this.editItemOrder != null && this.editItemOrder.length > 0
+        ? this.editItemOrder[0].parent?.parent
+        : null;
+    this.editItemOrder = parent?.children;
+    this.editItem =
+      this.editItemOrder != null && this.editItemOrder.length > 0
+        ? this.editItemOrder[0]
+        : null;
+    if (parent != null) {
+      this.treeControl.expand(parent);
+    }
+  }
+
+  onDown(): void {
+    if (this.editItem != null) {
+      this.treeControl.expand(this.editItem);
+    }
+    this.editItemOrder =
+      this.editItem != null && this.editItem.children.length > 0
+        ? this.editItem?.children
+        : null;
+    this.editItem = this.editItemOrder != null ? this.editItemOrder[0] : null;
+  }
+
+  reRenderTree(): void {
     const data = this.dataSource.data;
     this.dataSource.data = [];
     this.dataSource.data = data;
   }
 
-  trackByFn(index: number, node: IItemNode): number | null | undefined {
-    return node.order;
+  onAddChild(node: IItemNode): void {
+    node.children = node.children == null ? [] : node.children;
+    const newNode: IItemNode = {
+      id: 0,
+      children: [],
+      parent: node,
+      title: 'Новая категория',
+      isDisabled: false,
+      order: node.children.length + 2,
+    };
+    node.children.push(newNode);
+    this.editItem = newNode;
+    this.editItemOrder = newNode.parent?.children;
+    this.reRenderTree();
+    this.treeControl.expand(node);
+  }
+
+  onRemove(node: IItemNode): void {
+    const index = node.parent?.children?.indexOf(node);
+    if (index != null && index > -1) {
+      node.parent?.children?.splice(index, 1);
+    }
+    node.parent?.children?.forEach((element, index) => {
+      element.order = index + 1;
+    });
+    if (node === this.editItem) {
+      this.editItem = null;
+      this.editItemOrder = null;
+    }
+    const temp = this.editItemOrder;
+    this.editItemOrder = null;
+    this.editItemOrder = temp;
+    this.reRenderTree();
+  }
+
+  getButtonColor(node: IItemNode): string | null {
+    if (node === this.editItem) {
+      return 'accent';
+    }
+    if (node.isDisabled) {
+      return null;
+    }
+    return 'primary';
+  }
+
+  disableAllDescendants(node: IItemNode): void {
+    const descendants = this.treeControl.getDescendants(node);
+    descendants.forEach((el) => {
+      el.isDisabled = node.isDisabled;
+    });
+    this.reRenderTree();
   }
 }

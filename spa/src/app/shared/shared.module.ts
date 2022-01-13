@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { TreeItemEditComponent } from './components/editable-tree/edit-item/tree-item-edit.component';
@@ -37,6 +38,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     MatInputModule,
     DragDropModule,
     MatTreeModule,
+    MatTooltipModule,
     MatCheckboxModule,
     MatDividerModule,
     MatIconModule,
