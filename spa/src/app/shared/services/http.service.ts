@@ -11,8 +11,10 @@ import { ISignInRequest } from './dto-models/auth/sign-in/sign-in-request';
 import { ISignInResponse } from './dto-models/auth/sign-in/sign-in-response';
 import { ISignUpRequest } from './dto-models/auth/sign-up/sign-up-request';
 import { ISignUpResponse } from './dto-models/auth/sign-up/sign-up-response';
+import { ICreateCategoryTreeResponse, ICreateCategoryTreeRequest } from './dto-models/category/create-category-tree';
 import { IGetCategoryTreeResponse } from './dto-models/category/get-category-tree';
 import { IListCategoryTreesResponse } from './dto-models/category/list-category-trees';
+import { IUpdateCategoryTreeRequest, IUpdateCategoryTreeResponse } from './dto-models/category/update-category-tree';
 import { IGetCurrentProfileResponse } from './dto-models/profile/get-current-profile';
 import { IGetCityReferencesResponse } from './dto-models/references/cities/cities-dto';
 import { IServerResponse } from './dto-models/server-response';
@@ -102,6 +104,18 @@ export class HttpService {
   ): Observable<IServerResponse<IGetCategoryTreeResponse>> {
     return of(`api/category/get/${id}`).pipe(
       mergeMap((url) => this.httpGet<IGetCategoryTreeResponse>(url))
+    );
+  }
+
+  createCategoryTree(data: ICreateCategoryTreeRequest): Observable<IServerResponse<ICreateCategoryTreeResponse>> {
+    return of(`api/category/create-tree/`).pipe(
+      mergeMap((url) => this.httpPost<ICreateCategoryTreeResponse>(url, data))
+    );
+  }
+
+  updateCategoryTree(data: IUpdateCategoryTreeRequest): Observable<IServerResponse<IUpdateCategoryTreeResponse>> {
+    return of(`api/category/update-tree/`).pipe(
+      mergeMap((url) => this.httpPut<IUpdateCategoryTreeResponse>(url, data))
     );
   }
 

@@ -60,14 +60,16 @@
     >
       <div *ngIf="editTree$ | async as editTree" class="col">
         <mat-card class="d-flex flex-column">
-          <div *ngIf="(isChanged$ | async) === true">
+          <mat-progress-bar *ngIf="(updateTreeLoading$ | async) === true" mode="indeterminate"></mat-progress-bar>
+          <div>
             <div class="text-end">
-              <button mat-icon-button matTooltip="Отмена" (click)="onCancel()">
-                <mat-icon>cancel</mat-icon>
+              <button mat-icon-button matTooltip="Откатить на исходный" (click)="onOriginal()">
+                <mat-icon>replay</mat-icon>
               </button>
               <button
+                *ngIf="editTree.id === 0"
                 mat-icon-button
-                matTooltip="Подтвердить"
+                matTooltip="Создать"
                 [disabled]="form.valid === false"
                 (click)="onSave()"
               >
@@ -99,7 +101,7 @@
           </div>
           <mat-divider class="mb-3" inset="true"></mat-divider>
           <!-- Дерево категорий -->
-          <str-editable-tree [root]="root$ | async"></str-editable-tree>
+          <str-editable-tree [root]="root$ | async" (changed)="onTreeChanged(editTree, $event)"></str-editable-tree>
         </mat-card>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { createState, select, Store, withProps } from '@ngneat/elf';
 import { selectAll, upsertEntities, withEntities } from '@ngneat/elf-entities';
 import { Observable } from 'rxjs';
+import { IItemNode } from 'src/app/shared/components/editable-tree/editable-tree.component';
 import {
   ICategoryItemData,
   ICategoryTreeData,
@@ -12,7 +13,7 @@ export interface ICategoryTreeEditData {
   id?: number | null | undefined;
   title?: string | null | undefined;
   isDefault?: boolean | null | undefined;
-  items?: ICategoryItemData[] | null | undefined;
+  root?: IItemNode | null | undefined;
 }
 
 @Injectable()
@@ -25,13 +26,13 @@ export class CategoryRepository implements OnDestroy {
     withProps<{
       loading: boolean;
       loadingTree: boolean;
-      isChanged: boolean;
+      updateTreeLoading: boolean;
       editTree: ICategoryTreeEditData | null;
-      originalTree: ICategoryTreeEditData | null;
+      originalTree: ICategoryTreeData | null;
     }>({
       loading: false,
       loadingTree: false,
-      isChanged: false,
+      updateTreeLoading: false,
       editTree: null,
       originalTree: null,
     })
@@ -44,10 +45,10 @@ export class CategoryRepository implements OnDestroy {
       entities: Record<number, ICategoryTreeData>;
       ids: number[];
       loadingTree: boolean;
+      updateTreeLoading: boolean;
       loading: boolean;
-      isChanged: boolean;
       editTree: ICategoryTreeEditData | null;
-      originalTree: ICategoryTreeEditData | null;
+      originalTree: ICategoryTreeData | null;
     };
     name: string;
     config: { idKey: 'id' };
@@ -66,15 +67,15 @@ export class CategoryRepository implements OnDestroy {
     select((st) => st.loadingTree)
   );
 
-  isChanged$: Observable<boolean> = this._store.pipe(
-    select((st) => st.isChanged)
+  updateTreeLoading$: Observable<boolean> = this._store.pipe(
+    select((st) => st.updateTreeLoading)
   );
 
   editTree$: Observable<ICategoryTreeEditData | null> = this._store.pipe(
     select((st) => st.editTree)
   );
 
-  originalTree$: Observable<ICategoryTreeEditData | null> = this._store.pipe(
+  originalTree$: Observable<ICategoryTreeData | null> = this._store.pipe(
     select((st) => st.originalTree)
   );
 
@@ -92,6 +93,13 @@ export class CategoryRepository implements OnDestroy {
     }));
   }
 
+  setUpdateTreeLoading(loading: boolean): void {
+    this._store.update((state) => ({
+      ...state,
+      updateTreeLoading: loading,
+    }));
+  }
+
   upsertCategories(data: ICategoryTreeData[] | null): void {
     if (data != null) {
       this._store.update(upsertEntities(data));
@@ -102,7 +110,6 @@ export class CategoryRepository implements OnDestroy {
     this._store.update((st) => ({
       ...st,
       editTree: { ...st.editTree, isDefault: value },
-      isChanged: true,
     }));
   }
 
@@ -110,23 +117,36 @@ export class CategoryRepository implements OnDestroy {
     this._store.update((st) => ({
       ...st,
       editTree: { ...st.editTree, title: value },
-      isChanged: true,
     }));
   }
 
   setSelectedTree(data: ICategoryTreeData | null): void {
     this._store.update((st) => ({
       ...st,
-      editTree: data,
+      editTree: {
+        id: data?.id,
+        isDefault: data?.isDefault,
+        root: this._createRoot(data),
+        title: data?.title,
+      },
       originalTree: data,
-      isChanged: false,
     }));
   }
 
-  setSelectedCategory(data: ICategoryItemData | null): void {
+  updateOriginalTree(data: ICategoryTreeData): void {
     this._store.update((st) => ({
       ...st,
-      editCategory: data,
+      originalTree: {...data},
+    }));
+  }
+
+  updateEditTree(root: IItemNode): void {
+    this._store.update((st) => ({
+      ...st,
+      editTree: {
+        ...st.editTree,
+        root,
+      },
     }));
   }
 
@@ -137,18 +157,29 @@ export class CategoryRepository implements OnDestroy {
         id: 0,
         isDefault: false,
         title: 'Новое дерево категорий',
-        items: [],
+        root: {
+          title: 'root',
+          children: [],
+          order: 0,
+          parent: null,
+        },
       },
       originalTree: null,
-      isChanged: true,
     }));
   }
 
   resetChanged(): void {
     this._store.update((st) => ({
       ...st,
-      editTree: st.originalTree != null ? { ...st.originalTree } : null,
-      isChanged: false,
+      editTree:
+        st.originalTree != null
+          ? {
+              id: st.originalTree.id,
+              isDefault: st.originalTree.isDefault,
+              title: st.originalTree.title,
+              root: this._createRoot(st.originalTree),
+            }
+          : null,
     }));
   }
 
@@ -162,5 +193,39 @@ export class CategoryRepository implements OnDestroy {
   ngOnDestroy(): void {
     this._store.complete();
     this._store.destroy();
+  }
+
+  mapToTreeItems(
+    items: ICategoryItemData[] | null,
+    parent: IItemNode | null
+  ): IItemNode[] {
+    const result = items
+      ?.sort((a, b) => a.order - b.order)
+      ?.map((element) => {
+        const node = {
+          id: element.id,
+          title: element.title,
+          order: element.order,
+        } as IItemNode;
+        node.children =
+          (element.children && this.mapToTreeItems(element.children, node)) ||
+          [];
+        node.parent = parent;
+        return node;
+      });
+    return result || [];
+  }
+
+
+  private _createRoot(data: ICategoryTreeData | null): IItemNode {
+    const root: IItemNode = {
+      title: 'root',
+      children: [],
+      order: 0,
+      parent: null,
+    };
+    root.children =
+      data?.items != null ? this.mapToTreeItems(data.items, root) : [];
+    return root;
   }
 }

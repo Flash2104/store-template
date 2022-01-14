@@ -19,6 +19,7 @@ import { AdminNavigationComponent } from './admin-navigation.component';
 import { AdminCategoryTreesComponent } from './categories/admin-category-trees.component';
 import { AdminProductsComponent } from './products/admin-products.component';
 import { AdminShopComponent } from './shop/admin-shop.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const routes: Routes = [
   {
@@ -57,6 +58,7 @@ const routes: Routes = [
     MatCardModule,
     MatIconModule,
     DragDropModule,
+    MatProgressBarModule,
     MatSelectModule,
     MatTooltipModule,
     MatTableModule,

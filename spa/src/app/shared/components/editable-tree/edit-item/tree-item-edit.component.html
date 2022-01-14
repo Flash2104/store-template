@@ -1,5 +1,11 @@
 <div *ngIf="item">
   <form [formGroup]="form">
+    <div class="text-end">
+      <button mat-icon-button matTooltip="Отмена" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </div>
+    <mat-divider class="mb-3" inset="true"></mat-divider>
     <table class="mat-table w-100 my-3">
       <tr class="mat-row py-3">
         <td class="mat-cell">
@@ -31,11 +37,5 @@
         </td>
       </tr>
     </table>
-    <mat-divider class="mb-3" inset="true"></mat-divider>
-    <div class="text-end">
-      <button mat-icon-button matTooltip="Отмена" (click)="onCancel()">
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </div>
   </form>
 </div>

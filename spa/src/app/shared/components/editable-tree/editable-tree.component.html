@@ -10,7 +10,6 @@
       </div>
     </button>
     <mat-tree
-      #treeSelector
       [dataSource]="dataSource"
       [treeControl]="treeControl"
       class="node-list"
@@ -31,12 +30,12 @@
             <div class="d-flex align-items-center">
               <mat-icon
                 *ngIf="node.isDisabled"
-                class="mx-3"
+                class="ms-3"
                 matTooltip="Категория отключена"
                 >do_not_disturb_on</mat-icon
               >
-              <div class="me-3">{{ node.title }}</div>
-              <mat-icon class="me-3">{{ node.icon }}</mat-icon>
+              <div class="ms-3">{{ node.title }}</div>
+              <mat-icon class="ms-3">{{ node.icon }}</mat-icon>
             </div>
             <div>
               <button
@@ -85,11 +84,11 @@
               <mat-icon
                 *ngIf="node.isDisabled"
                 matTooltip="Категория отключена"
-                class="mx-3"
+                class="ms-3"
                 >do_not_disturb_on</mat-icon
               >
-              <div class="me-3">{{ node.title }}</div>
-              <mat-icon class="me-3">{{ node.icon }}</mat-icon>
+              <div class="ms-3">{{ node.title }}</div>
+              <mat-icon class="ms-3">{{ node.icon }}</mat-icon>
             </div>
             <div>
               <button

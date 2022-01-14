@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, mapTo, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, EMPTY, map, mapTo, Observable, of, switchMap, tap, withLatestFrom, filter } from 'rxjs';
+import { IItemNode } from 'src/app/shared/components/editable-tree/editable-tree.component';
+import { ICategoryItemData } from 'src/app/shared/services/dto-models/category/category-tree-data';
+import { ICreateCategoryTreeRequest } from 'src/app/shared/services/dto-models/category/create-category-tree';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { CategoryRepository } from './category.repository';
@@ -49,4 +52,81 @@ export class CategoryService {
       mapTo(void 0)
     );
   }
+
+  createCategoryTree(): Observable<void> {
+    return of(0).pipe(
+      tap(() => {
+        this._categoryRepo.setUpdateTreeLoading(true);
+      }),
+      withLatestFrom(this._categoryRepo.editTree$),
+      map(([_, et]): ICreateCategoryTreeRequest => {
+        return {
+          tree: {
+            id: 0,
+            title: et?.title || '',
+            isDefault: et?.isDefault,
+            items: et?.root?.children != null ? this._mapChildren(et?.root?.children) : []
+          }
+        }
+      }),
+      switchMap((data) => this._http.createCategoryTree(data)),
+      tap((resp) => {
+        this._categoryRepo.setSelectedTree(resp.data?.tree ?? null);
+        this._categoryRepo.setUpdateTreeLoading(false);
+      }),
+      catchError((err) => {
+        this._categoryRepo.setUpdateTreeLoading(false);
+        this._snackBarService.showError(err.Message, 'Ошибка');
+        return EMPTY;
+      }),
+      mapTo(void 0)
+    );
+  }
+
+
+  updateCategoryTree(): Observable<void> {
+    return of(0).pipe(
+      tap(() => {
+        this._categoryRepo.setUpdateTreeLoading(true);
+      }),
+      withLatestFrom(this._categoryRepo.editTree$),
+      filter(([_, et]) => et != null && et.id != null && et.id !== 0),
+      map(([_, et]): ICreateCategoryTreeRequest => {
+        return {
+          tree: {
+            id: et?.id!,
+            title: et?.title || '',
+            isDefault: et?.isDefault,
+            items: et?.root?.children != null ? this._mapChildren(et?.root?.children) : []
+          }
+        }
+      }),
+      switchMap((data) => this._http.updateCategoryTree(data)),
+      tap((resp) => {
+        if(resp.isSuccess && resp.data?.tree != null) {
+          this._categoryRepo.updateOriginalTree(resp.data.tree);
+        } else {
+          // this._snackBarService.openWithComponent();
+        }
+        this._categoryRepo.setUpdateTreeLoading(false);
+      }),
+      catchError((err) => {
+        this._categoryRepo.setUpdateTreeLoading(false);
+        this._snackBarService.showError(err.Message, 'Ошибка');
+        return EMPTY;
+      }),
+      mapTo(void 0)
+    );
+  }
+
+  private _mapChildren(els: IItemNode[]):ICategoryItemData[] {
+    return els.map(x => ({
+      id: x.id,
+      title: x.title,
+      icon: x.icon,
+      isDisabled: x.isDisabled,
+      order: x.order,
+      children: this._mapChildren(x.children)
+    } as ICategoryItemData));
+  };
 }

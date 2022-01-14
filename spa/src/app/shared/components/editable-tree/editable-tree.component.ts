@@ -34,10 +34,8 @@ export interface IItemNode {
 export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
 
-  @Input() root: IItemNode | null = null;
-  @Output() changed: EventEmitter<IItemNode[]> = new EventEmitter<
-    IItemNode[]
-  >();
+  @Input() root: IItemNode | null | undefined = null;
+  @Output() changed: EventEmitter<IItemNode> = new EventEmitter<IItemNode>();
 
   editItem: IItemNode | null = null;
   editItemOrder: IItemNode[] | null | undefined = null;
@@ -48,9 +46,6 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
 
   dataSource: MatTreeNestedDataSource<IItemNode> =
     new MatTreeNestedDataSource();
-
-  @ViewChild('treeSelector', { static: false })
-  tree: MatTree<IItemNode> | null = null;
 
   constructor(private _cd: ChangeDetectorRef) {}
 
@@ -118,6 +113,9 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
     const data = this.dataSource.data;
     this.dataSource.data = [];
     this.dataSource.data = data;
+    if (this.root != null) {
+      this.changed.emit(this.root);
+    }
   }
 
   onAddChild(node: IItemNode): void {
@@ -128,7 +126,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
       parent: node,
       title: 'Новая категория',
       isDisabled: false,
-      order: node.children.length + 2,
+      order: node.children.length + 1,
     };
     node.children.push(newNode);
     this.editItem = newNode;

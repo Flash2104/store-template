@@ -34,15 +34,16 @@ import { CategoryService } from './category.service';
 })
 export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
-  isChanged$: Observable<boolean> = this._categoryRepo.isChanged$.pipe(
-    takeUntil(this._destroy$)
-  );
 
   loading$: Observable<boolean> = this._categoryRepo.loading$.pipe(
     takeUntil(this._destroy$)
   );
 
   loadingTree$: Observable<boolean> = this._categoryRepo.loadingTree$.pipe(
+    takeUntil(this._destroy$)
+  );
+
+  updateTreeLoading$: Observable<boolean> = this._categoryRepo.updateTreeLoading$.pipe(
     takeUntil(this._destroy$)
   );
 
@@ -54,15 +55,7 @@ export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
           this.form.controls.isDefault.setValue(v.isDefault, {
             emitEvent: false,
           });
-          const root: IItemNode = {
-            title: 'root',
-            children: [],
-            order: 0,
-            parent: null,
-          };
-          root.children =
-            v.items != null ? this.mapToTreeItems(v.items, root) : [];
-          this.root$.next(root);
+          this.root$.next(v.root);
         } else {
           this.root$.next(null);
         }
@@ -70,8 +63,8 @@ export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
       takeUntil(this._destroy$)
     );
 
-  root$: BehaviorSubject<IItemNode | null> =
-    new BehaviorSubject<IItemNode | null>(null);
+  root$: BehaviorSubject<IItemNode | null | undefined> =
+    new BehaviorSubject<IItemNode | null | undefined>(null);
 
   form: FormGroup = new FormGroup({
     title: new FormControl(null, [Validators.required]),
@@ -129,12 +122,19 @@ export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
     this.root$.complete();
   }
 
-  onCancel(): void {
+  onOriginal(): void {
     this._categoryRepo.resetChanged();
   }
 
   createTree(): void {
     this._categoryRepo.createNewTree();
+  }
+
+  onTreeChanged(editTree: ICategoryTreeEditData, editRoot: IItemNode): void {
+    this._categoryRepo.updateEditTree(editRoot);
+    if(editTree.id !== 0) {
+      this._categoryService.updateCategoryTree().subscribe();
+    }
   }
 
   onSave(): void {

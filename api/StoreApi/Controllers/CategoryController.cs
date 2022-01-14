@@ -58,7 +58,7 @@ namespace StoreApi.Controllers
             );
         }
 
-        [HttpPost("update-tree")]
+        [HttpPut("update-tree")]
         [Authorize(Roles = RolesConst.Manager)]
         public async Task<ServerResponseDto<UpdateCategoryTreeResponseDto>> UpdateTree([FromBody] UpdateCategoryTreeRequestDto request)
         {
