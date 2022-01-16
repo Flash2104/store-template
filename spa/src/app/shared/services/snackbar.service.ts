@@ -2,7 +2,7 @@ import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class SnackbarService {
   constructor(private _snackBar: MatSnackBar) {}
 
@@ -13,10 +13,11 @@ export class SnackbarService {
     });
   }
 
-  openWithComponent<T>(component: ComponentType<T>): void {
+  openWithComponent<T, K>(component: ComponentType<T>, data: K | null = null): void {
     this._snackBar.openFromComponent(component, {
       horizontalPosition: 'end',
       verticalPosition: 'top',
+      data
     });
   }
 }

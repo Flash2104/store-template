@@ -15,11 +15,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+// import { ErrorSaveCategoryTreeComponent } from './components/error-save-category-tree/error-save-category-tree.component';
 import { TreeItemEditComponent } from './components/editable-tree/edit-item/tree-item-edit.component';
 import { TreeItemEditOrderComponent } from './components/editable-tree/edit-order/tree-item-order.component';
 import { EditableTreeComponent } from './components/editable-tree/editable-tree.component';
 import { GroupedSelectorComponent } from './components/grouped-selector/grouped-selector.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { SnackbarService } from './services/snackbar.service';
 @NgModule({
   declarations: [
     LoadingComponent,
@@ -28,6 +30,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     TreeItemEditComponent,
     TreeItemEditOrderComponent,
     EditableTreeComponent,
+    // ErrorSaveCategoryTreeComponent
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -48,6 +51,7 @@ import { LoadingComponent } from './components/loading/loading.component';
     MatSnackBarModule,
     MatButtonModule,
   ],
+  providers: [SnackbarService],
   exports: [LoadingComponent, GroupedSelectorComponent, EditableTreeComponent],
   bootstrap: [GroupedSelectorComponent],
 })

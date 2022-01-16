@@ -1,13 +1,12 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IItemNode } from '../editable-tree.component';
@@ -16,11 +15,9 @@ import { IItemNode } from '../editable-tree.component';
   selector: 'str-tree-item-order',
   templateUrl: './tree-item-order.component.html',
   styleUrls: ['./tree-item-order.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TreeItemEditOrderComponent
-  implements OnInit, OnChanges, OnDestroy
-{
+export class TreeItemEditOrderComponent implements OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
 
   @Input() items: IItemNode[] | null | undefined = null;
@@ -34,9 +31,6 @@ export class TreeItemEditOrderComponent
   @Output() changed: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
-  ngOnChanges(changes: SimpleChanges): void {}
-
-  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this._destroy$.next();

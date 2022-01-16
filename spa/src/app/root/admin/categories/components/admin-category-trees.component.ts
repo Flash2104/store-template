@@ -14,23 +14,19 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
+import { IItemNode } from 'src/app/shared/components/editable-tree/editable-tree.component';
 import {
   ICategoryItemData,
   ICategoryTreeData,
 } from 'src/app/shared/services/dto-models/category/category-tree-data';
-import { IItemNode } from '../../../shared/components/editable-tree/editable-tree.component';
-import {
-  CategoryRepository,
-  ICategoryTreeEditData,
-} from './category.repository';
-import { CategoryService } from './category.service';
+import { CategoryRepository, ICategoryTreeEditData } from '../repository/category.repository';
+import { CategoryService } from '../repository/category.service';
 
 @Component({
   selector: 'str-admin-category-trees',
   templateUrl: './admin-category-trees.component.html',
   styleUrls: ['./admin-category-trees.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CategoryService, CategoryRepository],
 })
 export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();

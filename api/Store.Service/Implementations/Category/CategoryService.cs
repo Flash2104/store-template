@@ -75,7 +75,7 @@ public class CategoryService : ICategoryService
 
     public Task<UpdateCategoryTreeResponse> UpdateTree(UpdateCategoryTreeRequest request)
     {
-        throw new NotImplementedException();
+        throw new AirSoftBaseException(ErrorCodes.CategoryService.CategoryNotFound, "Дерево категорий не найдено");
     }
 
     private CategoryTreeData CollectTree(DbCategoryTree dbCategoryTree)

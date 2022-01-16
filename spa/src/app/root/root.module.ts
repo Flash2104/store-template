@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminPagesGuard } from '../shared/guards/private.guard';
+import { SnackbarService } from '../shared/services/snackbar.service';
 
 const routes: Routes = [
   {

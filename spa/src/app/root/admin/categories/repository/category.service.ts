@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, map, mapTo, Observable, of, switchMap, tap, withLatestFrom, filter } from 'rxjs';
+import { catchError, EMPTY, map, mapTo, Observable, of, switchMap, tap, withLatestFrom, filter, throwError } from 'rxjs';
 import { IItemNode } from 'src/app/shared/components/editable-tree/editable-tree.component';
 import { ICategoryItemData } from 'src/app/shared/services/dto-models/category/category-tree-data';
 import { ICreateCategoryTreeRequest } from 'src/app/shared/services/dto-models/category/create-category-tree';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
+import { ErrorSaveCategoryTreeComponent, ISaveCategoryTreeError } from '../components/error-save-category-tree/error-save-category-tree.component';
 import { CategoryRepository } from './category.repository';
 
 @Injectable()
@@ -106,14 +107,17 @@ export class CategoryService {
         if(resp.isSuccess && resp.data?.tree != null) {
           this._categoryRepo.updateOriginalTree(resp.data.tree);
         } else {
-          // this._snackBarService.openWithComponent();
+          const errorData: ISaveCategoryTreeError = {
+            message: resp?.errors != null && resp?.errors?.length > 0 ? resp?.errors[0].message : null
+          };
+          this._snackBarService.openWithComponent(ErrorSaveCategoryTreeComponent, errorData);
         }
         this._categoryRepo.setUpdateTreeLoading(false);
       }),
       catchError((err) => {
         this._categoryRepo.setUpdateTreeLoading(false);
         this._snackBarService.showError(err.Message, 'Ошибка');
-        return EMPTY;
+        return throwError(() => err);
       }),
       mapTo(void 0)
     );

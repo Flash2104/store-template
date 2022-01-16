@@ -1,0 +1,27 @@
+<div class="save-error-container">
+  <div class="w-100 d-flex justify-content-between align-items-center">
+    <h6 class="px-3">Произошла ошибка сохранения</h6>
+    <div class="d-flex align-items-center">
+      <button
+        mat-icon-button
+        class="create-button"
+        matTooltip="Повторить"
+        (click)="retry()"
+      >
+        <mat-icon mat-list-icon>refresh</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        class="create-button"
+        matTooltip="Закрыть"
+        (click)="close()"
+      >
+        <mat-icon mat-list-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <span class="message-content" *ngIf="data?.message !== ''">{{
+    data?.message
+  }}</span>
+</div>

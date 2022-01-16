@@ -1,25 +1,20 @@
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminNavigationComponent } from './admin-navigation.component';
-import { AdminCategoryTreesComponent } from './categories/admin-category-trees.component';
 import { AdminProductsComponent } from './products/admin-products.component';
 import { AdminShopComponent } from './shop/admin-shop.component';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 
 const routes: Routes = [
   {
@@ -34,7 +29,8 @@ const routes: Routes = [
       },
       {
         path: 'categories',
-        component: AdminCategoryTreesComponent,
+        loadChildren: () =>
+          import('./categories/category.module').then((m) => m.CategoryModule)
       },
       {
         path: 'products',
@@ -48,7 +44,6 @@ const routes: Routes = [
   declarations: [
     AdminNavigationComponent,
     AdminShopComponent,
-    AdminCategoryTreesComponent,
     AdminProductsComponent,
   ],
   imports: [
@@ -57,18 +52,14 @@ const routes: Routes = [
     MatGridListModule,
     MatCardModule,
     MatIconModule,
-    DragDropModule,
-    MatProgressBarModule,
-    MatSelectModule,
     MatTooltipModule,
-    MatTableModule,
-    MatDividerModule,
-    MatCheckboxModule,
     MatInputModule,
+    MatDividerModule,
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
     RouterModule.forChild(routes),
   ],
+  providers: [SnackbarService]
 })
 export class AdminModule {}

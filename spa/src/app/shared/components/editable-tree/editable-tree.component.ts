@@ -10,9 +10,8 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild,
 } from '@angular/core';
-import { MatTree, MatTreeNestedDataSource } from '@angular/material/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Subject } from 'rxjs';
 
 export interface IItemNode {
