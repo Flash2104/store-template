@@ -59,6 +59,9 @@ public class ErrorCodes
     {
         public const int EmptyUserId = 82320;
         public const int UserNotFound = 82321;
-        public const int CategoryNotFound = 82322;
+        public const int CategoryTreeNotFound = 82322;
+        public const int CategoryTreeIdIsEmpty = 82323;
+
+
     }
 }

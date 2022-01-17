@@ -134,7 +134,7 @@ export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
   }
 
   onSave(): void {
-    // this._shopService.updateShopInfo().subscribe();
+    this._categoryService.createCategoryTree().subscribe();
   }
 
   mapToTreeItems(

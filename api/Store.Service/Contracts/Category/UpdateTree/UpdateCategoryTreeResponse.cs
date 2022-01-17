@@ -2,5 +2,10 @@
 
 public class UpdateCategoryTreeResponse
 {
-    
+    public UpdateCategoryTreeResponse(CategoryTreeData tree)
+    {
+        Tree = tree;
+    }
+
+    public CategoryTreeData Tree { get; set; }
 }

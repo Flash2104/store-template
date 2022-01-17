@@ -66,8 +66,8 @@ namespace StoreApi.Controllers
             return await HandleRequest(
                 _categoryService.UpdateTree,
                 request,
-                dto => new UpdateCategoryTreeRequest(),
-                res => new UpdateCategoryTreeResponseDto(),
+                dto => new UpdateCategoryTreeRequest(dto.Tree, dto.RemovedItemIds),
+                res => new UpdateCategoryTreeResponseDto(res.Tree),
                 logPath
             );
         }

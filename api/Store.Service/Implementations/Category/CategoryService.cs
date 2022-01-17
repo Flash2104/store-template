@@ -39,7 +39,7 @@ public class CategoryService : ICategoryService
         {
             throw new AirSoftBaseException(ErrorCodes.CategoryService.UserNotFound, "Пользователь не найден");
         }
-        var categoryTrees = await _dataService.Categories.ListAsync(x => x.StoreId == 1);
+        var categoryTrees = await _dataService.CategoryTrees.ListAsync(x => x.StoreId == 1);
         return new ListCategoryTreesResponse(categoryTrees
             .Select(x => new CategoryTreeData(x.Id, x.Title, x.IsDefault))
             .ToList());
@@ -59,11 +59,11 @@ public class CategoryService : ICategoryService
         {
             throw new AirSoftBaseException(ErrorCodes.CategoryService.UserNotFound, "Пользователь не найден");
         }
-        var categoryTree = await _dataService.Categories
+        var categoryTree = await _dataService.CategoryTrees
             .GetAsync(x => x.Id == request.Id, "CategoryItems");
         if (categoryTree == null)
         {
-            throw new AirSoftBaseException(ErrorCodes.CategoryService.CategoryNotFound, "Дерево категорий не найдено");
+            throw new AirSoftBaseException(ErrorCodes.CategoryService.CategoryTreeNotFound, "Дерево категорий не найдено");
         }
         return new GetCategoryTreeResponse(CollectTree(categoryTree));
     }
@@ -73,9 +73,53 @@ public class CategoryService : ICategoryService
         throw new NotImplementedException();
     }
 
-    public Task<UpdateCategoryTreeResponse> UpdateTree(UpdateCategoryTreeRequest request)
+    public async Task<UpdateCategoryTreeResponse> UpdateTree(UpdateCategoryTreeRequest request)
     {
-        throw new AirSoftBaseException(ErrorCodes.CategoryService.CategoryNotFound, "Дерево категорий не найдено");
+        var userId = _correlationService.GetUserId();
+        var logPath = $"{userId} {nameof(CategoryService)} {nameof(ListTrees)}. | ";
+        _logger.Log(LogLevel.Trace, $"{logPath} started.");
+        if (userId == null)
+        {
+            throw new AirSoftBaseException(ErrorCodes.CategoryService.EmptyUserId, "Пустой id пользователя");
+        }
+        if (request.Tree == null || request.Tree.Id == 0)
+        {
+            throw new AirSoftBaseException(ErrorCodes.CategoryService.CategoryTreeIdIsEmpty, "Пустой id дерева");
+        }
+        DbUser? dbUser = await _dataService.Users.GetAsync(x => x.Id == userId);
+        if (dbUser == null)
+        {
+            throw new AirSoftBaseException(ErrorCodes.CategoryService.UserNotFound, "Пользователь не найден");
+        }
+        var categoryTree = await _dataService.CategoryTrees.GetAsync(x => x.Id == request.Tree.Id);
+        if (categoryTree == null)
+        {
+            throw new AirSoftBaseException(ErrorCodes.CategoryService.CategoryTreeNotFound, "Дерево категорий не найдено");
+        }
+
+        if (request.RemovedItemIds != null && request.RemovedItemIds.Count > 0)
+        {
+            foreach (var removedItemId in request.RemovedItemIds)
+            {
+                _dataService.CategoryTreeItems.Delete(removedItemId);
+            }
+        }
+        var updatedTree = await UpdateCategoryTreeItems(request.Tree.Id, request.Tree.Items);
+        return new GetCategoryTreeResponse(CollectTree(categoryTree));
+    }
+
+    private async Task<List<CategoryItemData>> UpdateCategoryTreeItems(int treeId, List<CategoryItemData> treeItems)
+    {
+        var result = new List<CategoryItemData>();
+        foreach (var item in treeItems)
+        {
+            if (item.Id == 0)
+            {
+
+            }
+            var resItem = new CategoryItemData()
+
+        }
     }
 
     private CategoryTreeData CollectTree(DbCategoryTree dbCategoryTree)

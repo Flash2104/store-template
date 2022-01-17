@@ -84,7 +84,6 @@ export class CategoryService {
     );
   }
 
-
   updateCategoryTree(): Observable<void> {
     return of(0).pipe(
       tap(() => {

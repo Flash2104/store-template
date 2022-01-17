@@ -11,7 +11,8 @@ public class DataService : IDataService
 
     private UserRepository? _users;
     private StoreRepository? _store;
-    private CategoryRepository? _categories;
+    private CategoryTreeRepository? _categoryTrees;
+    private CategoryTreeItemRepository? _categoryItems;
     private ProductRepository? _products;
     private GenericRepository<DbUserRole>? _userRoles;
     private CitiesRepository? _citiesRepository;
@@ -25,7 +26,8 @@ public class DataService : IDataService
 
     public StoreRepository Store => _store ??= new StoreRepository(_dbContext);
 
-    public CategoryRepository Categories => _categories ??= new CategoryRepository(_dbContext);
+    public CategoryTreeRepository CategoryTrees => _categoryTrees ??= new CategoryTreeRepository(_dbContext);
+    public CategoryTreeItemRepository CategoryTreeItems => _categoryItems ??= new CategoryTreeItemRepository(_dbContext);
 
     public ProductRepository Products => _products ??= new ProductRepository(_dbContext);
     

@@ -9,7 +9,9 @@ public interface IDataService
 
     StoreRepository Store { get; }
 
-    CategoryRepository Categories { get; }
+    CategoryTreeRepository CategoryTrees { get; }
+
+    CategoryTreeItemRepository CategoryTreeItems { get; }
 
     ProductRepository Products { get; }
 
