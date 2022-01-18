@@ -105,6 +105,7 @@ export class CategoryService {
       tap((resp) => {
         if(resp.isSuccess && resp.data?.tree != null) {
           this._categoryRepo.updateOriginalTree(resp.data.tree);
+          this._categoryRepo.updateEditTree()
         } else {
           const errorData: ISaveCategoryTreeError = {
             message: resp?.errors != null && resp?.errors?.length > 0 ? resp?.errors[0].message : null

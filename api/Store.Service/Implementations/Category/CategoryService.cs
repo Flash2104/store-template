@@ -104,22 +104,34 @@ public class CategoryService : ICategoryService
                 _dataService.CategoryTreeItems.Delete(removedItemId);
             }
         }
-        var updatedTree = await UpdateCategoryTreeItems(request.Tree.Id, request.Tree.Items);
+        var updatedTree = await UpdateCategoryTreeItems(request.Tree.Id, null, request.Tree.Items);
         return new GetCategoryTreeResponse(CollectTree(categoryTree));
     }
 
-    private async Task<List<CategoryItemData>> UpdateCategoryTreeItems(int treeId, List<CategoryItemData> treeItems)
+    private async Task<List<CategoryItemData>> UpdateCategoryTreeItems(int treeId, int? parentId, List<CategoryItemData> treeItems)
     {
         var result = new List<CategoryItemData>();
         foreach (var item in treeItems)
         {
-            if (item.Id == 0)
+            DbCategoryItem dbItem = null;
+            if (item.Id > 0)
             {
-
+                dbItem = await _dataService.CategoryTreeItems.GetAsync(x => x.Id == item.Id) ?? new DbCategoryItem();
             }
+            else
+            {
+                dbItem = new DbCategoryItem();
+            }
+            FillDbItem(dbItem, item);
+
             var resItem = new CategoryItemData()
 
         }
+    }
+
+    private void FillDbItem(DbCategoryItem dbItem, CategoryItemData item)
+    {
+
     }
 
     private CategoryTreeData CollectTree(DbCategoryTree dbCategoryTree)
