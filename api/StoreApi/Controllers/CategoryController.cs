@@ -81,7 +81,7 @@ namespace StoreApi.Controllers
             return await HandleRequest(
                 _categoryService.CreateTree,
                 request,
-                dto => new CreateCategoryTreeRequest(),
+                dto => new CreateCategoryTreeRequest(request.Tree),
                 res => new CreateCategoryTreeResponseDto(),
                 logPath
             );

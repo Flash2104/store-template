@@ -104,8 +104,9 @@ public class CategoryService : ICategoryService
                 _dataService.CategoryTreeItems.Delete(removedItemId);
             }
         }
-        var updatedTree = await UpdateCategoryTreeItems(request.Tree.Id, null, request.Tree.Items);
-        return new GetCategoryTreeResponse(CollectTree(categoryTree));
+
+        var updatedItems = await UpdateCategoryTreeItems(request.Tree.Id, null, request.Tree.Items);
+        return new UpdateCategoryTreeResponse(new CategoryTreeData(request.Tree.Id, request.Tree.Title, request.Tree.IsDefault, updatedItems));
     }
 
     private async Task<List<CategoryItemData>> UpdateCategoryTreeItems(int treeId, int? parentId, List<CategoryItemData> treeItems)
@@ -117,21 +118,32 @@ public class CategoryService : ICategoryService
             if (item.Id > 0)
             {
                 dbItem = await _dataService.CategoryTreeItems.GetAsync(x => x.Id == item.Id) ?? new DbCategoryItem();
+                FillDbItem(dbItem, item, parentId, treeId);
+                _dataService.CategoryTreeItems.Update(dbItem);
             }
             else
             {
-                dbItem = new DbCategoryItem();
+                dbItem = new DbCategoryItem() { CategoryTreeId = treeId };
+                FillDbItem(dbItem, item, parentId, treeId);
+                dbItem = _dataService.CategoryTreeItems.Insert(dbItem);
             }
-            FillDbItem(dbItem, item);
 
-            var resItem = new CategoryItemData()
-
+            var children = await UpdateCategoryTreeItems(treeId, dbItem.Id, item.Children);
+            var resItem = new CategoryItemData(dbItem.Id, dbItem.Title, dbItem.Icon, dbItem.Order, dbItem.IsDisabled, children);
+            result.Add(resItem);
         }
+
+        return result;
     }
 
-    private void FillDbItem(DbCategoryItem dbItem, CategoryItemData item)
+    private void FillDbItem(DbCategoryItem dbItem, CategoryItemData item, int? parentId, int treeId)
     {
-
+        dbItem.Icon = item.Icon;
+        dbItem.ParentId = parentId;
+        dbItem.CategoryTreeId = treeId;
+        dbItem.IsDisabled = item.IsDisabled ?? false;
+        dbItem.Order = item.Order;
+        dbItem.Title = item.Title;
     }
 
     private CategoryTreeData CollectTree(DbCategoryTree dbCategoryTree)
