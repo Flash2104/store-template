@@ -39,6 +39,7 @@ public class UserRepository : GenericRepository<DbUser>
 
     public DbUser CreateNewUser(DbUser user)
     {
-        return Insert(user);
+        Insert(user);
+        return user;
     }
 }

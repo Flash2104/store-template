@@ -12,7 +12,7 @@ using Store.Data;
 namespace Store.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20211229133601_Initial")]
+    [Migration("20220120183234_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

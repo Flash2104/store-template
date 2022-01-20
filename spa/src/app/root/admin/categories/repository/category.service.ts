@@ -104,8 +104,7 @@ export class CategoryService {
       switchMap((data) => this._http.updateCategoryTree(data)),
       tap((resp) => {
         if(resp.isSuccess && resp.data?.tree != null) {
-          this._categoryRepo.updateOriginalTree(resp.data.tree);
-          this._categoryRepo.updateEditTree()
+          this._categoryRepo.setSelectedTree(resp.data.tree);
         } else {
           const errorData: ISaveCategoryTreeError = {
             message: resp?.errors != null && resp?.errors?.length > 0 ? resp?.errors[0].message : null

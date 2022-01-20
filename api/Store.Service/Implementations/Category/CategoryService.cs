@@ -125,7 +125,7 @@ public class CategoryService : ICategoryService
             {
                 dbItem = new DbCategoryItem() { CategoryTreeId = treeId };
                 FillDbItem(dbItem, item, parentId, treeId);
-                dbItem = _dataService.CategoryTreeItems.Insert(dbItem);
+                _dataService.CategoryTreeItems.Insert(dbItem);
             }
 
             var children = await UpdateCategoryTreeItems(treeId, dbItem.Id, item.Children);

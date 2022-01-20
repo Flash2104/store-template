@@ -25,7 +25,7 @@ internal sealed class DbCategoryItemMapping
         builder.ToTable("CategoryItems");
 
         builder.HasKey(x => new { x.Id });
-        builder.Property(x => x.Id).ValueGeneratedOnAdd();
+        builder.Property(x => x.Id).HasDefaultValueSql("NEXT VALUE FOR CategoryItems.Id");
         builder.Property(x => x.Title).IsRequired().HasMaxLength(255);
         builder.Property(x => x.CreatedDate).IsRequired().HasMaxLength(50);
         builder.Property(x => x.ModifiedDate).IsRequired().HasMaxLength(50);
