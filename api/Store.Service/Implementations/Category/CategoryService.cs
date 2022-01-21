@@ -127,8 +127,11 @@ public class CategoryService : ICategoryService
                 FillDbItem(dbItem, item, parentId, treeId);
                 _dataService.CategoryTreeItems.Insert(dbItem);
             }
+            await _dataService.SaveAsync();
 
-            var children = await UpdateCategoryTreeItems(treeId, dbItem.Id, item.Children);
+            var children = item.Children.Count > 0
+                ? await UpdateCategoryTreeItems(treeId, dbItem.Id, item.Children)
+                : new List<CategoryItemData>();
             var resItem = new CategoryItemData(dbItem.Id, dbItem.Title, dbItem.Icon, dbItem.Order, dbItem.IsDisabled, children);
             result.Add(resItem);
         }

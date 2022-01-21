@@ -137,27 +137,6 @@ export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
     this._categoryService.createCategoryTree().subscribe();
   }
 
-  mapToTreeItems(
-    items: ICategoryItemData[] | null,
-    parent: IItemNode | null
-  ): IItemNode[] {
-    const result = items
-      ?.sort((a, b) => a.order - b.order)
-      ?.map((element) => {
-        const node = {
-          id: element.id,
-          title: element.title,
-          order: element.order,
-        } as IItemNode;
-        node.children =
-          (element.children && this.mapToTreeItems(element.children, node)) ||
-          [];
-        node.parent = parent;
-        return node;
-      });
-    return result || [];
-  }
-
   findTreeById(
     trees: ICategoryTreeData[] | null
   ): ICategoryTreeData | null | undefined {

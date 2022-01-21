@@ -21,14 +21,14 @@ public class CategoryTreeData
 
 public class CategoryItemData
 {
-    public CategoryItemData(int id, string title, string? icon, int order, bool? isDisabled, List<CategoryItemData> children)
+    public CategoryItemData(int id, string title, string? icon, int order, bool? isDisabled, List<CategoryItemData>? children)
     {
         Id = id;
         Title = title;
         Icon = icon;
         Order = order;
         IsDisabled = isDisabled;
-        Children = children;
+        Children = children ?? new List<CategoryItemData>();
     }
 
     public int Id { get; }
