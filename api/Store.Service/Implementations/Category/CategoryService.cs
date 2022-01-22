@@ -103,6 +103,8 @@ public class CategoryService : ICategoryService
             {
                 _dataService.CategoryTreeItems.Delete(removedItemId);
             }
+
+            //await _dataService.SaveAsync();
         }
 
         var updatedItems = await UpdateCategoryTreeItems(request.Tree.Id, null, request.Tree.Items);

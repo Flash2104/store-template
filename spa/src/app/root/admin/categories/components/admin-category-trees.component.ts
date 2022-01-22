@@ -1,3 +1,4 @@
+import { IChangedEventData } from './../../../../shared/components/editable-tree/editable-tree.component';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -126,8 +127,8 @@ export class AdminCategoryTreesComponent implements OnInit, OnDestroy {
     this._categoryRepo.createNewTree();
   }
 
-  onTreeChanged(editTree: ICategoryTreeEditData, editRoot: IItemNode): void {
-    this._categoryRepo.updateEditTree(editRoot);
+  onTreeChanged(editTree: ICategoryTreeEditData, changedEventData: IChangedEventData): void {
+    this._categoryRepo.updateEditTree(changedEventData);
     if(editTree.id !== 0) {
       this._categoryService.updateCategoryTree().subscribe();
     }

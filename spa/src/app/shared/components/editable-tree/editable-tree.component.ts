@@ -1,7 +1,6 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -24,6 +23,11 @@ export interface IItemNode {
   parent: IItemNode | null;
 }
 
+export interface IChangedEventData {
+  removedIds: (string | number)[];
+  updatedRoot: IItemNode | null | undefined;
+}
+
 @Component({
   selector: 'str-editable-tree',
   templateUrl: './editable-tree.component.html',
@@ -34,7 +38,8 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
 
   @Input() root: IItemNode | null | undefined = null;
-  @Output() changed: EventEmitter<IItemNode> = new EventEmitter<IItemNode>();
+  @Output() changed: EventEmitter<IChangedEventData> =
+    new EventEmitter<IChangedEventData>();
 
   editItem: IItemNode | null = null;
   editItemOrder: IItemNode[] | null | undefined = null;
@@ -46,7 +51,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
   dataSource: MatTreeNestedDataSource<IItemNode> =
     new MatTreeNestedDataSource();
 
-  constructor(private _cd: ChangeDetectorRef) {}
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -108,12 +113,15 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
     this.editItem = this.editItemOrder != null ? this.editItemOrder[0] : null;
   }
 
-  reRenderTree(): void {
+  reRenderTree(removedIds: (string | number)[] = []): void {
     const data = this.dataSource.data;
     this.dataSource.data = [];
     this.dataSource.data = data;
     if (this.root != null) {
-      this.changed.emit(this.root);
+      this.changed.emit({
+        removedIds,
+        updatedRoot: this.root,
+      });
     }
   }
 
@@ -130,12 +138,19 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
     node.children.push(newNode);
     this.editItem = newNode;
     this.editItemOrder = newNode.parent?.children;
-    this.reRenderTree();
     this.treeControl.expand(node);
+    this.reRenderTree();
   }
 
   onRemove(node: IItemNode): void {
     const index = node.parent?.children?.indexOf(node);
+    const removedIds: (string | number)[] = node.id != null ? [node.id] : [];
+    const descendants = this.treeControl.getDescendants(node);
+    descendants.forEach((el) => {
+      if (el.id != null) {
+        removedIds.push(el.id);
+      }
+    });
     if (index != null && index > -1) {
       node.parent?.children?.splice(index, 1);
     }
@@ -149,7 +164,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
     const temp = this.editItemOrder;
     this.editItemOrder = null;
     this.editItemOrder = temp;
-    this.reRenderTree();
+    this.reRenderTree(removedIds);
   }
 
   getButtonColor(node: IItemNode): string | null {

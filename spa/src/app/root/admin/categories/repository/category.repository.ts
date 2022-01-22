@@ -2,7 +2,10 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { createState, select, Store, withProps } from '@ngneat/elf';
 import { selectAll, upsertEntities, withEntities } from '@ngneat/elf-entities';
 import { Observable } from 'rxjs';
-import { IItemNode } from 'src/app/shared/components/editable-tree/editable-tree.component';
+import {
+  IChangedEventData,
+  IItemNode,
+} from 'src/app/shared/components/editable-tree/editable-tree.component';
 import {
   ICategoryItemData,
   ICategoryTreeData,
@@ -14,6 +17,7 @@ export interface ICategoryTreeEditData {
   title?: string | null | undefined;
   isDefault?: boolean | null | undefined;
   root?: IItemNode | null | undefined;
+  removedIds?: (string | number)[] | null | undefined;
 }
 
 @Injectable()
@@ -136,15 +140,21 @@ export class CategoryRepository implements OnDestroy {
   updateOriginalTree(data: ICategoryTreeData): void {
     this._store.update((st) => ({
       ...st,
-      originalTree: {...data},
+      originalTree: { ...data },
     }));
   }
 
   updateEditTreeItems(data: ICategoryTreeData): void {
     this._store.update((st) => {
       const editTree = st.editTree;
-      if(editTree?.root != null) {
-        editTree.root.children = data?.items != null ? this.mapToTreeItems(data.items, editTree.root) : [];
+      if (editTree != null) {
+        editTree.removedIds = null;
+        if (editTree.root != null) {
+          editTree.root.children =
+            data?.items != null
+              ? this.mapToTreeItems(data.items, editTree.root)
+              : [];
+        }
       }
       return {
         ...st,
@@ -153,12 +163,16 @@ export class CategoryRepository implements OnDestroy {
     });
   }
 
-  updateEditTree(root: IItemNode): void {
+  updateEditTree(changedData: IChangedEventData): void {
     this._store.update((st) => ({
       ...st,
       editTree: {
         ...st.editTree,
-        root,
+        root: changedData.updatedRoot,
+        removedIds:
+          changedData.removedIds != null && changedData.removedIds.length > 0
+            ? [...changedData.removedIds]
+            : [],
       },
     }));
   }
@@ -228,7 +242,6 @@ export class CategoryRepository implements OnDestroy {
       });
     return result || [];
   }
-
 
   private _createRoot(data: ICategoryTreeData | null): IItemNode {
     const root: IItemNode = {

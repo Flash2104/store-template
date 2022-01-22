@@ -15,6 +15,7 @@ import {
 import { IItemNode } from 'src/app/shared/components/editable-tree/editable-tree.component';
 import { ICategoryItemData } from 'src/app/shared/services/dto-models/category/category-tree-data';
 import { ICreateCategoryTreeRequest } from 'src/app/shared/services/dto-models/category/create-category-tree';
+import { IUpdateCategoryTreeRequest } from 'src/app/shared/services/dto-models/category/update-category-tree';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import {
@@ -109,7 +110,7 @@ export class CategoryService {
       }),
       withLatestFrom(this._categoryRepo.editTree$),
       filter(([_, et]) => et != null && et.id != null && et.id !== 0),
-      map(([_, et]): ICreateCategoryTreeRequest => {
+      map(([_, et]): IUpdateCategoryTreeRequest => {
         return {
           tree: {
             id: et?.id!,
@@ -120,6 +121,10 @@ export class CategoryService {
                 ? this._mapChildren(et?.root?.children)
                 : [],
           },
+          removedItemIds:
+            et?.removedIds != null && et.removedIds.length > 0
+              ? et?.removedIds?.map((x) => +x)
+              : [],
         };
       }),
       switchMap((data) => this._http.updateCategoryTree(data)),
