@@ -56,7 +56,7 @@ export class TreeItemEditComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.form.controls.title.valueChanges
       .pipe(
-        debounceTime(300),
+        debounceTime(1000),
         filter((v) => v != null && v !== ''),
         tap((v) => {
           this.item.title = v;
@@ -68,7 +68,7 @@ export class TreeItemEditComponent implements OnInit, OnChanges, OnDestroy {
 
     this.form.controls.icon.valueChanges
       .pipe(
-        debounceTime(300),
+        debounceTime(1000),
         tap((v) => {
           this.item.icon = v;
           this.changed.emit(this.item);
@@ -78,7 +78,7 @@ export class TreeItemEditComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe();
     this.form.controls.isDisabled.valueChanges
       .pipe(
-        debounceTime(300),
+        debounceTime(1000),
         tap((v) => {
           this.item.isDisabled = v;
           this.disabled.emit(this.item);

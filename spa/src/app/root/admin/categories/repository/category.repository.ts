@@ -140,6 +140,19 @@ export class CategoryRepository implements OnDestroy {
     }));
   }
 
+  updateEditTreeItems(data: ICategoryTreeData): void {
+    this._store.update((st) => {
+      const editTree = st.editTree;
+      if(editTree?.root != null) {
+        editTree.root.children = data?.items != null ? this.mapToTreeItems(data.items, editTree.root) : [];
+      }
+      return {
+        ...st,
+        editTree,
+      };
+    });
+  }
+
   updateEditTree(root: IItemNode): void {
     this._store.update((st) => ({
       ...st,

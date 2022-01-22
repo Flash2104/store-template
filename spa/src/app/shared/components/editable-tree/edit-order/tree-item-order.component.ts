@@ -1,21 +1,19 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
-  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnDestroy,
   Output,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { IItemNode } from '../editable-tree.component';
 
+// eslint-disable-next-line change-detection-strategy/on-push
 @Component({
   selector: 'str-tree-item-order',
   templateUrl: './tree-item-order.component.html',
-  styleUrls: ['./tree-item-order.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./tree-item-order.component.scss']
 })
 export class TreeItemEditOrderComponent implements OnDestroy {
   private _destroy$: Subject<void> = new Subject<void>();
