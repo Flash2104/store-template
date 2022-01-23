@@ -49,8 +49,24 @@ public class GenericRepository<TEntity> where TEntity : class, IDbEntity
     }
 
     public virtual async Task<TEntity?> GetAsync(
+        Expression<Func<TEntity, bool>>? filter)
+    {
+        IQueryable<TEntity>? query = _dbSet;
+        if (query == null)
+        {
+            throw new AirSoftBaseException(ErrorCodes.CommonError, "Пустой датасет.");
+        }
+        query = query.Where(x => x.Deleted == null);
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+        return await query.SingleOrDefaultAsync();
+    }
+
+    public virtual async Task<TEntity?> GetIncludeAsync<TEntityProperty>(
         Expression<Func<TEntity, bool>>? filter,
-        string includeProperties = "")
+        Expression<Func<TEntity, TEntityProperty>>? includePropertyExpression = null)
     {
         IQueryable<TEntity>? query = _dbSet;
         if (query == null)
@@ -63,12 +79,10 @@ public class GenericRepository<TEntity> where TEntity : class, IDbEntity
             query = query.Where(filter);
         }
 
-        foreach (var includeProperty in includeProperties.Split
-            (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        if (includePropertyExpression != null)
         {
-            query = query.Include(includeProperty);
+                query = query.Include(includePropertyExpression);
         }
-        
         return await query.SingleOrDefaultAsync();
     }
 

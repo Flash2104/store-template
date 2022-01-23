@@ -118,6 +118,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
     this.dataSource.data = [];
     this.dataSource.data = data;
     if (this.root != null) {
+      this.root.children = data;
       this.changed.emit({
         removedIds,
         updatedRoot: this.root,

@@ -76,7 +76,7 @@ public class StoreDbContext : DbContext, IDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("dbo");
-
+        
         new DbRuCityMapping().Map(modelBuilder.Entity<DbRuCity>()); // Список ру городов по регионам
 
         new DbUserRolesMapping().Map(modelBuilder.Entity<DbUserRole>());

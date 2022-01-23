@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Logging;
 using Store.Data.Entity;
 using Store.Data.Entity.Category;
 using Store.Service.Common;
@@ -60,7 +61,7 @@ public class CategoryService : ICategoryService
             throw new AirSoftBaseException(ErrorCodes.CategoryService.UserNotFound, "Пользователь не найден");
         }
         var categoryTree = await _dataService.CategoryTrees
-            .GetAsync(x => x.Id == request.Id, "CategoryItems");
+            .GetIncludeAsync(x => x.Id == request.Id, y => y.CategoryItems!.Where(x => x.Deleted == null));
         if (categoryTree == null)
         {
             throw new AirSoftBaseException(ErrorCodes.CategoryService.CategoryTreeNotFound, "Дерево категорий не найдено");
@@ -104,7 +105,7 @@ public class CategoryService : ICategoryService
                 _dataService.CategoryTreeItems.Delete(removedItemId);
             }
 
-            //await _dataService.SaveAsync();
+            await _dataService.SaveAsync();
         }
 
         var updatedItems = await UpdateCategoryTreeItems(request.Tree.Id, null, request.Tree.Items);
