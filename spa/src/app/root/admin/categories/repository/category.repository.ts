@@ -243,6 +243,25 @@ export class CategoryRepository implements OnDestroy {
     return result || [];
   }
 
+  // mapOldRefTreeItems(
+  //   items: ICategoryItemData[] | null,
+  //   parent: IItemNode | null
+  // ): IItemNode[] {
+  //   items?.forEach((element) => {
+  //       const node = {
+  //         id: element.id,
+  //         title: element.title,
+  //         order: element.order,
+  //       } as IItemNode;
+  //       node.children =
+  //         (element.children && this.mapToTreeItems(element.children, node)) ||
+  //         [];
+  //       node.parent = parent;
+  //       return node;
+  //     });
+  //   return items || [];
+  // }
+
   private _createRoot(data: ICategoryTreeData | null): IItemNode {
     const root: IItemNode = {
       title: 'root',
