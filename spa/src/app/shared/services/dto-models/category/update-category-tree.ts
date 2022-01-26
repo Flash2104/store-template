@@ -1,10 +1,25 @@
-import { ICategoryTreeData } from './category-tree-data';
+export interface IUpdateCategoryItemData {
+  id?: number | null | undefined;
+  title?: string | null | undefined;
+  order: number;
+  icon: string | null | undefined;
+  isDisabled: boolean | null | undefined;
+  isExpanded: boolean | null | undefined;
+  children?: IUpdateCategoryItemData[] | null | undefined;
+}
+
+export interface IUpdateCategoryTreeData {
+  id: number;
+  title: string;
+  isDefault?: boolean | null | undefined;
+  items?: IUpdateCategoryItemData[] | null | undefined;
+}
 
 export interface IUpdateCategoryTreeRequest {
-  tree: ICategoryTreeData;
+  tree: IUpdateCategoryTreeData;
   removedItemIds: number[] | null | undefined;
 }
 
 export interface IUpdateCategoryTreeResponse {
-  tree: ICategoryTreeData;
+  tree: IUpdateCategoryTreeData;
 }

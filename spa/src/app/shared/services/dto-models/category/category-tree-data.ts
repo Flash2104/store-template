@@ -3,7 +3,7 @@ export interface ICategoryItemData {
   title?: string | null | undefined;
   order: number;
   icon: string | null | undefined;
-  isDisabled: string | null | undefined;
+  isDisabled: boolean | null | undefined;
   children?: ICategoryItemData[] | null | undefined;
 }
 

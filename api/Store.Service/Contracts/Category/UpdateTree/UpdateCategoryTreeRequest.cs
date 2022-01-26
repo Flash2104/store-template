@@ -2,13 +2,13 @@
 
 public class UpdateCategoryTreeRequest
 {
-    public UpdateCategoryTreeRequest(CategoryTreeData tree, List<int>? removedItemIds)
+    public UpdateCategoryTreeRequest(UpdateCategoryTreeData tree, List<int>? removedItemIds)
     {
         Tree = tree;
         RemovedItemIds = removedItemIds;
     }
 
-    public CategoryTreeData Tree { get; set; }
+    public UpdateCategoryTreeData Tree { get; set; }
     public List<int>? RemovedItemIds { get; }
 }
 
@@ -33,13 +33,14 @@ public class UpdateCategoryTreeData
 
 public class UpdateCategoryItemData
 {
-    public UpdateCategoryItemData(int id, string title, string? icon, int order, bool? isDisabled, List<CategoryItemData>? children)
+    public UpdateCategoryItemData(int id, string title, string? icon, int order, bool? isDisabled, bool? isExpanded, List<CategoryItemData>? children)
     {
         Id = id;
         Title = title;
         Icon = icon;
         Order = order;
         IsDisabled = isDisabled;
+        IsExpanded = isExpanded;
         Children = children ?? new List<CategoryItemData>();
     }
 
@@ -52,6 +53,8 @@ public class UpdateCategoryItemData
     public int Order { get; }
 
     public bool? IsDisabled { get; }
+
+    public bool? IsExpanded { get; }
 
     public List<CategoryItemData> Children { get; }
 }

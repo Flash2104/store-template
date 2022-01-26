@@ -1,15 +1,16 @@
 ﻿using Store.Service.Contracts.Category;
+using Store.Service.Contracts.Category.UpdateTree;
 
 namespace StoreApi.Models.Category.UpdateTree;
 
 public class UpdateCategoryTreeRequestDto
 {
-    public UpdateCategoryTreeRequestDto(CategoryTreeData tree, List<int>? removedItemIds)
+    public UpdateCategoryTreeRequestDto(UpdateCategoryTreeData tree, List<int>? removedItemIds)
     {
         Tree = tree;
         RemovedItemIds = removedItemIds;
     }
 
-    public CategoryTreeData Tree { get; set; }
+    public UpdateCategoryTreeData Tree { get; set; }
     public List<int>? RemovedItemIds { get; }
 }
