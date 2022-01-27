@@ -2,10 +2,10 @@
 
 public class UpdateCategoryTreeResponse
 {
-    public UpdateCategoryTreeResponse(CategoryTreeData tree)
+    public UpdateCategoryTreeResponse(UpdateCategoryTreeData tree)
     {
         Tree = tree;
     }
 
-    public CategoryTreeData Tree { get; set; }
+    public UpdateCategoryTreeData Tree { get; set; }
 }

@@ -1,11 +1,13 @@
-﻿namespace Store.Service.Contracts.Category.CreateTree;
+﻿using Store.Service.Contracts.Category.UpdateTree;
+
+namespace Store.Service.Contracts.Category.CreateTree;
 
 public class CreateCategoryTreeRequest
 {
-    public CreateCategoryTreeRequest(CategoryTreeData tree)
+    public CreateCategoryTreeRequest(UpdateCategoryTreeData tree)
     {
         Tree = tree;
     }
 
-    public CategoryTreeData Tree { get; set; }
+    public UpdateCategoryTreeData Tree { get; set; }
 }

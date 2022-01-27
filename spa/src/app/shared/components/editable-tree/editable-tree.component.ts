@@ -19,6 +19,7 @@ export interface IItemNode {
   order?: number | null;
   icon?: string | null;
   isDisabled?: boolean | null;
+  isExpanded?: boolean | null;
   children: IItemNode[];
   parent: IItemNode | null;
 }

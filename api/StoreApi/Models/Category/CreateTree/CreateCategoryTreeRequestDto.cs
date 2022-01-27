@@ -1,13 +1,13 @@
-﻿using Store.Service.Contracts.Category;
+﻿using Store.Service.Contracts.Category.UpdateTree;
 
 namespace StoreApi.Models.Category.CreateTree;
 
 public class CreateCategoryTreeRequestDto
 {
-    public CreateCategoryTreeRequestDto(CategoryTreeData tree)
+    public CreateCategoryTreeRequestDto(UpdateCategoryTreeData tree)
     {
         Tree = tree;
     }
 
-    public CategoryTreeData Tree { get; set; }
+    public UpdateCategoryTreeData Tree { get; set; }
 }

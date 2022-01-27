@@ -94,7 +94,7 @@ public class CategoryService : ICategoryService
         }
 
         var updatedItems = await UpdateCategoryTreeItems(request.Tree.Id, null, request.Tree.Items);
-        return new CreateCategoryTreeResponse(new CategoryTreeData(request.Tree.Id, request.Tree.Title, request.Tree.IsDefault, updatedItems));
+        return new CreateCategoryTreeResponse(new UpdateCategoryTreeData(request.Tree.Id, request.Tree.Title, request.Tree.IsDefault, updatedItems));
     }
 
     public async Task<UpdateCategoryTreeResponse> UpdateTree(UpdateCategoryTreeRequest request)
@@ -132,15 +132,15 @@ public class CategoryService : ICategoryService
         }
 
         var updatedItems = await UpdateCategoryTreeItems(request.Tree.Id, null, request.Tree.Items);
-        return new UpdateCategoryTreeResponse(new CategoryTreeData(request.Tree.Id, request.Tree.Title, request.Tree.IsDefault, updatedItems));
+        return new UpdateCategoryTreeResponse(new UpdateCategoryTreeData(request.Tree.Id, request.Tree.Title, request.Tree.IsDefault, updatedItems));
     }
 
-    private async Task<List<CategoryItemData>> UpdateCategoryTreeItems(int treeId, int? parentId, List<CategoryItemData> treeItems)
+    private async Task<List<UpdateCategoryItemData>> UpdateCategoryTreeItems(int treeId, int? parentId, List<UpdateCategoryItemData> treeItems)
     {
-        var result = new List<CategoryItemData>();
+        var result = new List<UpdateCategoryItemData>();
         foreach (var item in treeItems)
         {
-            DbCategoryItem dbItem = null;
+            DbCategoryItem? dbItem = null;
             if (item.Id > 0)
             {
                 dbItem = await _dataService.CategoryTreeItems.GetAsync(x => x.Id == item.Id) ?? new DbCategoryItem();
@@ -157,15 +157,15 @@ public class CategoryService : ICategoryService
 
             var children = item.Children.Count > 0
                 ? await UpdateCategoryTreeItems(treeId, dbItem.Id, item.Children)
-                : new List<CategoryItemData>();
-            var resItem = new CategoryItemData(dbItem.Id, dbItem.Title, dbItem.Icon, dbItem.Order, dbItem.IsDisabled, children);
+                : new List<UpdateCategoryItemData>();
+            var resItem = new UpdateCategoryItemData(dbItem.Id, dbItem.Title, dbItem.Icon, dbItem.Order, dbItem.IsDisabled, item.IsExpanded, children);
             result.Add(resItem);
         }
 
         return result;
     }
 
-    private void FillDbItem(DbCategoryItem dbItem, CategoryItemData item, int? parentId, int treeId)
+    private void FillDbItem(DbCategoryItem dbItem, UpdateCategoryItemData item, int? parentId, int treeId)
     {
         dbItem.Icon = item.Icon;
         dbItem.ParentId = parentId;
