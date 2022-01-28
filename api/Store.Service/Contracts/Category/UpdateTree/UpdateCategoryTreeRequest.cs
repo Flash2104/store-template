@@ -33,14 +33,14 @@ public class UpdateCategoryTreeData
 
 public class UpdateCategoryItemData
 {
-    public UpdateCategoryItemData(int id, string title, string? icon, int order, bool? isDisabled, bool? isExpanded, List<UpdateCategoryItemData>? children)
+    public UpdateCategoryItemData(int id, string title, string? icon, int order, bool? isDisabled, string? tempId, List<UpdateCategoryItemData>? children)
     {
         Id = id;
         Title = title;
         Icon = icon;
         Order = order;
         IsDisabled = isDisabled;
-        IsExpanded = isExpanded;
+        TempId = tempId;
         Children = children ?? new List<UpdateCategoryItemData>();
     }
 
@@ -54,7 +54,7 @@ public class UpdateCategoryItemData
 
     public bool? IsDisabled { get; }
 
-    public bool? IsExpanded { get; }
+    public string? TempId { get; }
 
     public List<UpdateCategoryItemData> Children { get; }
 }

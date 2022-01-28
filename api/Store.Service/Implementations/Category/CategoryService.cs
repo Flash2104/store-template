@@ -158,7 +158,7 @@ public class CategoryService : ICategoryService
             var children = item.Children.Count > 0
                 ? await UpdateCategoryTreeItems(treeId, dbItem.Id, item.Children)
                 : new List<UpdateCategoryItemData>();
-            var resItem = new UpdateCategoryItemData(dbItem.Id, dbItem.Title, dbItem.Icon, dbItem.Order, dbItem.IsDisabled, item.IsExpanded, children);
+            var resItem = new UpdateCategoryItemData(dbItem.Id, dbItem.Title, dbItem.Icon, dbItem.Order, dbItem.IsDisabled, item.TempId, children);
             result.Add(resItem);
         }
 
