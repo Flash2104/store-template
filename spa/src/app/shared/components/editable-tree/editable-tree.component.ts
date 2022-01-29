@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 
 export interface IItemNode {
   id?: string | number | null | undefined;
+  tempId?: string | null | undefined;
   title: string;
   order?: number | null;
   icon?: string | null;

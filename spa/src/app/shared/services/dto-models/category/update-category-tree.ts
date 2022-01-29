@@ -1,10 +1,10 @@
 export interface IUpdateCategoryItemData {
   id?: number | null | undefined;
+  tempId?: string | null | undefined;
   title?: string | null | undefined;
   order: number;
   icon: string | null | undefined;
   isDisabled: boolean | null | undefined;
-  isExpanded: boolean | null | undefined;
   children?: IUpdateCategoryItemData[] | null | undefined;
 }
 
