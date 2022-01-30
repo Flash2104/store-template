@@ -10,6 +10,10 @@ import {
   ICategoryItemData,
   ICategoryTreeData,
 } from 'src/app/shared/services/dto-models/category/category-tree-data';
+import {
+  IUpdateCategoryItemData,
+  IUpdateCategoryTreeData,
+} from 'src/app/shared/services/dto-models/category/update-category-tree';
 import { v1 as uuidv1 } from 'uuid';
 
 export interface ICategoryTreeEditData {
@@ -144,16 +148,13 @@ export class CategoryRepository implements OnDestroy {
     }));
   }
 
-  updateEditTreeItems(data: ICategoryTreeData): void {
+  updateEditTreeItems(data: IUpdateCategoryTreeData): void {
     this._store.update((st) => {
       const editTree = st.editTree;
       if (editTree != null) {
         editTree.removedIds = null;
         if (editTree.root != null) {
-          editTree.root.children =
-            data?.items != null
-              ? this.mapToTreeItems(data.items, editTree.root)
-              : [];
+          this._updateStoreTreeItems(data.items || [], editTree.root.children);
         }
       }
       return {
@@ -243,24 +244,26 @@ export class CategoryRepository implements OnDestroy {
     return result || [];
   }
 
-  // mapOldRefTreeItems(
-  //   items: ICategoryItemData[] | null,
-  //   parent: IItemNode | null
-  // ): IItemNode[] {
-  //   items?.forEach((element) => {
-  //       const node = {
-  //         id: element.id,
-  //         title: element.title,
-  //         order: element.order,
-  //       } as IItemNode;
-  //       node.children =
-  //         (element.children && this.mapToTreeItems(element.children, node)) ||
-  //         [];
-  //       node.parent = parent;
-  //       return node;
-  //     });
-  //   return items || [];
-  // }
+  private _updateStoreTreeItems(
+    items: IUpdateCategoryItemData[] | null,
+    storeItems: IItemNode[]
+  ): void {
+    if (items != null) {
+      for (const item of items) {
+        const storeItem: IItemNode | undefined =
+          item.id != null && item.id !== 0
+            ? storeItems.find((x) => x.id === item.id)
+            : storeItems.find((x) => x.tempId === item.tempId);
+        if (storeItem != null) {
+          storeItem.id = item.id;
+          storeItem.title = item.title || '';
+          if(storeItem.children != null && storeItem.children.length > 0) {
+            this._updateStoreTreeItems(item.children || [], storeItem.children);
+          }
+        }
+      }
+    }
+  }
 
   private _createRoot(data: ICategoryTreeData | null): IItemNode {
     const root: IItemNode = {
