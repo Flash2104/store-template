@@ -15,7 +15,7 @@ import {
 import { IItemNode } from 'src/app/shared/components/editable-tree/editable-tree.component';
 import { ICategoryItemData } from 'src/app/shared/services/dto-models/category/category-tree-data';
 import { ICreateCategoryTreeRequest } from 'src/app/shared/services/dto-models/category/create-category-tree';
-import { IUpdateCategoryTreeRequest } from 'src/app/shared/services/dto-models/category/update-category-tree';
+import { IUpdateCategoryItemData, IUpdateCategoryTreeRequest } from 'src/app/shared/services/dto-models/category/update-category-tree';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import {
@@ -155,7 +155,7 @@ export class CategoryService {
     );
   }
 
-  private _mapChildren(els: IItemNode[]): ICategoryItemData[] {
+  private _mapChildren(els: IItemNode[]): IUpdateCategoryItemData[] {
     return els.map(
       (x) =>
         ({
@@ -163,9 +163,10 @@ export class CategoryService {
           title: x.title,
           icon: x.icon,
           isDisabled: x.isDisabled,
+          tempId: x.tempId,
           order: x.order,
           children: this._mapChildren(x.children),
-        } as ICategoryItemData)
+        } as IUpdateCategoryItemData)
     );
   }
 }

@@ -136,6 +136,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
       parent: node,
       title: 'Новая категория',
       isDisabled: false,
+      tempId: uuidv1(),
       order: node.children.length + 1,
     };
     node.children.push(newNode);
@@ -188,3 +189,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
     this.reRenderTree();
   }
 }
+function uuidv1(): string | null | undefined {
+  throw new Error('Function not implemented.');
+}
+
