@@ -137,7 +137,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
       title: 'Новая категория',
       isDisabled: false,
       tempId: uuidv1(),
-      order: node.children.length + 1,
+      order: node.children.length + 1
     };
     node.children.push(newNode);
     this.editItem = newNode;
