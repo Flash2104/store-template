@@ -60,8 +60,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
       changes.root?.currentValue != null &&
       changes.root.currentValue != changes.root.previousValue
     ) {
-      const root = changes.root.currentValue;
-      this.dataSource.data = root.children;
+      this.dataSource.data = changes.root.currentValue.children;
       this.editItem = null;
       this.editItemOrder = null;
     }
