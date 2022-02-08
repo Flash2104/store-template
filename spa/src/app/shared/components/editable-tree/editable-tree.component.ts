@@ -43,6 +43,11 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
   @Output() changed: EventEmitter<IChangedEventData> =
     new EventEmitter<IChangedEventData>();
 
+  @Output() addItem: EventEmitter<IChangedEventData> =
+    new EventEmitter<IChangedEventData>();
+  @Output() editItem: EventEmitter<IItemNode | null> =
+    new EventEmitter<IItemNode | null>();
+
   editItem: IItemNode | null = null;
   editItemOrder: IItemNode[] | null | undefined = null;
 
@@ -136,7 +141,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
       title: 'Новая категория',
       isDisabled: false,
       tempId: uuidv1(),
-      order: node.children.length + 1
+      order: node.children.length + 1,
     };
     node.children.push(newNode);
     this.editItem = newNode;
@@ -191,4 +196,3 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
 function uuidv1(): string | null | undefined {
   throw new Error('Function not implemented.');
 }
-
