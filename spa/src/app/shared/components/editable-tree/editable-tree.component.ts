@@ -45,10 +45,10 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() addItem: EventEmitter<IChangedEventData> =
     new EventEmitter<IChangedEventData>();
-  @Output() editItem: EventEmitter<IItemNode | null> =
-    new EventEmitter<IItemNode | null>();
+  // @Output() editItem: EventEmitter<IItemNode | null> =
+  //   new EventEmitter<IItemNode | null>();
 
-  editItem: IItemNode | null = null;
+  focusedItem: IItemNode | null = null;
   editItemOrder: IItemNode[] | null | undefined = null;
 
   treeControl: NestedTreeControl<IItemNode> = new NestedTreeControl<IItemNode>(
@@ -66,7 +66,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
       changes.root.currentValue != changes.root.previousValue
     ) {
       this.dataSource.data = changes.root.currentValue.children;
-      this.editItem = null;
+      this.focusedItem = null;
       this.editItemOrder = null;
     }
   }
@@ -89,7 +89,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
 
   onEditItem(node: IItemNode): void {
     this.treeControl.expandDescendants(node);
-    this.editItem = node;
+    this.focusedItem = node;
     this.editItemOrder = node.parent?.children;
   }
 
@@ -99,7 +99,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
         ? this.editItemOrder[0].parent?.parent
         : null;
     this.editItemOrder = parent?.children;
-    this.editItem =
+    this.focusedItem =
       this.editItemOrder != null && this.editItemOrder.length > 0
         ? this.editItemOrder[0]
         : null;
@@ -109,14 +109,14 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   onDown(): void {
-    if (this.editItem != null) {
-      this.treeControl.expand(this.editItem);
+    if (this.focusedItem != null) {
+      this.treeControl.expand(this.focusedItem);
     }
     this.editItemOrder =
-      this.editItem != null && this.editItem.children.length > 0
-        ? this.editItem?.children
+      this.focusedItem != null && this.focusedItem.children.length > 0
+        ? this.focusedItem?.children
         : null;
-    this.editItem = this.editItemOrder != null ? this.editItemOrder[0] : null;
+    this.focusedItem = this.editItemOrder != null ? this.editItemOrder[0] : null;
   }
 
   reRenderTree(removedIds: (string | number)[] = []): void {
@@ -144,7 +144,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
       order: node.children.length + 1,
     };
     node.children.push(newNode);
-    this.editItem = newNode;
+    this.focusedItem = newNode;
     this.editItemOrder = newNode.parent?.children;
     this.treeControl.expand(node);
     this.reRenderTree();
@@ -165,8 +165,8 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
     node.parent?.children?.forEach((element, index) => {
       element.order = index + 1;
     });
-    if (node === this.editItem) {
-      this.editItem = null;
+    if (node === this.focusedItem) {
+      this.focusedItem = null;
       this.editItemOrder = null;
     }
     const temp = this.editItemOrder;
@@ -176,7 +176,7 @@ export class EditableTreeComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getButtonColor(node: IItemNode): string | null {
-    if (node === this.editItem) {
+    if (node === this.focusedItem) {
       return 'accent';
     }
     if (node.isDisabled) {
